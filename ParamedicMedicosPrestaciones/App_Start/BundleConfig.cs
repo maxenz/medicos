@@ -38,7 +38,7 @@ namespace ParamedicMedicosPrestaciones
                         "~/Content/jqwidgets/jqxwindow.js",
                         "~/Content/jqwidgets/jqxlistbox.js",
                         "~/Content/jqwidgets/jqxdropdownlist.js",
-                        "~/Content/jqwidgets/generatedata.js"
+                        "~/Content/jqwidgets/jqxgrid.filter.js"
                         ));
 
             // Utilice la versión de desarrollo de Modernizr para desarrollar y obtener información sobre los formularios. De este modo, estará

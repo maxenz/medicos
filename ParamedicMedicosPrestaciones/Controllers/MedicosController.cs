@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ParamedicMedicosPrestaciones.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,6 +15,20 @@ namespace ParamedicMedicosPrestaciones.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public JsonResult GetGuardias()
+        {
+
+            List<Guardia> guardias = new List<Guardia>();
+            Guardia guardia1 = new Guardia(1, "FIJA", 20, "07:00", "20:00", 13, 3, 4, 1, 5, 2, 400.32);
+            Guardia guardia2 = new Guardia(2, "VARIADA", 14, "07:00", "20:00", 13, 3, 4, 1, 5, 2, 400.32);
+            Guardia guardia3 = new Guardia(3, "FIJA", 11, "07:00", "20:00", 13, 3, 4, 1, 5, 2, 400.32);
+            guardias.Add(guardia1);
+            guardias.Add(guardia2);
+            guardias.Add(guardia3);
+
+            return Json(guardias, JsonRequestBehavior.AllowGet);
         }
 
         //

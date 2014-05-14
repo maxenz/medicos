@@ -5,19 +5,18 @@ $('#navbar-top-logout').tooltip({
 
 $('select').selectpicker({width: '180px'});
 
-var data = generatedata(25);
             var source =
             {
-                localdata: data,
-                datatype: "array",
+                datatype: "json",
                 datafields:
                 [
-                    { name: 'firstname', type: 'string' },
-                    { name: 'lastname', type: 'string' },
-                    { name: 'productname', type: 'string' },
-                    { name: 'quantity', type: 'number' },
-                    { name: 'price', type: 'number' }
+                    { name: 'ID', type: 'number' },
+                    { name: 'Tarifa', type: 'string' },
+                    { name: 'Movil', type: 'number' },
+                    { name: 'HorarioEntrada', type: 'string' },
+                    { name: 'HorarioSalida', type: 'string' }
                 ],
+                url:'Medicos/GetGuardias',
                 pagesize: 12
             };
 
@@ -28,15 +27,17 @@ var data = generatedata(25);
             {
                 width: 1100,
                 source: dataAdapter,
+                showfilterrow: true,
+                filterable: true,
                 pageable: true,
                 autoheight: true,
                 theme: 'arctic',
                 columns: [
-                  { text: 'First Name', datafield: 'firstname', width: 200 },
-                  { text: 'Last Name', datafield: 'lastname', width: 200 },
-                  { text: 'Product', datafield: 'productname', width: 190 },
-                  { text: 'Quantity', datafield: 'quantity', width: 90, cellsalign: 'right' },
-                  { text: 'Price', datafield: 'price', cellsalign: 'right', cellsformat: 'c2' }                                                                                                                           
+                  { text: 'ID', datafield: 'ID', width: 200, filtertype: 'textbox' },
+                  { text: 'Tarifa', datafield: 'Tarifa', width: 200 },
+                  { text: 'Movil', datafield: 'Movil', width: 190 },
+                  { text: 'HorarioEntrada', datafield: 'HorarioEntrada', width: 90},
+                  { text: 'HorarioSalida', datafield: 'HorarioSalida', width: 100 }                                                                                                                           
                 ]
             });
 

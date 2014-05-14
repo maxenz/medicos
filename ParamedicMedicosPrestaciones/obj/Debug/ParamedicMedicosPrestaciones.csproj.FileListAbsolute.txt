@@ -46,3 +46,4 @@ C:\Users\Maxo\Desktop\Proyectos\ParamedicMedicosPrestaciones\ParamedicMedicosPre
 C:\Users\Maxo\Desktop\Proyectos\ParamedicMedicosPrestaciones\ParamedicMedicosPrestaciones\bin\es\System.Web.WebPages.Razor.resources.dll
 C:\Users\Maxo\Desktop\Proyectos\ParamedicMedicosPrestaciones\ParamedicMedicosPrestaciones\obj\Debug\ParamedicMedicosPrestaciones.dll
 C:\Users\Maxo\Desktop\Proyectos\ParamedicMedicosPrestaciones\ParamedicMedicosPrestaciones\obj\Debug\ParamedicMedicosPrestaciones.pdb
+C:\Users\Maxo\Desktop\Proyectos\ParamedicMedicosPrestaciones\ParamedicMedicosPrestaciones\obj\Debug\ParamedicMedicosPrestaciones.csprojResolveAssemblyReference.cache
