@@ -7,35 +7,26 @@ namespace ParamedicMedicosPrestaciones.Models
 {
     public class Guardia
     {
-        public int ID { get; set; }
+        public string ID { get; set; }
+        public string Periodo { get; set; }
+        public string Dia { get; set; }
         public string Tarifa { get; set; }
-        public int Movil { get; set; }
         public string HorarioEntrada { get; set; }
+        public int MinutosLlegadaTarde { get; set; }
         public string HorarioSalida { get; set; }
-        public int HorasTrabajadas { get; set; }
+        public int MinutosRetiroAnticipado { get; set; }
+        public string Movil { get; set; }
+        public string HorasTrabajadas { get; set; }
         public int Rojos { get; set; }
         public int Amarillos { get; set; }
         public int Verdes { get; set; }
-        public int Tps { get; set; }
-        public int Incidentes { get; set; }
-        public double Importe { get; set; }
-
-        public Guardia(int id,string tarifa, int movil, string horarioEntrada, string horarioSalida, int horasTrabajadas,
-            int rojos, int amarillos, int verdes, int tps, int incidentes, double importe)
-        {
-            this.ID = id;
-            this.Tarifa = tarifa;
-            this.Movil = movil;
-            this.HorarioEntrada = horarioEntrada;
-            this.HorarioSalida = horarioSalida;
-            this.HorasTrabajadas = horasTrabajadas;
-            this.Rojos = rojos;
-            this.Amarillos = amarillos;
-            this.Verdes = verdes;
-            this.Tps = tps;
-            this.Incidentes = incidentes;
-            this.Importe = importe;
-        }
+        public int TrasladosProgramados { get; set; }
+        public double ImpTotalHoras { get; set; }
+        public double ImpEspecialidad { get; set; }
+        public double ImpPrestacion { get; set; }
+        public double ImpPrestacionExcedente { get; set; }
+        public double ImpAnticipo { get; set; }
+        public double ImpFinal { get; set; }
 
     }
 }
