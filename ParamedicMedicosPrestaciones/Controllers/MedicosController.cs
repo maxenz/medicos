@@ -1,4 +1,5 @@
 ﻿using ParamedicMedicosPrestaciones.Models;
+using ParamedicMedicosPrestaciones.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -6,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using System.Xml;
 namespace ParamedicMedicosPrestaciones.Controllers
 {
@@ -19,10 +21,43 @@ namespace ParamedicMedicosPrestaciones.Controllers
             return View();
         }
 
-        private DataSet getGuardiasFromWebService()
+        public JsonResult getFiltroPeriodos()
+        {
+            List<FiltroPeriodos> lstPeriodos = new List<FiltroPeriodos>();
+            DateTime fecActual = DateTime.Now;
+            DateTime fecAnterior = fecActual.AddMonths(-1);
+            DateTime fecAntePenultimo = fecActual.AddMonths(-2);
+            lstPeriodos.Add(new FiltroPeriodos(getFormattedPeriod(fecAntePenultimo),getFormattedDescriptionOfPeriod(fecAntePenultimo)));
+            lstPeriodos.Add(new FiltroPeriodos(getFormattedPeriod(fecAnterior), getFormattedDescriptionOfPeriod(fecAnterior)));
+            lstPeriodos.Add(new FiltroPeriodos(getFormattedPeriod(fecActual), getFormattedDescriptionOfPeriod(fecActual)));
+
+            return Json(lstPeriodos, JsonRequestBehavior.AllowGet);
+        }
+
+        private string getFormattedDescriptionOfPeriod(DateTime fec)
+        {
+            string mes = fec.ToString("MMMM");
+            mes = char.ToUpper(mes[0]) + mes.Substring(1);
+            string year = fec.ToString("yyyy");
+            return mes + " " + year;
+        }
+
+        private string getFormattedPeriod(DateTime fec) {
+
+            int month = fec.Month;
+            string strMonth = month.ToString();
+
+            if (month < 10) {
+                strMonth = "0" + month.ToString(); 
+            }
+
+            return fec.ToString("yyyy") + strMonth;
+        }
+
+        private DataSet getGuardiasFromWebService(long periodo)
         {
             WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
-            return wsClient.GetGuardiasDetalle(1055,201404);
+            return wsClient.GetGuardiasDetalle(1055,periodo);
         }
 
         private string getGuardiaFechaFormatted(string fecha, int pOpcion) {
@@ -49,7 +84,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
         }
 
-        private List<Guardia> getGuardiasFormatted(DataSet dsGuardias)
+        private List<Guardia> getGuardiasFormatted(DataSet dsGuardias, int dia)
         {
 
             List<Guardia> lstGuardias = new List<Guardia>();
@@ -60,7 +95,8 @@ namespace ParamedicMedicosPrestaciones.Controllers
             {
                 Guardia guardia = new Guardia();
                 guardia.ID = dtRow["ID"].ToString();
-                guardia.Dia = getGuardiaFechaFormatted(dtRow["FecMovimiento"].ToString(),1);
+                guardia.Dia = Convert.ToInt32((dtRow["FecMovimiento"].ToString()).Substring(6,2));
+                guardia.DiaDeLaSemana = getGuardiaFechaFormatted(dtRow["FecMovimiento"].ToString(),1);
                 guardia.Periodo = getGuardiaFechaFormatted(dtRow["FecMovimiento"].ToString(),2);
                 guardia.Tarifa = dtRow["TipoLiquidacionId"].ToString();
                 guardia.HorarioEntrada = dtRow["HorDesde"].ToString();
@@ -84,15 +120,22 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
             }
 
+            if (dia != 0)
+            {
+                lstGuardias = lstGuardias.Where(x => x.Dia == dia).ToList();
+            }
+
             return lstGuardias;
 
         }
 
         public JsonResult GetGuardias()
         {
-
-            DataSet dsGuardias = getGuardiasFromWebService();
-            List<Guardia> guardias = getGuardiasFormatted(dsGuardias);
+            var query = Request.QueryString;
+            long periodo = Convert.ToInt64(query.GetValues("periodo")[0]);
+            int dia = Convert.ToInt32(query.GetValues("dia")[0]);
+            DataSet dsGuardias = getGuardiasFromWebService(periodo);
+            List<Guardia> guardias = getGuardiasFormatted(dsGuardias,dia);
 
             return Json(guardias, JsonRequestBehavior.AllowGet);
         }

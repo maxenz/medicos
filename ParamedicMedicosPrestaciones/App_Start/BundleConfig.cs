@@ -23,7 +23,8 @@ namespace ParamedicMedicosPrestaciones
                         "~/Scripts/bootstrap-select.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/main").Include(
-                        "~/Scripts/main.js"));
+                        "~/Scripts/main.js",
+                        "~/Scripts/guardias.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqwidgets").Include(
                         "~/Content/jqwidgets/jqxcore.js",
@@ -39,6 +40,7 @@ namespace ParamedicMedicosPrestaciones
                         "~/Content/jqwidgets/jqxlistbox.js",
                         "~/Content/jqwidgets/jqxdropdownlist.js",
                         "~/Content/jqwidgets/jqxcheckbox.js",
+                        "~/Content/jqwidgets/jqxcombobox.js",
                         "~/Content/jqwidgets/jqxgrid.filter.js"
                         ));
 
@@ -55,6 +57,7 @@ namespace ParamedicMedicosPrestaciones
                         "~/Content/styles/shapes.css",
                         "~/Content/jqwidgets/styles/jqx.base.css",
                         "~/Content/jqwidgets/styles/jqx.arctic.css",
+                        "~/Content/jqwidgets/styles/jqx.bootstrap.css",
                         "~/Content/styles/main.css"));
 
             

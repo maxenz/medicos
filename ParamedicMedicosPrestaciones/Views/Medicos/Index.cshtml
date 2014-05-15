@@ -1,4 +1,8 @@
-﻿
+﻿@{
+    var filtroPeriodos = ViewBag.FiltroPeriodos;
+    var filtroDias = ViewBag.FiltroDias;
+}
+
 <div class="row" style="margin-top:20px">
     <div class="col-md-10">
         <ul class="nav nav-tabs" id="tabsCliente">
@@ -12,34 +16,17 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div>
-                            <div class="row" style="margin-top:-10px;margin-bottom:5px">
+                            <div class="row" style="margin-top:-10px;margin-bottom:10px">
                                 <div class="col-md-2">
-                                    <select class="selectpicker" data-style="btn-primary btn-xs">
-                                        <option selected disabled>Seleccione Per&iacute;odo</option>
-                                        <option>Mustard</option>
-                                        <option>Ketchup</option>
-                                        <option>Barbecue</option>
-                                    </select>
+                                    <div id="ftrPeriodoGuardias"></div>
                                 </div>
                                 <div class="col-md-2">
-                                    <select class="selectpicker" data-style="btn-primary btn-xs">
-                                        <option selected disabled>Seleccione D&iacute;a</option>
-                                        <option>Mustard</option>
-                                        <option>Ketchup</option>
-                                        <option>Barbecue</option>
-                                    </select>
+                                    <div id="ftrDiaGuardias"></div>
                                 </div>
                                 <div class="col-md-2">
-                                    <select class="selectpicker" data-style="btn-primary btn-xs">
-                                        <option selected disabled>Seleccione Estado</option>
-                                        <option>Mustard</option>
-                                        <option>Ketchup</option>
-                                        <option>Barbecue</option>
-                                    </select>
+                                    <input type="submit" value="Consultar" id='btnConsultarGuardias' />
                                 </div>
-                                <div class="col-md-2">
-                                    <button type="button" class="btn btn-warning btn-xs">Consultar</button>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -47,8 +34,8 @@
 
 
                 <div class="row" style="height:360px">
-                    <div class="col-md-10 " style="margin-top:-5px">
-                        <div id="jqxgrid"></div>
+                    <div class="col-md-12 " style="margin-top:-5px">
+                        <div id="grdGuardias"></div>
                     </div>
                 </div>
 

@@ -9,7 +9,8 @@ namespace ParamedicMedicosPrestaciones.Models
     {
         public string ID { get; set; }
         public string Periodo { get; set; }
-        public string Dia { get; set; }
+        public string DiaDeLaSemana { get; set; }
+        public int Dia { get; set; }
         public string Tarifa { get; set; }
         public string HorarioEntrada { get; set; }
         public int MinutosLlegadaTarde { get; set; }
