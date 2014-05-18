@@ -60,6 +60,12 @@ namespace ParamedicMedicosPrestaciones.Controllers
             return wsClient.GetGuardiasDetalle(1055,periodo);
         }
 
+        private DataSet getServiciosFromWebService(long periodo)
+        {
+            WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
+            return wsClient.GetIncidentes(1055, periodo);
+        }
+
         private string getGuardiaFechaFormatted(string fecha, int pOpcion) {
 
             string retVal = "";
@@ -129,6 +135,43 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
         }
 
+        private List<Servicio> getServiciosFormatted(DataSet dsServicios, int dia)
+        {
+
+            List<Servicio> lstServicios = new List<Servicio>();
+
+            DataTable dtServicios = dsServicios.Tables[0];
+
+            foreach (DataRow dtRow in dtServicios.Rows)
+            {
+                Servicio servicio = new Servicio();
+                servicio.IncidenteID = dtRow["IncidenteId"].ToString();
+                servicio.NroInc = dtRow["NroIncidente"].ToString();
+                servicio.Fecha = getGuardiaFechaFormatted(dtRow["FecIncidente"].ToString(), 1);
+                servicio.Iva = dtRow["Iva"].ToString();
+                servicio.Paciente = dtRow["Paciente"].ToString();
+                servicio.Localidad = dtRow["Localidad"].ToString();
+                servicio.Cdn = dtRow["Cdn"].ToString();
+                servicio.Tarifa = dtRow["Tar"].ToString();
+                servicio.Dia = dtRow["Dia"].ToString();
+                servicio.Tur = dtRow["Tur"].ToString();
+                servicio.Grado = dtRow["Grado"].ToString();
+                servicio.CoPago = Convert.ToDouble(dtRow["CoPago"]);
+                servicio.Importe = Convert.ToDouble(dtRow["Importe"]);
+
+                lstServicios.Add(servicio);
+
+            }
+
+            //if (dia != 0)
+            //{
+            //    lstServicios = lstServicios.Where(x => x.Dia == dia).ToList();
+            //}
+
+            return lstServicios;
+
+        }
+
         public JsonResult GetGuardias()
         {
             var query = Request.QueryString;
@@ -138,6 +181,17 @@ namespace ParamedicMedicosPrestaciones.Controllers
             List<Guardia> guardias = getGuardiasFormatted(dsGuardias,dia);
 
             return Json(guardias, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetServicios()
+        {
+            var query = Request.QueryString;
+            long periodo = Convert.ToInt64(query.GetValues("periodo")[0]);
+            int dia = Convert.ToInt32(query.GetValues("dia")[0]);
+            DataSet dsServicios = getServiciosFromWebService(periodo);
+            List<Servicio> servicios = getServiciosFormatted(dsServicios, dia);
+
+            return Json(servicios, JsonRequestBehavior.AllowGet);
         }
 
         //

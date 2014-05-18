@@ -20,11 +20,15 @@ namespace ParamedicMedicosPrestaciones
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                         "~/Scripts/vendor/bootstrap.js",
-                        "~/Scripts/bootstrap-select.js"));
+                        "~/Scripts/bootstrap-select.js",
+                        "~/Scripts/bootstrap-dialog.js",
+                        "~/Scripts/jquery.maskedinput.js"
+                        ));
 
             bundles.Add(new ScriptBundle("~/bundles/main").Include(
                         "~/Scripts/main.js",
-                        "~/Scripts/guardias.js"));
+                        "~/Scripts/guardias.js",
+                        "~/Scripts/servicios.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqwidgets").Include(
                         "~/Content/jqwidgets/jqxcore.js",
@@ -41,7 +45,7 @@ namespace ParamedicMedicosPrestaciones
                         "~/Content/jqwidgets/jqxdropdownlist.js",
                         "~/Content/jqwidgets/jqxcheckbox.js",
                         "~/Content/jqwidgets/jqxcombobox.js",
-                        "~/Content/jqwidgets/jqxgrid.filter.js"
+                        "~/Content/jqwidgets/jqxgrid.filter.js" 
                         ));
 
             // Utilice la versión de desarrollo de Modernizr para desarrollar y obtener información sobre los formularios. De este modo, estará
@@ -58,10 +62,8 @@ namespace ParamedicMedicosPrestaciones
                         "~/Content/jqwidgets/styles/jqx.base.css",
                         "~/Content/jqwidgets/styles/jqx.arctic.css",
                         "~/Content/jqwidgets/styles/jqx.bootstrap.css",
-                        "~/Content/styles/main.css"));
-
-            
-
+                        "~/Content/styles/bootstrap-dialog.css",
+                        "~/Content/styles/main.css"));          
         }
     }
 }

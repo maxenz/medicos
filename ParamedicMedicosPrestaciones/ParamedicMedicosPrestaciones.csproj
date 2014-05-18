@@ -136,6 +136,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Servicio.cs" />
     <Compile Include="Models\Guardia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\WSContratadosLiquidaciones\Reference.cs">
@@ -147,6 +148,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\img\paramedic.png" />
+    <Content Include="Content\styles\bootstrap-dialog.css" />
+    <Content Include="Content\styles\bootstrap-dialog.min.css" />
     <Content Include="Content\styles\bootstrap-select.css" />
     <Content Include="Content\styles\bootstrap-select.min.css" />
     <Content Include="Content\styles\bootstrap-theme.css" />
@@ -526,6 +529,8 @@
     <Content Include="Content\styles\bootstrap.css.map" />
     <Content Include="Properties\DataSources\System.Data.DataSet.datasource" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="Scripts\bootstrap-dialog.js" />
+    <Content Include="Scripts\bootstrap-dialog.min.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\guardias.js" />
@@ -534,6 +539,7 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
+    <Content Include="Scripts\jquery.maskedinput.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -544,6 +550,7 @@
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\servicios.js" />
     <Content Include="Scripts\vendor\bootstrap.js" />
     <Content Include="Scripts\vendor\bootstrap.min.js" />
     <Content Include="Scripts\vendor\jquery-1.11.0.min.js" />
@@ -569,6 +576,9 @@
     <Content Include="Views\Medicos\Index.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <None Include="Service References\WSContratadosLiquidaciones\WebServices1.wsdl" />
+    <Content Include="Views\Medicos\_Guardias.cshtml" />
+    <Content Include="Views\Medicos\_Servicios.cshtml" />
+    <Content Include="Views\Medicos\_Totalizador.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

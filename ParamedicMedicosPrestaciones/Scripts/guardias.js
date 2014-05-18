@@ -43,6 +43,10 @@ function getSelectedDia() {
     return $('#ftrDiaGuardias').jqxDropDownList('selectedIndex');
 }
 
+function getDescriptionSelectedPeriodo() {
+    return $("#ftrPeriodoGuardias").jqxDropDownList('getSelectedItem').label;
+}
+
 /*********************************************************************************************************/
 
 // --> Seteo datafields de grilla de guardias
@@ -105,7 +109,7 @@ var crHorSalidaGuardia = function (row, columnfield, value, defaulthtml, columnp
 }
 
 var crConfirmacionGuardia = function (row, columnfield, value, defaulthtml, columnproperties) {
-    return '<a href="#" style="margin-left:34%;line-height:25px"><i class="fa fa-check-circle verde icon-right-margin big-icon"></i></a>';
+    return '<a href="javascript:showPopupGuardia()" style="margin-left:34%;line-height:25px"><i class="fa fa-check-circle verde icon-right-margin big-icon"></i></a>';
 }
 
 
@@ -114,7 +118,7 @@ var crConfirmacionGuardia = function (row, columnfield, value, defaulthtml, colu
 var colGridGuardias =
              [
               { text: 'ID', datafield: 'ID', hidden: true },
-              { text: 'D&iacute;a', datafield: 'DiaDeLaSemana', width: '5%', cellsalign: 'center', filtertype: 'list' },
+              { text: 'D&iacute;a', datafield: 'DiaDeLaSemana', width: '5%', cellsalign: 'center' },
               { text: 'Tar', datafield: 'Tarifa', width: '4%', cellsalign: 'center' },
               { text: 'H.Ent', datafield: 'HorarioEntrada', width: '5%', cellsalign: 'center', cellsrenderer: crHorEntradaGuardia },
               { text: 'H.Sal', datafield: 'HorarioSalida', width: '5%', cellsalign: 'center', cellsRenderer: crHorSalidaGuardia },
@@ -142,7 +146,6 @@ $("#grdGuardias").jqxGrid(
     autoheight: true,
     source: dtGridGuardias,
     pageable: true,
-    autoheight: true,
     altrows: true,
     theme: 'arctic',
     columns: colGridGuardias
@@ -150,17 +153,54 @@ $("#grdGuardias").jqxGrid(
 
 /*********************************************************************************************************/
 
-// --> Seteo idioma en la grilla
+// --> Seteo idioma en la grilla y totalizadores
 
 $('#grdGuardias').on('bindingcomplete', function (event) {
+
+    var $grid = $(this);
+
+    var $rows = $grid.jqxGrid('getrows');
+    var cantGuardias = $rows.length;
+    var acumServicios = 0;
+    var acumImporteTotal = 0;
+    var acumHoras = 0;
+    var acumMinutos = 0;
+
+    for (var i = 0; i < $rows.length; i++) {
+        var row = $rows[i];
+        acumServicios += row.Rojos + row.Amarillos + row.Verdes + row.TrasladosProgramados;
+        acumImporteTotal += row.ImpFinal;
+        acumHoras += getHorasMinutosGuardia(row.HorasTrabajadas,0);
+        acumMinutos += getHorasMinutosGuardia(row.HorasTrabajadas,1);
+    }
+
+    if (acumMinutos > 60) {
+        acumHoras = acumHoras + parseInt((acumMinutos / 60));
+        acumMinutos = acumMinutos % 60;
+    }
+
+    var totalHorasTrabajadas = acumHoras + " hs. " + acumMinutos + " min."; 
+
+    $('#cantServicios').text(acumServicios);
+    $('#cantGuardias').text(cantGuardias);
+    $('#impLiquidado').text(parseFloat(acumImporteTotal).toFixed(2));
+    $('#totalHoras').text(totalHorasTrabajadas);
+    $('#titPeriodo').text(getDescriptionSelectedPeriodo());
 
     //for (var index = 0; index < columns.length; index++) {
     //    $("#jqxgrid").jqxGrid('setcolumnproperty', columns[index].datafield, 'align', 'center');
     //    $("#jqxgrid").jqxGrid('setcolumnproperty', columns[index].datafield, 'cellsalign', 'center');
     //}
 
-    $("#grdGuardias").jqxGrid('localizestrings', localizationobj);
+    $grid.jqxGrid('localizestrings', localizationobj);
 });
+
+function getHorasMinutosGuardia(hsTrabajadas,idx) {
+
+    var horas = hsTrabajadas.split(":");
+    return parseInt(horas[idx]);
+
+}
 
 /*********************************************************************************************************/
 

@@ -23,6 +23,21 @@
           <s:any />
         </s:sequence>
       </s:complexType>
+      <s:element name="GetIncidentes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" name="pUsr" type="s:long" />
+            <s:element minOccurs="0" name="pPer" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetIncidentesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element name="GetIncidentesResult" type="s0:DataSet" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="GetGuardiasDetalleSoapIn">
@@ -31,16 +46,35 @@
   <wsdl:message name="GetGuardiasDetalleSoapOut">
     <wsdl:part name="parameters" element="s0:GetGuardiasDetalleResponse" />
   </wsdl:message>
+  <wsdl:message name="GetIncidentesSoapIn">
+    <wsdl:part name="parameters" element="s0:GetIncidentes" />
+  </wsdl:message>
+  <wsdl:message name="GetIncidentesSoapOut">
+    <wsdl:part name="parameters" element="s0:GetIncidentesResponse" />
+  </wsdl:message>
   <wsdl:portType name="ContratadosLiquidacionesSoap">
     <wsdl:operation name="GetGuardiasDetalle">
       <wsdl:input message="s0:GetGuardiasDetalleSoapIn" />
       <wsdl:output message="s0:GetGuardiasDetalleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetIncidentes">
+      <wsdl:input message="s0:GetIncidentesSoapIn" />
+      <wsdl:output message="s0:GetIncidentesSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="ContratadosLiquidacionesSoap" type="s0:ContratadosLiquidacionesSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetGuardiasDetalle">
       <soap:operation soapAction="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetGuardiasDetalle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetIncidentes">
+      <soap:operation soapAction="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetIncidentes" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
