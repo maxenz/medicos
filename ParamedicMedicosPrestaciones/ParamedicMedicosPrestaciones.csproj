@@ -144,7 +144,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\FiltroCoordinaciones.cs" />
     <Compile Include="ViewModels\FiltroPeriodos.cs" />
+    <Compile Include="ViewModels\ResumenLiquidacion.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\img\paramedic.png" />
@@ -533,7 +535,7 @@
     <Content Include="Scripts\bootstrap-dialog.min.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
-    <Content Include="Scripts\guardias.js" />
+    <Content Include="Scripts\site\guardias.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -548,9 +550,10 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
-    <Content Include="Scripts\main.js" />
+    <Content Include="Scripts\site\main.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\servicios.js" />
+    <Content Include="Scripts\site\resumen.js" />
+    <Content Include="Scripts\site\servicios.js" />
     <Content Include="Scripts\vendor\bootstrap.js" />
     <Content Include="Scripts\vendor\bootstrap.min.js" />
     <Content Include="Scripts\vendor\jquery-1.11.0.min.js" />
@@ -579,6 +582,7 @@
     <Content Include="Views\Medicos\_Guardias.cshtml" />
     <Content Include="Views\Medicos\_Servicios.cshtml" />
     <Content Include="Views\Medicos\_Totalizador.cshtml" />
+    <Content Include="Views\Medicos\_Resumen.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

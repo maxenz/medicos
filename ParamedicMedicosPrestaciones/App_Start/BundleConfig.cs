@@ -26,9 +26,10 @@ namespace ParamedicMedicosPrestaciones
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/main").Include(
-                        "~/Scripts/main.js",
-                        "~/Scripts/guardias.js",
-                        "~/Scripts/servicios.js"));
+                        "~/Scripts/site/main.js",
+                        "~/Scripts/site/guardias.js",
+                        "~/Scripts/site/servicios.js",
+                        "~/Scripts/site/resumen.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqwidgets").Include(
                         "~/Content/jqwidgets/jqxcore.js",
@@ -45,7 +46,8 @@ namespace ParamedicMedicosPrestaciones
                         "~/Content/jqwidgets/jqxdropdownlist.js",
                         "~/Content/jqwidgets/jqxcheckbox.js",
                         "~/Content/jqwidgets/jqxcombobox.js",
-                        "~/Content/jqwidgets/jqxgrid.filter.js" 
+                        "~/Content/jqwidgets/jqxgrid.filter.js",
+                        "~/Content/jqwidgets/jqxgrid.columnsresize.js" 
                         ));
 
             // Utilice la versión de desarrollo de Modernizr para desarrollar y obtener información sobre los formularios. De este modo, estará

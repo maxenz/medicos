@@ -16,13 +16,29 @@ namespace ParamedicMedicosPrestaciones.WSContratadosLiquidaciones {
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://tempuri.org", ConfigurationName="WSContratadosLiquidaciones.ContratadosLiquidacionesSoap")]
     public interface ContratadosLiquidacionesSoap {
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetCoordinaciones", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Data.DataSet GetCoordinaciones(long pUsr);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetGuardiasDetalle", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Data.DataSet GetGuardiasDetalle(long pUsr, long pPer);
+        System.Data.DataSet GetGuardiasDetalle(long pUsr, long pPer, long pCoo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetHorarios", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Data.DataSet GetHorarios(long pUsr, long pPer);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetIncidentes", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Data.DataSet GetIncidentes(long pUsr, long pPer);
+        System.Data.DataSet GetIncidentes(long pUsr, long pPer, long pCoo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetResumen", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Data.DataSet GetResumen(long pUsr, long pPer, long pCoo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetUsuarioValidacion", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Data.DataSet GetUsuarioValidacion(long pUsr);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -52,12 +68,28 @@ namespace ParamedicMedicosPrestaciones.WSContratadosLiquidaciones {
                 base(binding, remoteAddress) {
         }
         
-        public System.Data.DataSet GetGuardiasDetalle(long pUsr, long pPer) {
-            return base.Channel.GetGuardiasDetalle(pUsr, pPer);
+        public System.Data.DataSet GetCoordinaciones(long pUsr) {
+            return base.Channel.GetCoordinaciones(pUsr);
         }
         
-        public System.Data.DataSet GetIncidentes(long pUsr, long pPer) {
-            return base.Channel.GetIncidentes(pUsr, pPer);
+        public System.Data.DataSet GetGuardiasDetalle(long pUsr, long pPer, long pCoo) {
+            return base.Channel.GetGuardiasDetalle(pUsr, pPer, pCoo);
+        }
+        
+        public System.Data.DataSet GetHorarios(long pUsr, long pPer) {
+            return base.Channel.GetHorarios(pUsr, pPer);
+        }
+        
+        public System.Data.DataSet GetIncidentes(long pUsr, long pPer, long pCoo) {
+            return base.Channel.GetIncidentes(pUsr, pPer, pCoo);
+        }
+        
+        public System.Data.DataSet GetResumen(long pUsr, long pPer, long pCoo) {
+            return base.Channel.GetResumen(pUsr, pPer, pCoo);
+        }
+        
+        public System.Data.DataSet GetUsuarioValidacion(long pUsr) {
+            return base.Channel.GetUsuarioValidacion(pUsr);
         }
     }
 }

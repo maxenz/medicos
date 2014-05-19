@@ -10,9 +10,13 @@ $("#ftrPeriodoServicios").jqxDropDownList({
 
 /*********************************************************************************************************/
 
-// --> Seteo dropdownlist para seleccionar periodo en la grilla de servicios
-// --> Uso mismo source que filtro de dia de guardias
+// --> Seteo dropdownlist para seleccionar periodo,guardias en la grilla de servicios
+// --> Uso mismo source que filtro de dia,guardias de guardias
 $("#ftrDiaServicios").jqxDropDownList({ selectedIndex: 0, source: srcFtrDiaGuardias, width: '110%', height: 25, theme: 'bootstrap' });
+$("#ftrCoordServicios").jqxDropDownList({
+    selectedIndex: 0, source: dtFtrCoordGuardias, displayMember: "Descripcion",
+    valueMember: "ID", width: '110%', dropDownHeight: 80, height: 25, theme: 'bootstrap'
+});
 
 /*********************************************************************************************************/
 
@@ -24,6 +28,10 @@ function getSelectedPeriodoServ() {
 
 function getSelectedDiaServ() {
     return $('#ftrDiaServicios').jqxDropDownList('selectedIndex');
+}
+
+function getSelectedCoordServ() {
+    return $('#ftrCoordServicios').jqxDropDownList('getSelectedItem').value;
 }
 
 function getDescriptionSelectedPeriodoServ() {
@@ -60,7 +68,8 @@ function getSourceGridServicios() {
         url: 'Medicos/GetServicios',
         data: {
             periodo: getSelectedPeriodoServ(),
-            dia: getSelectedDiaServ()
+            dia: getSelectedDiaServ(),
+            coordinacion: getSelectedCoordServ()
         }
     };
 
@@ -82,6 +91,7 @@ var crConfirmacionServicio = function (row, columnfield, value, defaulthtml, col
 
 var colGridServicios =
              [
+              { text: 'ID', datafield: 'IncidenteID', hidden: true },
               { text: 'Fecha', datafield: 'Fecha', width: '7%' },
               { text: 'Inc', datafield: 'NroInc', width: '7%', cellsalign: 'center' },
               { text: 'Iva', datafield: 'Iva', width: '7%', cellsalign: 'center' },
@@ -102,13 +112,15 @@ var colGridServicios =
 
 $("#grdServicios").jqxGrid(
 {
-    width: '100%',
+    width: '99%',
     autoheight: true,
     source: dtGridServicios,
     pageable: true,
+    pagesize: 12,
     altrows: true,
     theme: 'arctic',
-    columns: colGridServicios
+    columns: colGridServicios,
+    pagesizeoptions: [12]
 });
 
 /*********************************************************************************************************/
@@ -132,42 +144,7 @@ function getHorasMinutosGuardia(hsTrabajadas, idx) {
 
 // --> Seteo idioma en la grilla y totalizadores
 
-//$('#grdServicios').on('bindingcomplete', function (event) {
-
-//    var $grid = $(this);
-
-//    var $rows = $grid.jqxGrid('getrows');
-//    var cantGuardias = $rows.length;
-//    var acumServicios = 0;
-//    var acumImporteTotal = 0;
-//    var acumHoras = 0;
-//    var acumMinutos = 0;
-
-//    for (var i = 0; i < $rows.length; i++) {
-//        var row = $rows[i];
-//        acumServicios += row.Rojos + row.Amarillos + row.Verdes + row.TrasladosProgramados;
-//        acumImporteTotal += row.ImpFinal;
-//        acumHoras += getHorasMinutosGuardia(row.HorasTrabajadas, 0);
-//        acumMinutos += getHorasMinutosGuardia(row.HorasTrabajadas, 1);
-//    }
-
-//    if (acumMinutos > 60) {
-//        acumHoras = acumHoras + parseInt((acumMinutos / 60));
-//        acumMinutos = acumMinutos % 60;
-//    }
-
-//    var totalHorasTrabajadas = acumHoras + " hs. " + acumMinutos + " min.";
-
-//    $('#cantServicios').text(acumServicios);
-//    $('#cantGuardias').text(cantGuardias);
-//    $('#impLiquidado').text(parseFloat(acumImporteTotal).toFixed(2));
-//    $('#totalHoras').text(totalHorasTrabajadas);
-//    $('#titPeriodo').text(getDescriptionSelectedPeriodo());
-
-//    //for (var index = 0; index < columns.length; index++) {
-//    //    $("#jqxgrid").jqxGrid('setcolumnproperty', columns[index].datafield, 'align', 'center');
-//    //    $("#jqxgrid").jqxGrid('setcolumnproperty', columns[index].datafield, 'cellsalign', 'center');
-//    //}
-
-//    $grid.jqxGrid('localizestrings', localizationobj);
-//});
+$('#grdServicios').on('bindingcomplete', function (event) {
+    $grid = $(this);
+    $grid.jqxGrid('localizestrings', localizationobj);
+});

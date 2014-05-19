@@ -92,11 +92,8 @@ localizationobj.pagershowrowsstring = "Mostrar Filas:";
 localizationobj.pagerrangestring = " de ";
 localizationobj.currencysymbol = "$";
 
-$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-    $('#grdServicios').jqxGrid('autoresizecolumns');
-    //e.target // activated tab
-    //e.relatedTarget // previous tab
-})
+
+
 
 
 

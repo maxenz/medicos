@@ -2,11 +2,32 @@
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:s0="http://tempuri.org" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://tempuri.org" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org">
+      <s:element name="GetCoordinaciones">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" name="pUsr" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCoordinacionesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element name="GetCoordinacionesResult" type="s0:DataSet" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="DataSet">
+        <s:sequence>
+          <s:element ref="s:schema" />
+          <s:any />
+        </s:sequence>
+      </s:complexType>
       <s:element name="GetGuardiasDetalle">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" name="pUsr" type="s:long" />
             <s:element minOccurs="0" name="pPer" type="s:long" />
+            <s:element minOccurs="0" name="pCoo" type="s:long" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -17,17 +38,27 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="DataSet">
-        <s:sequence>
-          <s:element ref="s:schema" />
-          <s:any />
-        </s:sequence>
-      </s:complexType>
+      <s:element name="GetHorarios">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" name="pUsr" type="s:long" />
+            <s:element minOccurs="0" name="pPer" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetHorariosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element name="GetHorariosResult" type="s0:DataSet" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetIncidentes">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" name="pUsr" type="s:long" />
             <s:element minOccurs="0" name="pPer" type="s:long" />
+            <s:element minOccurs="0" name="pCoo" type="s:long" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -38,13 +69,55 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetResumen">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" name="pUsr" type="s:long" />
+            <s:element minOccurs="0" name="pPer" type="s:long" />
+            <s:element minOccurs="0" name="pCoo" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetResumenResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element name="GetResumenResult" type="s0:DataSet" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUsuarioValidacion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" name="pUsr" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUsuarioValidacionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element name="GetUsuarioValidacionResult" type="s0:DataSet" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
+  <wsdl:message name="GetCoordinacionesSoapIn">
+    <wsdl:part name="parameters" element="s0:GetCoordinaciones" />
+  </wsdl:message>
+  <wsdl:message name="GetCoordinacionesSoapOut">
+    <wsdl:part name="parameters" element="s0:GetCoordinacionesResponse" />
+  </wsdl:message>
   <wsdl:message name="GetGuardiasDetalleSoapIn">
     <wsdl:part name="parameters" element="s0:GetGuardiasDetalle" />
   </wsdl:message>
   <wsdl:message name="GetGuardiasDetalleSoapOut">
     <wsdl:part name="parameters" element="s0:GetGuardiasDetalleResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetHorariosSoapIn">
+    <wsdl:part name="parameters" element="s0:GetHorarios" />
+  </wsdl:message>
+  <wsdl:message name="GetHorariosSoapOut">
+    <wsdl:part name="parameters" element="s0:GetHorariosResponse" />
   </wsdl:message>
   <wsdl:message name="GetIncidentesSoapIn">
     <wsdl:part name="parameters" element="s0:GetIncidentes" />
@@ -52,18 +125,55 @@
   <wsdl:message name="GetIncidentesSoapOut">
     <wsdl:part name="parameters" element="s0:GetIncidentesResponse" />
   </wsdl:message>
+  <wsdl:message name="GetResumenSoapIn">
+    <wsdl:part name="parameters" element="s0:GetResumen" />
+  </wsdl:message>
+  <wsdl:message name="GetResumenSoapOut">
+    <wsdl:part name="parameters" element="s0:GetResumenResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUsuarioValidacionSoapIn">
+    <wsdl:part name="parameters" element="s0:GetUsuarioValidacion" />
+  </wsdl:message>
+  <wsdl:message name="GetUsuarioValidacionSoapOut">
+    <wsdl:part name="parameters" element="s0:GetUsuarioValidacionResponse" />
+  </wsdl:message>
   <wsdl:portType name="ContratadosLiquidacionesSoap">
+    <wsdl:operation name="GetCoordinaciones">
+      <wsdl:input message="s0:GetCoordinacionesSoapIn" />
+      <wsdl:output message="s0:GetCoordinacionesSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetGuardiasDetalle">
       <wsdl:input message="s0:GetGuardiasDetalleSoapIn" />
       <wsdl:output message="s0:GetGuardiasDetalleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetHorarios">
+      <wsdl:input message="s0:GetHorariosSoapIn" />
+      <wsdl:output message="s0:GetHorariosSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetIncidentes">
       <wsdl:input message="s0:GetIncidentesSoapIn" />
       <wsdl:output message="s0:GetIncidentesSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetResumen">
+      <wsdl:input message="s0:GetResumenSoapIn" />
+      <wsdl:output message="s0:GetResumenSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUsuarioValidacion">
+      <wsdl:input message="s0:GetUsuarioValidacionSoapIn" />
+      <wsdl:output message="s0:GetUsuarioValidacionSoapOut" />
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="ContratadosLiquidacionesSoap" type="s0:ContratadosLiquidacionesSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetCoordinaciones">
+      <soap:operation soapAction="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetCoordinaciones" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetGuardiasDetalle">
       <soap:operation soapAction="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetGuardiasDetalle" style="document" />
       <wsdl:input>
@@ -73,8 +183,35 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetHorarios">
+      <soap:operation soapAction="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetHorarios" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetIncidentes">
       <soap:operation soapAction="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetIncidentes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetResumen">
+      <soap:operation soapAction="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetResumen" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUsuarioValidacion">
+      <soap:operation soapAction="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetUsuarioValidacion" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

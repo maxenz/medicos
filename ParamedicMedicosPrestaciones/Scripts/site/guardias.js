@@ -21,6 +21,27 @@ $("#ftrPeriodoGuardias").jqxDropDownList({
 
 /*********************************************************************************************************/
 
+// --> Seteo dropdownlist para seleccionar coordinacion en la grilla de guardias
+
+var srcFtrCoordGuardias = {
+    datatype: "json",
+    datafields: [
+        { name: 'ID' },
+        { name: 'Descripcion' }
+    ],
+    url: 'Medicos/getFiltroCoordinaciones',
+    async: false
+};
+
+var dtFtrCoordGuardias = new $.jqx.dataAdapter(srcFtrCoordGuardias);
+
+$("#ftrCoordGuardias").jqxDropDownList({
+    selectedIndex: 0, source: dtFtrCoordGuardias, displayMember: "Descripcion",
+    valueMember: "ID", width: '110%', dropDownHeight: 80, height: 25, theme: 'bootstrap'
+});
+
+/*********************************************************************************************************/
+
 // --> Seteo dropdownlist para seleccionar periodo en la grilla de guardias
 
 var srcFtrDiaGuardias = ["Seleccione D&iacute;a"];
@@ -41,6 +62,10 @@ function getSelectedPeriodo() {
 
 function getSelectedDia() {
     return $('#ftrDiaGuardias').jqxDropDownList('selectedIndex');
+}
+
+function getSelectedCoord() {
+    return $('#ftrCoordGuardias').jqxDropDownList('getSelectedItem').value;
 }
 
 function getDescriptionSelectedPeriodo() {
@@ -81,7 +106,8 @@ function getSourceGridGuardias() {
         url: 'Medicos/GetGuardias',
         data: {
             periodo: getSelectedPeriodo(),
-            dia: getSelectedDia()
+            dia: getSelectedDia(),
+            coordinacion: getSelectedCoord()
         }
     };
 
@@ -142,13 +168,15 @@ var colGridGuardias =
 
 $("#grdGuardias").jqxGrid(
 {
-    width: '100%',
+    width: '99%',
     autoheight: true,
     source: dtGridGuardias,
     pageable: true,
     altrows: true,
+    pagesize: 12,
     theme: 'arctic',
-    columns: colGridGuardias
+    columns: colGridGuardias,
+    pagesizeoptions: [12]
 });
 
 /*********************************************************************************************************/
@@ -186,11 +214,6 @@ $('#grdGuardias').on('bindingcomplete', function (event) {
     $('#impLiquidado').text(parseFloat(acumImporteTotal).toFixed(2));
     $('#totalHoras').text(totalHorasTrabajadas);
     $('#titPeriodo').text(getDescriptionSelectedPeriodo());
-
-    //for (var index = 0; index < columns.length; index++) {
-    //    $("#jqxgrid").jqxGrid('setcolumnproperty', columns[index].datafield, 'align', 'center');
-    //    $("#jqxgrid").jqxGrid('setcolumnproperty', columns[index].datafield, 'cellsalign', 'center');
-    //}
 
     $grid.jqxGrid('localizestrings', localizationobj);
 });

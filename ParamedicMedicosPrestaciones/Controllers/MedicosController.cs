@@ -54,16 +54,23 @@ namespace ParamedicMedicosPrestaciones.Controllers
             return fec.ToString("yyyy") + strMonth;
         }
 
-        private DataSet getGuardiasFromWebService(long periodo)
+        private DataSet getGuardiasFromWebService(long periodo,int coord)
         {
             WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
-            return wsClient.GetGuardiasDetalle(1055,periodo);
+            return wsClient.GetGuardiasDetalle(1055,periodo,coord);
+            
         }
 
-        private DataSet getServiciosFromWebService(long periodo)
+        private DataSet getServiciosFromWebService(long periodo, int coord)
         {
             WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
-            return wsClient.GetIncidentes(1055, periodo);
+            return wsClient.GetIncidentes(1055, periodo,coord);
+        }
+
+        private DataSet getResumenFromWebService(long periodo, int coord)
+        {
+            WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
+            return wsClient.GetResumen(1055, periodo, coord);
         }
 
         private string getGuardiaFechaFormatted(string fecha, int pOpcion) {
@@ -153,33 +160,91 @@ namespace ParamedicMedicosPrestaciones.Controllers
                 servicio.Localidad = dtRow["Localidad"].ToString();
                 servicio.Cdn = dtRow["Cdn"].ToString();
                 servicio.Tarifa = dtRow["Tar"].ToString();
-                servicio.Dia = dtRow["Dia"].ToString();
+                servicio.DiaDeLaSemana = dtRow["Dia"].ToString();
                 servicio.Tur = dtRow["Tur"].ToString();
                 servicio.Grado = dtRow["Grado"].ToString();
                 servicio.CoPago = Convert.ToDouble(dtRow["CoPago"]);
                 servicio.Importe = Convert.ToDouble(dtRow["Importe"]);
+                servicio.Dia = Convert.ToInt32((dtRow["FecIncidente"].ToString()).Substring(6,2));
 
                 lstServicios.Add(servicio);
 
             }
 
-            //if (dia != 0)
-            //{
-            //    lstServicios = lstServicios.Where(x => x.Dia == dia).ToList();
-            //}
+            if (dia != 0)
+            {
+                lstServicios = lstServicios.Where(x => x.Dia == dia).ToList();
+            }
 
             return lstServicios;
 
         }
+
+        private List<ResumenLiquidacion> getResumenLiquidacionFormatted(DataSet dsResumenLiq)
+        {
+
+            List<ResumenLiquidacion> lstResumenLiq = new List<ResumenLiquidacion>();
+
+            DataTable dtResumenLiq = dsResumenLiq.Tables[0];
+
+            foreach (DataRow dtRow in dtResumenLiq.Rows)
+            {
+                Double valImporte = Convert.ToDouble(dtRow["Importe"]);
+                if (valImporte != 0)
+                {
+                    ResumenLiquidacion resLiq = new ResumenLiquidacion();
+                    resLiq.Item = dtRow["Item"].ToString();
+                    resLiq.Importe = getImporteResumenFormatted(dtRow["Importe"].ToString());
+
+                    lstResumenLiq.Add(resLiq);
+                }
+            }
+
+            return lstResumenLiq;
+
+        }
+
+        private string getImporteResumenFormatted(string importe) {
+
+            if (importe.Contains('-')) {
+                importe = importe.Remove(0, 1);
+                importe = "(" + importe;
+                importe = importe + ")";
+            }
+
+            return importe;
+
+        }
+
+        public JsonResult getFiltroCoordinaciones()
+        {
+            WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
+            DataSet dsCoordinaciones = wsClient.GetCoordinaciones(1055);
+
+            List<FiltroCoordinaciones> lstCoord = new List<FiltroCoordinaciones>();
+
+            DataTable dtCoordinaciones = dsCoordinaciones.Tables[0];
+
+            foreach (DataRow dtRow in dtCoordinaciones.Rows)
+            {
+                FiltroCoordinaciones coord = new FiltroCoordinaciones(Convert.ToInt32(dtRow["CoordinacionMedicaId"]), dtRow["Nombre"].ToString());
+                lstCoord.Add(coord);
+            }
+
+            return Json(lstCoord, JsonRequestBehavior.AllowGet);
+
+        }
+
 
         public JsonResult GetGuardias()
         {
             var query = Request.QueryString;
             long periodo = Convert.ToInt64(query.GetValues("periodo")[0]);
             int dia = Convert.ToInt32(query.GetValues("dia")[0]);
-            DataSet dsGuardias = getGuardiasFromWebService(periodo);
+            int coordinacion = Convert.ToInt32(query.GetValues("coordinacion")[0]);
+            DataSet dsGuardias = getGuardiasFromWebService(periodo,coordinacion);
             List<Guardia> guardias = getGuardiasFormatted(dsGuardias,dia);
-
+            
             return Json(guardias, JsonRequestBehavior.AllowGet);
         }
 
@@ -188,10 +253,22 @@ namespace ParamedicMedicosPrestaciones.Controllers
             var query = Request.QueryString;
             long periodo = Convert.ToInt64(query.GetValues("periodo")[0]);
             int dia = Convert.ToInt32(query.GetValues("dia")[0]);
-            DataSet dsServicios = getServiciosFromWebService(periodo);
+            int coordinacion = Convert.ToInt32(query.GetValues("coordinacion")[0]);
+            DataSet dsServicios = getServiciosFromWebService(periodo,coordinacion);
             List<Servicio> servicios = getServiciosFormatted(dsServicios, dia);
 
             return Json(servicios, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetResumenLiquidacion()
+        {
+            var query = Request.QueryString;
+            long periodo = Convert.ToInt64(query.GetValues("periodo")[0]);
+            int coordinacion = Convert.ToInt32(query.GetValues("coordinacion")[0]);
+            DataSet dsResumen = getResumenFromWebService(periodo, coordinacion);
+            List<ResumenLiquidacion> resLiquidacion = getResumenLiquidacionFormatted(dsResumen);
+
+            return Json(resLiquidacion, JsonRequestBehavior.AllowGet);
         }
 
         //

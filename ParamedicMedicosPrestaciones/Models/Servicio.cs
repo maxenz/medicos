@@ -15,11 +15,12 @@ namespace ParamedicMedicosPrestaciones.Models
         public string Localidad { get; set; }
         public string Cdn { get; set; }
         public string Tarifa { get; set; }
-        public string Dia { get; set; }
+        public string DiaDeLaSemana { get; set; }
         public string Tur { get; set; }
         public string Grado { get; set; }
         public double CoPago { get; set; }
         public double Importe { get; set; }
+        public int Dia { get; set; }
 
 
     }
