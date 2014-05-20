@@ -26,6 +26,31 @@ function getSelectedCoordResumen() {
 // --> Seteo datafields de grilla de resumen
 
 var dtFieldsResumen = [{ name: 'Item', type: 'string' }, { name: 'Importe', type: 'number' }];
+var dtFieldsHorarios = [{ name: 'DiaDeLaSemana', type: 'string' }, { name: 'Entrada1', type: 'string' },
+                        { name: 'Salida1', type: 'string' }, { name: 'Movil1', type: 'string' },
+                        { name: 'Entrada2', type: 'string' }, { name: 'Salida2', type: 'string' },
+                        { name: 'Movil2', type: 'string' }];
+
+var crItem = function (row, columnfield, value, defaulthtml, columnproperties) {
+    var item = $("#grdResumen").jqxGrid('getrowdata', row).Item;
+    if ((item == "Total a Facturar") || (item == "Anticipos Cobrados")) {
+        return '<div style="text-align:center"><span style="line-height:25px;font-weight: bold">' + value + '</span></div>';
+    }
+}
+
+var crImporte = function (row, columnfield, value, defaulthtml, columnproperties) {
+    var item = $("#grdResumen").jqxGrid('getrowdata', row).Item;
+    var importe = $("#grdResumen").jqxGrid('getrowdata', row).Importe.toString();
+    if ((item == "Total a Facturar") || (item == "Anticipos Cobrados")) {
+        if (importe.indexOf("-") == -1) {
+            return '<div style="text-align:right"><span style="line-height:25px;font-weight: bold">' + '$' + parseFloat(value).toFixed(2) + '</span></div>';
+        } else {
+            importe.slice(0, 1);
+            return '<div style="text-align:right"><span style="line-height:25px;font-weight: bold">' + '($' + parseFloat(value).toFixed(2) + ')' + '</span></div>';
+        }
+    }
+}
+
 
 // --> Seteo source grilla de resumen
 
@@ -46,14 +71,41 @@ function getSourceGridResumen() {
     return dtGridResumen;
 }
 
+function getSourceGridHorarios() {
+
+    var srcGridHorarios = {
+        datatype: "json",
+        datafields: dtFieldsHorarios,
+        url: 'Medicos/GetHorarios',
+        data: {
+            periodo: getSelectedPeriodoResumen()
+        }
+    };
+
+    var dtGridHorarios = new $.jqx.dataAdapter(srcGridHorarios);
+
+    return dtGridHorarios;
+}
+
 var dtGridResumen = getSourceGridResumen();
+var dtGridHorarios = getSourceGridHorarios();
 
 // --> Seteo columnas de la grilla de guardias
 
 var colGridResumen = [
-                        { text: 'Item', datafield: 'Item', width:'50%' },
-                        { text: 'Importe', datafield: 'Importe', width: '50%', cellsalign: 'right', cellsformat: 'c2' },
-                    ];
+                        { text: 'Item', datafield: 'Item', width:'50%', cellsrenderer: crItem, cellsalign: 'center' },
+                        { text: 'Importe', datafield: 'Importe', width: '50%',cellsrenderer: crImporte, cellsalign: 'right', cellsformat: 'c2' },
+];
+
+var colGridHorarios = [
+                        { text: 'D&iacute;a', datafield: 'DiaDeLaSemana', width: '16%',  cellsalign: 'center' },
+                        { text: 'Entrada 1', datafield: 'Entrada1', width: '16%', cellsalign: 'center' },
+                        { text: 'Salida 1', datafield: 'Salida1', width: '14%', cellsalign: 'center' },
+                        { text: 'M&oacute;vil 1', datafield: 'Movil1', width: '12%', cellsalign: 'center' },
+                        { text: 'Entrada 2', datafield: 'Entrada2', width: '16%', cellsalign: 'center' },
+                        { text: 'Salida 2', datafield: 'Salida2', width: '14%', cellsalign: 'center' },
+                        { text: 'M&oacute;vil 2', datafield: 'Movil2', width: '12%', cellsalign: 'center' }
+];
 
 // --> Seteo objeto de la grilla de guardias con todos los valores
 
@@ -70,6 +122,19 @@ $("#grdResumen").jqxGrid(
     pagesizeoptions: [8]
 });
 
+$("#grdHorarios").jqxGrid(
+{
+    width: '99%',
+    autoheight: true,
+    source: dtGridHorarios,
+    pageable: true,
+    pagesize: 8,
+    altrows: true,
+    theme: 'arctic',
+    columns: colGridHorarios,
+    pagesizeoptions: [8]
+});
+
 $('#grdResumen').on('bindingcomplete', function (event) {
     $grid = $(this);
     $grid.jqxGrid('localizestrings', localizationobj);
@@ -77,10 +142,19 @@ $('#grdResumen').on('bindingcomplete', function (event) {
     $grid.jqxGrid('gotopage', 0);
 });
 
+$('#grdHorarios').on('bindingcomplete', function (event) {
+    $grid = $(this);
+    $grid.jqxGrid('localizestrings', localizationobj);
+});
+
 $('#btnConsultarResumen').on('click', function () {
 
     var dtGridResumen = getSourceGridResumen();
 
+    var dtGridHorarios = getSourceGridHorarios();
+
     $('#grdResumen').jqxGrid({ source: dtGridResumen });
+
+    $('#grdHorarios').jqxGrid({ source: dtGridHorarios });
 
 });

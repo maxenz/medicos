@@ -21,7 +21,7 @@
     <MetadataSource Address="http://paramedicapps.com.ar:57773/csp/shaman/WebServices.ContratadosLiquidaciones.cls?WSDL" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="WebServices1.wsdl" MetadataType="Wsdl" ID="8b639e0f-2549-49de-a51b-ae74bfbccc88" SourceId="1" SourceUrl="http://paramedicapps.com.ar:57773/csp/shaman/WebServices.ContratadosLiquidaciones.cls?WSDL" />
+    <MetadataFile FileName="WebServices1.wsdl" MetadataType="Wsdl" ID="545e2334-9877-4d25-8030-9b8a6f8a49a2" SourceId="1" SourceUrl="http://paramedicapps.com.ar:57773/csp/shaman/WebServices.ContratadosLiquidaciones.cls?WSDL" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

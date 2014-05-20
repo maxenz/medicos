@@ -69,6 +69,18 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetMedicos">
+        <s:complexType>
+          <s:sequence />
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMedicosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element name="GetMedicosResult" type="s0:DataSet" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetResumen">
         <s:complexType>
           <s:sequence>
@@ -125,6 +137,12 @@
   <wsdl:message name="GetIncidentesSoapOut">
     <wsdl:part name="parameters" element="s0:GetIncidentesResponse" />
   </wsdl:message>
+  <wsdl:message name="GetMedicosSoapIn">
+    <wsdl:part name="parameters" element="s0:GetMedicos" />
+  </wsdl:message>
+  <wsdl:message name="GetMedicosSoapOut">
+    <wsdl:part name="parameters" element="s0:GetMedicosResponse" />
+  </wsdl:message>
   <wsdl:message name="GetResumenSoapIn">
     <wsdl:part name="parameters" element="s0:GetResumen" />
   </wsdl:message>
@@ -153,6 +171,10 @@
     <wsdl:operation name="GetIncidentes">
       <wsdl:input message="s0:GetIncidentesSoapIn" />
       <wsdl:output message="s0:GetIncidentesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicos">
+      <wsdl:input message="s0:GetMedicosSoapIn" />
+      <wsdl:output message="s0:GetMedicosSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetResumen">
       <wsdl:input message="s0:GetResumenSoapIn" />
@@ -194,6 +216,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetIncidentes">
       <soap:operation soapAction="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetIncidentes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicos">
+      <soap:operation soapAction="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetMedicos" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

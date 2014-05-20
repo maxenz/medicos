@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
+using System.ServiceModel;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -16,9 +17,34 @@ namespace ParamedicMedicosPrestaciones.Controllers
         //
         // GET: /Medicos/
 
-        public ActionResult Index()
+        public ActionResult Index(long usr = 0)
         {
+            usr = 1055;
+            if (usr == 0)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+            else if (!validarUsuario(usr))
+            {
+                return RedirectToAction("Index", "Error");
+            }
             return View();
+        }
+
+        public bool validarUsuario(long usr)
+        {
+            WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
+            DataTable dtUsuario = wsClient.GetUsuarioValidacion(usr).Tables[0];
+            if (Convert.ToInt32(dtUsuario.Rows[0]["Acceso"]) == 0)
+            {
+                return false;
+            }
+            else
+            {
+                ViewBag.UserName = dtUsuario.Rows[0]["NombreUsuario"].ToString();
+                return true;
+            }
+           
         }
 
         public JsonResult getFiltroPeriodos()
@@ -194,25 +220,13 @@ namespace ParamedicMedicosPrestaciones.Controllers
                 {
                     ResumenLiquidacion resLiq = new ResumenLiquidacion();
                     resLiq.Item = dtRow["Item"].ToString();
-                    resLiq.Importe = getImporteResumenFormatted(dtRow["Importe"].ToString());
+                    resLiq.Importe = dtRow["Importe"].ToString();
 
                     lstResumenLiq.Add(resLiq);
                 }
             }
 
             return lstResumenLiq;
-
-        }
-
-        private string getImporteResumenFormatted(string importe) {
-
-            if (importe.Contains('-')) {
-                importe = importe.Remove(0, 1);
-                importe = "(" + importe;
-                importe = importe + ")";
-            }
-
-            return importe;
 
         }
 
@@ -268,93 +282,77 @@ namespace ParamedicMedicosPrestaciones.Controllers
             DataSet dsResumen = getResumenFromWebService(periodo, coordinacion);
             List<ResumenLiquidacion> resLiquidacion = getResumenLiquidacionFormatted(dsResumen);
 
+            GetHorarios();
+
             return Json(resLiquidacion, JsonRequestBehavior.AllowGet);
         }
 
-        //
-        // GET: /Medicos/Details/5
-
-        public ActionResult Details(int id)
+        public JsonResult GetHorarios()
         {
-            return View();
+            var query = Request.QueryString;
+            long periodo = Convert.ToInt64(query.GetValues("periodo")[0]);
+            DataSet dsHorarios = getHorariosFromWebService(periodo);
+            List<Horario> lstHorarios = getHorariosFormatted(dsHorarios);
+
+            return Json(lstHorarios, JsonRequestBehavior.AllowGet);
         }
 
-        //
-        // GET: /Medicos/Create
-
-        public ActionResult Create()
+        private DataSet getHorariosFromWebService(long periodo)
         {
-            return View();
-        }
-
-        //
-        // POST: /Medicos/Create
-
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
+            WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                DataSet ds = wsClient.GetHorarios(1055, periodo);
+                return ds;
             }
             catch
             {
-                return View();
+                return null;
             }
+
         }
 
-        //
-        // GET: /Medicos/Edit/5
-
-        public ActionResult Edit(int id)
+        private List<Horario> getHorariosFormatted(DataSet dsHorarios)
         {
-            return View();
+            List<Horario> lstHorarios = new List<Horario>();
+            List<string> Dias = new List<string>() {"Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo" };
+            foreach (string dia in Dias)
+            {
+                Horario horario = new Horario();
+                horario.DiaDeLaSemana = dia;
+                lstHorarios.Add(horario);
+            }
+
+            DataTable dt = dsHorarios.Tables[0];
+
+            foreach (DataRow row in dt.Rows)
+            {
+
+                string diaDeLaSemana = Convert.ToDateTime(row["FecEntrada"]).ToString("dddd");
+                diaDeLaSemana = char.ToUpper(diaDeLaSemana[0]) + diaDeLaSemana.Substring(1);
+                string entrada = Convert.ToDateTime(row["HorEntrada"]).ToString("hh:mm");
+                string salida = Convert.ToDateTime(row["HorSalida"]).ToString("hh:mm");
+                string movil = row["MovilId"].ToString();
+
+                var hor = lstHorarios.SingleOrDefault(x => x.DiaDeLaSemana == diaDeLaSemana);
+                if (hor.Entrada1 != null)
+                {
+                    hor.Entrada2 = entrada;
+                    hor.Salida2 = salida;
+                    hor.Movil2 = movil;
+                }
+                else
+                {
+                    hor.Entrada1 = entrada;
+                    hor.Salida1 = salida;
+                    hor.Movil1 = movil;
+                }
+  
+            }
+
+            return lstHorarios;
+
         }
 
-        //
-        // POST: /Medicos/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /Medicos/Delete/5
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Medicos/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

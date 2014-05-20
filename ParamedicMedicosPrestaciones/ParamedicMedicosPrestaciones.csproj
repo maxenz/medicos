@@ -132,6 +132,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\MedicosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -146,9 +147,11 @@
     </Compile>
     <Compile Include="ViewModels\FiltroCoordinaciones.cs" />
     <Compile Include="ViewModels\FiltroPeriodos.cs" />
+    <Compile Include="ViewModels\Horario.cs" />
     <Compile Include="ViewModels\ResumenLiquidacion.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\img\404.gif" />
     <Content Include="Content\img\paramedic.png" />
     <Content Include="Content\styles\bootstrap-dialog.css" />
     <Content Include="Content\styles\bootstrap-dialog.min.css" />
@@ -574,15 +577,15 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Error\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Medicos\Index.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
-    <None Include="Service References\WSContratadosLiquidaciones\WebServices1.wsdl" />
     <Content Include="Views\Medicos\_Guardias.cshtml" />
     <Content Include="Views\Medicos\_Servicios.cshtml" />
     <Content Include="Views\Medicos\_Totalizador.cshtml" />
     <Content Include="Views\Medicos\_Resumen.cshtml" />
+    <None Include="Service References\WSContratadosLiquidaciones\WebServices1.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
