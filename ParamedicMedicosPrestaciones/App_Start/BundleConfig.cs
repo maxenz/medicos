@@ -21,7 +21,6 @@ namespace ParamedicMedicosPrestaciones
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                         "~/Scripts/vendor/bootstrap.js",
                         "~/Scripts/bootstrap-select.js",
-                        "~/Scripts/bootstrap-dialog.js",
                         "~/Scripts/jquery.maskedinput.js"
                         ));
 
@@ -64,7 +63,6 @@ namespace ParamedicMedicosPrestaciones
                         "~/Content/jqwidgets/styles/jqx.base.css",
                         "~/Content/jqwidgets/styles/jqx.arctic.css",
                         "~/Content/jqwidgets/styles/jqx.bootstrap.css",
-                        "~/Content/styles/bootstrap-dialog.css",
                         "~/Content/styles/main.css"));          
         }
     }

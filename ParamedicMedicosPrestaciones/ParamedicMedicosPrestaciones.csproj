@@ -148,13 +148,12 @@
     <Compile Include="ViewModels\FiltroCoordinaciones.cs" />
     <Compile Include="ViewModels\FiltroPeriodos.cs" />
     <Compile Include="ViewModels\Horario.cs" />
+    <Compile Include="ViewModels\Medico.cs" />
     <Compile Include="ViewModels\ResumenLiquidacion.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\img\404.gif" />
     <Content Include="Content\img\paramedic.png" />
-    <Content Include="Content\styles\bootstrap-dialog.css" />
-    <Content Include="Content\styles\bootstrap-dialog.min.css" />
     <Content Include="Content\styles\bootstrap-select.css" />
     <Content Include="Content\styles\bootstrap-select.min.css" />
     <Content Include="Content\styles\bootstrap-theme.css" />
@@ -534,8 +533,6 @@
     <Content Include="Content\styles\bootstrap.css.map" />
     <Content Include="Properties\DataSources\System.Data.DataSet.datasource" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
-    <Content Include="Scripts\bootstrap-dialog.js" />
-    <Content Include="Scripts\bootstrap-dialog.min.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\site\guardias.js" />
@@ -586,6 +583,7 @@
     <Content Include="Views\Medicos\_Totalizador.cshtml" />
     <Content Include="Views\Medicos\_Resumen.cshtml" />
     <None Include="Service References\WSContratadosLiquidaciones\WebServices1.wsdl" />
+    <Content Include="Views\Medicos\_PopupRevisarGuardias.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

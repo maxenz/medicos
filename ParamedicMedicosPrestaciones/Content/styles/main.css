@@ -118,6 +118,8 @@ body {
 
 .modal-header {
     border-bottom:2px solid #e67e22;
+    background-color:#428bca;
+    color:white;
 }
 
 

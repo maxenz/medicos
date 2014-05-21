@@ -19,21 +19,69 @@ $("#ftrPeriodoGuardias").jqxDropDownList({
     valueMember: "Periodo", width: '110%', dropDownHeight: 80, height: 25, theme: 'bootstrap'
 });
 
+/*************************************************************************************************/
+
+// --> Seteo dropdownlist para seleccionar medico en la grilla de guardias
+
+var urlMedicoGuardias = 'Medicos/getFiltroMedicos';
+
+if (tipoAcceso == 1) {
+    urlMedicoGuardias += '?usr_id=' + usr_id_medico;
+    $('#colMedicoGuardias').hide();
+    $('#colMedicoServicios').hide();
+    $('#colMedicoResumen').hide();
+}
+
+var srcFtrMedicoGuardias = {
+    datatype: "json",
+    datafields: [
+        { name: 'UsuarioID' },
+        { name: 'Nombre' }
+    ],
+    url: urlMedicoGuardias,
+    async: false
+};
+
+var dtFtrMedicoGuardias = new $.jqx.dataAdapter(srcFtrMedicoGuardias);
+
+$("#ftrMedicoGuardias").jqxDropDownList({
+    source: dtFtrMedicoGuardias, displayMember: "Nombre",selectedIndex: 0,
+    valueMember: "UsuarioID", width: '110%', dropDownHeight: 150,dropDownWidth:320, height: 25, theme: 'bootstrap'
+});
+
+// --> Cuando selecciono medico, actualizo el dropdownlist de las coordinaciones
+
+$('#ftrMedicoGuardias').on('select', function (event) {
+
+    var dtFtrCoordGuardias = setSrcFtrCoordGuardias();
+
+    $('#ftrCoordGuardias').jqxDropDownList({ source: dtFtrCoordGuardias });
+
+});
+
 /*********************************************************************************************************/
 
 // --> Seteo dropdownlist para seleccionar coordinacion en la grilla de guardias
 
-var srcFtrCoordGuardias = {
-    datatype: "json",
-    datafields: [
-        { name: 'ID' },
-        { name: 'Descripcion' }
-    ],
-    url: 'Medicos/getFiltroCoordinaciones',
-    async: false
-};
+function setSrcFtrCoordGuardias() {
 
-var dtFtrCoordGuardias = new $.jqx.dataAdapter(srcFtrCoordGuardias);
+    var srcFtrCoordGuardias = {
+        datatype: "json",
+        datafields: [
+            { name: 'ID' },
+            { name: 'Descripcion' }
+        ],
+        url: 'Medicos/getFiltroCoordinaciones?usr_id=' + getSelectedMedico(),
+        async: false
+    };
+
+    var dtFtrCoordGuardias = new $.jqx.dataAdapter(srcFtrCoordGuardias);
+
+    return dtFtrCoordGuardias;
+
+}
+
+var dtFtrCoordGuardias = setSrcFtrCoordGuardias();
 
 $("#ftrCoordGuardias").jqxDropDownList({
     selectedIndex: 0, source: dtFtrCoordGuardias, displayMember: "Descripcion",
@@ -68,8 +116,16 @@ function getSelectedCoord() {
     return $('#ftrCoordGuardias').jqxDropDownList('getSelectedItem').value;
 }
 
+function getSelectedMedico() {
+    return $("#ftrMedicoGuardias").jqxDropDownList('getSelectedItem').value;
+}
+
 function getDescriptionSelectedPeriodo() {
     return $("#ftrPeriodoGuardias").jqxDropDownList('getSelectedItem').label;
+}
+
+function getDescriptionSelectedMedico() {
+    return $("#ftrMedicoGuardias").jqxDropDownList('getSelectedItem').label;
 }
 
 /*********************************************************************************************************/
@@ -107,7 +163,8 @@ function getSourceGridGuardias() {
         data: {
             periodo: getSelectedPeriodo(),
             dia: getSelectedDia(),
-            coordinacion: getSelectedCoord()
+            coordinacion: getSelectedCoord(),
+            medico: getSelectedMedico()
         }
     };
 
@@ -214,6 +271,7 @@ $('#grdGuardias').on('bindingcomplete', function (event) {
     $('#impLiquidado').text(parseFloat(acumImporteTotal).toFixed(2));
     $('#totalHoras').text(totalHorasTrabajadas);
     $('#titPeriodo').text(getDescriptionSelectedPeriodo());
+    $('#titMedico').text(getDescriptionSelectedMedico());
 
     $grid.jqxGrid('localizestrings', localizationobj);
 });

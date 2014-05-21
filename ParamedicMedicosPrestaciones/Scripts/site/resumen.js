@@ -8,9 +8,45 @@ $("#ftrPeriodoResumen").jqxDropDownList({
     valueMember: "Periodo", width: '110%', dropDownHeight: 80, height: 25, theme: 'bootstrap'
 });
 
+// --> Seteo dropdownlist para seleccionar medicos en la grilla de servicios
+// --> Uso mismo source que filtro de medicos de guardias
+
+$("#ftrMedicoResumen").jqxDropDownList({
+    source: dtFtrMedicoGuardias, displayMember: "Nombre", selectedIndex: 0,
+    valueMember: "UsuarioID", width: '110%', dropDownHeight: 150, dropDownWidth: 320, height: 25, theme: 'bootstrap'
+});
+
+function setSrcFtrCoordResumen() {
+
+    var srcFtrCoordResumen = {
+        datatype: "json",
+        datafields: [
+            { name: 'ID' },
+            { name: 'Descripcion' }
+        ],
+        url: 'Medicos/getFiltroCoordinaciones?usr_id=' + getSelectedMedicoResumen(),
+        async: false
+    };
+
+    var dtFtrCoordResumen = new $.jqx.dataAdapter(srcFtrCoordResumen);
+
+    return dtFtrCoordResumen;
+
+}
+
+var dtFtrCoordResumen = setSrcFtrCoordResumen();
+
 $("#ftrCoordResumen").jqxDropDownList({
-    selectedIndex: 0, source: dtFtrCoordGuardias, displayMember: "Descripcion",
+    selectedIndex: 0, source: dtFtrCoordResumen, displayMember: "Descripcion",
     valueMember: "ID", width: '110%', dropDownHeight: 80, height: 25, theme: 'bootstrap'
+});
+
+$('#ftrMedicoResumen').on('select', function (event) {
+
+    var dtFtrCoordResumen = setSrcFtrCoordResumen();
+
+    $('#ftrCoordResumen').jqxDropDownList({ source: dtFtrCoordResumen });
+
 });
 
 function getSelectedPeriodoResumen() {
@@ -21,7 +57,15 @@ function getSelectedCoordResumen() {
     return $('#ftrCoordResumen').jqxDropDownList('getSelectedItem').value;
 }
 
+function getSelectedMedicoResumen() {
+    return $("#ftrMedicoResumen").jqxDropDownList('getSelectedItem').value;
+}
+
 /*********************************************************************************************************/
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 // --> Seteo datafields de grilla de resumen
 
@@ -43,10 +87,10 @@ var crImporte = function (row, columnfield, value, defaulthtml, columnproperties
     var importe = $("#grdResumen").jqxGrid('getrowdata', row).Importe.toString();
     if ((item == "Total a Facturar") || (item == "Anticipos Cobrados")) {
         if (importe.indexOf("-") == -1) {
-            return '<div style="text-align:right"><span style="line-height:25px;font-weight: bold">' + '$' + parseFloat(value).toFixed(2) + '</span></div>';
+            return '<div style="text-align:right"><span style="line-height:25px;font-weight: bold">' + '$' + numberWithCommas(parseFloat(value).toFixed(2)) + '</span></div>';
         } else {
             importe.slice(0, 1);
-            return '<div style="text-align:right"><span style="line-height:25px;font-weight: bold">' + '($' + parseFloat(value).toFixed(2) + ')' + '</span></div>';
+            return '<div style="text-align:right"><span style="line-height:25px;font-weight: bold">' + '($' + numberWithCommas(parseFloat(value).toFixed(2)) + ')' + '</span></div>';
         }
     }
 }
@@ -62,7 +106,8 @@ function getSourceGridResumen() {
         url: 'Medicos/GetResumenLiquidacion',
         data: {
             periodo: getSelectedPeriodoResumen(),
-            coordinacion: getSelectedCoordResumen()
+            coordinacion: getSelectedCoordResumen(),
+            medico: getSelectedMedicoResumen()
         }
     };
 
@@ -78,7 +123,8 @@ function getSourceGridHorarios() {
         datafields: dtFieldsHorarios,
         url: 'Medicos/GetHorarios',
         data: {
-            periodo: getSelectedPeriodoResumen()
+            periodo: getSelectedPeriodoResumen(),
+            medico: getSelectedMedicoResumen()
         }
     };
 

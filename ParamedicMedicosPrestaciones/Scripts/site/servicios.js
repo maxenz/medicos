@@ -13,9 +13,45 @@ $("#ftrPeriodoServicios").jqxDropDownList({
 // --> Seteo dropdownlist para seleccionar periodo,guardias en la grilla de servicios
 // --> Uso mismo source que filtro de dia,guardias de guardias
 $("#ftrDiaServicios").jqxDropDownList({ selectedIndex: 0, source: srcFtrDiaGuardias, width: '110%', height: 25, theme: 'bootstrap' });
+
+$("#ftrMedicoServicios").jqxDropDownList({
+    source: dtFtrMedicoGuardias, displayMember: "Nombre", selectedIndex: 0,
+    valueMember: "UsuarioID", width: '110%', dropDownHeight: 150, dropDownWidth: 320, height: 25, theme: 'bootstrap'
+});
+
+// --> Seteo dropdownlist para seleccionar coordinacion en la grilla de servicios
+
+function setSrcFtrCoordServicios() {
+
+    var srcFtrCoordServicios = {
+        datatype: "json",
+        datafields: [
+            { name: 'ID' },
+            { name: 'Descripcion' }
+        ],
+        url: 'Medicos/getFiltroCoordinaciones?usr_id=' + getSelectedMedicoServ(),
+        async: false
+    };
+
+    var dtFtrCoordServicios = new $.jqx.dataAdapter(srcFtrCoordServicios);
+
+    return dtFtrCoordServicios;
+
+}
+
+var dtFtrCoordServicios = setSrcFtrCoordServicios();
+
 $("#ftrCoordServicios").jqxDropDownList({
-    selectedIndex: 0, source: dtFtrCoordGuardias, displayMember: "Descripcion",
+    selectedIndex: 0, source: dtFtrCoordServicios, displayMember: "Descripcion",
     valueMember: "ID", width: '110%', dropDownHeight: 80, height: 25, theme: 'bootstrap'
+});
+
+$('#ftrMedicoServicios').on('select', function (event) {
+
+    var dtFtrCoordServicios = setSrcFtrCoordServicios();
+
+    $('#ftrCoordServicios').jqxDropDownList({ source: dtFtrCoordServicios });
+
 });
 
 /*********************************************************************************************************/
@@ -34,8 +70,16 @@ function getSelectedCoordServ() {
     return $('#ftrCoordServicios').jqxDropDownList('getSelectedItem').value;
 }
 
+function getSelectedMedicoServ() {
+    return $("#ftrMedicoServicios").jqxDropDownList('getSelectedItem').value;
+}
+
 function getDescriptionSelectedPeriodoServ() {
     return $("#ftrPeriodoServicios").jqxDropDownList('getSelectedItem').label;
+}
+
+function getDescriptionSelectedMedicoServ() {
+    return $("#ftrMedicoServicios").jqxDropDownList('getSelectedItem').label;
 }
 
 /*********************************************************************************************************/
@@ -69,7 +113,8 @@ function getSourceGridServicios() {
         data: {
             periodo: getSelectedPeriodoServ(),
             dia: getSelectedDiaServ(),
-            coordinacion: getSelectedCoordServ()
+            coordinacion: getSelectedCoordServ(),
+            medico: getSelectedMedicoServ()
         }
     };
 
