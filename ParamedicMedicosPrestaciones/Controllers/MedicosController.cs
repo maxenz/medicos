@@ -94,6 +94,31 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
         }
 
+
+        //
+        // Obtengo los datos para el filtro de motivos de reclamo (popup guardia / servicios)
+        public JsonResult getFiltroMotivoReclamo(int flgTipoReclamo)
+        {
+            WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
+            DataSet dsReclamos = wsClient.GetMotivosReclamo(flgTipoReclamo);
+
+            List<FiltroReclamo> lstFtrReclamo = new List<FiltroReclamo>();
+
+            DataTable dtReclamos = dsReclamos.Tables[0];
+
+            foreach (DataRow dtRow in dtReclamos.Rows)
+            {
+                //Esto lo hago para no tener que ir a la base de datos cada vez que hago un select en un motivo
+                //Entonces tengo id/difIngreso en el value del select, y si esta en 1, habilito para modificar horario.
+                string idConDifIngreso = dtRow["ID"].ToString() + "/" + dtRow["flgDifIngreso"].ToString();
+                FiltroReclamo reclamo = new FiltroReclamo(idConDifIngreso,dtRow["Descripcion"].ToString());
+                lstFtrReclamo.Add(reclamo);
+            }
+
+            return Json(lstFtrReclamo, JsonRequestBehavior.AllowGet);
+
+        }
+
         //
         // Obtengo los datos para el filtro de medicos (Si me llega el id de un medico, es porque es un medico el que está solicitando
         // el filtro, entonces solamente accede a su registro.
@@ -257,6 +282,8 @@ namespace ParamedicMedicosPrestaciones.Controllers
                 guardia.ImpPrestacionExcedente = Convert.ToDouble(dtRow["ImpPrestacionExcedente"]);
                 guardia.ImpAnticipo = Convert.ToDouble(dtRow["ImpAnticipos"]);
                 guardia.ImpFinal = Convert.ToDouble(dtRow["ImpFinal"]);
+                guardia.Estado = Convert.ToInt32(dtRow["Estado"]);
+                guardia.FecMovimiento = getGuardiaFechaFormatted(dtRow["FecMovimiento"].ToString(), 3);
 
                 lstGuardias.Add(guardia);
 
@@ -417,6 +444,9 @@ namespace ParamedicMedicosPrestaciones.Controllers
                     break;
                 case 2:
                     retVal = mes + "/" + (año.ToString()).Substring(2, 2);
+                    break;
+                case 3:
+                    retVal = dia + "/" + mes + "/" + año;
                     break;
             }
 

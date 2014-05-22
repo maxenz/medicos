@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Confirmaci&oacute;n con la guardia del 07/04/2014 en m&oacute;vil 15</h4>
+                <h4 class="modal-title">Confirmaci&oacute;n con la guardia del 07/04/2014 en m&oacute;vil 15</h4>
             </div>
             <div class="modal-body">
                 <form method="POST" action="Medicos/SetReclamo">
@@ -12,7 +12,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     <i class="fa fa-check-circle big-icon icon-right-margin verde"></i>
-                                    <input type="radio" name="holis" value="1" checked>
+                                    <input type="radio" name="rdConformidad" value="1" checked>
                                 </span>
                                 <input type="text" readonly="readonly" class="form-control" value="ESTOY CONFORME" />
                             </div>
@@ -21,7 +21,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     <i class="fa fa-times-circle big-icon icon-right-margin rojo"></i>
-                                    <input type="radio" name="holis" value="2">
+                                    <input type="radio" name="rdConformidad" value="2">
                                 </span>
                                 <input type="text" readonly="readonly" class="form-control" value="NO ESTOY CONFORME" />
                             </div>
@@ -31,17 +31,38 @@
                     <div id="popupGrdContNoConforme">
                         <hr />
                         <div class="row">
-                            <div class="form-group col-md-4">
-                                <label for="dwMotivosNoConforme">Seleccione Motivo:</label>
-                                <div id="dwMotivosNoConforme"></div>
+                            <div class="form-group col-md-6">
+                                <label for="ftrMotivoReclamoGuardias">Seleccione Motivo:</label>
+                                <div id="ftrMotivoReclamoGuardias"></div>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label>Su entrada (hh:mm)</label>
-                                <input type="text" class="form-control" id="popupGrdEntrada" />
+                            <div class="form-group col-md-3">
+                                <div class="row" style="margin-left:3px">
+                                    <label>Entrada (hh:mm)</label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="text" readonly class="form-control popupGrdHorario" id="popupGrdHorEntrada" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" readonly class="form-control popupGrdHorario" id="popupGrdMinEntrada" />
+                                    </div>
+                                </div>
+
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="txtSalida">Su salida (hh:mm)</label>
-                                <input type="text" class="form-control" id="popupGrdSalida" />
+
+                            <div class="form-group col-md-3">
+                                <div class="row" style="margin-left:3px">
+                                    <label>Salida (hh:mm)</label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="text" readonly class="form-control popupGrdHorario" id="popupGrdHorSalida" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" readonly class="form-control popupGrdHorario" id="popupGrdMinSalida" />
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                         <div class="row row-show-grid">
@@ -53,7 +74,7 @@
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label for="popupGrdRespuesta">Respuesta recibida:</label>
-                                <textarea id="popupGrdRespuesta" class="form-control"></textarea>
+                                <textarea id="popupGrdRespuesta" readonly class="form-control"></textarea>
                             </div>
                         </div>
                     </div>
@@ -61,7 +82,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Guardar cambios</button>
+                <button type="button" id="btnGuardarReclamoGuardia" class="btn btn-primary">Guardar cambios</button>
             </div>
         </div>
     </div>

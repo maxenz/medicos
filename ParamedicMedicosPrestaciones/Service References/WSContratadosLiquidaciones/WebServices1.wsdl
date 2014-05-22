@@ -22,6 +22,20 @@
           <s:any />
         </s:sequence>
       </s:complexType>
+      <s:element name="GetEstadoReclamo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" name="pItmLiq" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEstadoReclamoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element name="GetEstadoReclamoResult" type="s0:DataSet" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetGuardiasDetalle">
         <s:complexType>
           <s:sequence>
@@ -81,6 +95,20 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetMotivosReclamo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" name="pClf" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMotivosReclamoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element name="GetMotivosReclamoResult" type="s0:DataSet" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetResumen">
         <s:complexType>
           <s:sequence>
@@ -119,6 +147,12 @@
   <wsdl:message name="GetCoordinacionesSoapOut">
     <wsdl:part name="parameters" element="s0:GetCoordinacionesResponse" />
   </wsdl:message>
+  <wsdl:message name="GetEstadoReclamoSoapIn">
+    <wsdl:part name="parameters" element="s0:GetEstadoReclamo" />
+  </wsdl:message>
+  <wsdl:message name="GetEstadoReclamoSoapOut">
+    <wsdl:part name="parameters" element="s0:GetEstadoReclamoResponse" />
+  </wsdl:message>
   <wsdl:message name="GetGuardiasDetalleSoapIn">
     <wsdl:part name="parameters" element="s0:GetGuardiasDetalle" />
   </wsdl:message>
@@ -143,6 +177,12 @@
   <wsdl:message name="GetMedicosSoapOut">
     <wsdl:part name="parameters" element="s0:GetMedicosResponse" />
   </wsdl:message>
+  <wsdl:message name="GetMotivosReclamoSoapIn">
+    <wsdl:part name="parameters" element="s0:GetMotivosReclamo" />
+  </wsdl:message>
+  <wsdl:message name="GetMotivosReclamoSoapOut">
+    <wsdl:part name="parameters" element="s0:GetMotivosReclamoResponse" />
+  </wsdl:message>
   <wsdl:message name="GetResumenSoapIn">
     <wsdl:part name="parameters" element="s0:GetResumen" />
   </wsdl:message>
@@ -160,6 +200,10 @@
       <wsdl:input message="s0:GetCoordinacionesSoapIn" />
       <wsdl:output message="s0:GetCoordinacionesSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetEstadoReclamo">
+      <wsdl:input message="s0:GetEstadoReclamoSoapIn" />
+      <wsdl:output message="s0:GetEstadoReclamoSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetGuardiasDetalle">
       <wsdl:input message="s0:GetGuardiasDetalleSoapIn" />
       <wsdl:output message="s0:GetGuardiasDetalleSoapOut" />
@@ -176,6 +220,10 @@
       <wsdl:input message="s0:GetMedicosSoapIn" />
       <wsdl:output message="s0:GetMedicosSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetMotivosReclamo">
+      <wsdl:input message="s0:GetMotivosReclamoSoapIn" />
+      <wsdl:output message="s0:GetMotivosReclamoSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetResumen">
       <wsdl:input message="s0:GetResumenSoapIn" />
       <wsdl:output message="s0:GetResumenSoapOut" />
@@ -189,6 +237,15 @@
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetCoordinaciones">
       <soap:operation soapAction="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetCoordinaciones" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEstadoReclamo">
+      <soap:operation soapAction="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetEstadoReclamo" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -225,6 +282,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetMedicos">
       <soap:operation soapAction="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetMedicos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMotivosReclamo">
+      <soap:operation soapAction="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetMotivosReclamo" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

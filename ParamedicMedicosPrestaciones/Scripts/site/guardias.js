@@ -45,8 +45,8 @@ var srcFtrMedicoGuardias = {
 var dtFtrMedicoGuardias = new $.jqx.dataAdapter(srcFtrMedicoGuardias);
 
 $("#ftrMedicoGuardias").jqxDropDownList({
-    source: dtFtrMedicoGuardias, displayMember: "Nombre",selectedIndex: 0,
-    valueMember: "UsuarioID", width: '110%', dropDownHeight: 150,dropDownWidth:320, height: 25, theme: 'bootstrap'
+    source: dtFtrMedicoGuardias, displayMember: "Nombre", selectedIndex: 0,
+    valueMember: "UsuarioID", width: '110%', dropDownHeight: 150, dropDownWidth: 320, height: 25, theme: 'bootstrap'
 });
 
 // --> Cuando selecciono medico, actualizo el dropdownlist de las coordinaciones
@@ -132,7 +132,8 @@ function getDescriptionSelectedMedico() {
 
 // --> Seteo datafields de grilla de guardias
 
-var dtFieldsGuardias = [{ name: 'ID', type: 'number' },
+var dtFieldsGuardias = [{ name: 'ID', type: 'string' },
+                        { name: 'FecMovimiento', type: 'string' },
                         { name: 'DiaDeLaSemana', type: 'string' },
                         { name: 'Tarifa', type: 'string' },
                         { name: 'HorarioEntrada', type: 'string' },
@@ -150,7 +151,8 @@ var dtFieldsGuardias = [{ name: 'ID', type: 'number' },
                         { name: 'ImpPrestacion', type: 'number' },
                         { name: 'ImpPrestacionExcedente', type: 'number' },
                         { name: 'ImpAnticipo', type: 'number' },
-                        { name: 'ImpFinal', type: 'number' }];
+                        { name: 'ImpFinal', type: 'number' },
+                        { name: 'Estado', type: 'number' }];
 
 // --> Seteo source grilla de guardias
 
@@ -192,7 +194,32 @@ var crHorSalidaGuardia = function (row, columnfield, value, defaulthtml, columnp
 }
 
 var crConfirmacionGuardia = function (row, columnfield, value, defaulthtml, columnproperties) {
-    return '<a href="javascript:showPopupGuardia()" style="margin-left:34%;line-height:25px"><i class="fa fa-check-circle verde icon-right-margin big-icon"></i></a>';
+    var retVal = "";
+    switch (value) {
+        case 0:
+            // --> No esta conforme
+            retVal = '<a href="javascript:showPopupGuardia()" style="margin-left:34%;line-height:33px"><span class="glyphicon glyphicon-remove-circle rojo icon-right-margin big-icon "></span></a>';
+            break;
+        case 1:
+            // --> Está conforme
+            retVal = '<a href="javascript:showPopupGuardia()" style="margin-left:34%;line-height:33px"><span class="glyphicon glyphicon-ok-circle verde icon-right-margin big-icon "></span></a>';
+            break;
+        case 2:
+            // --> No está conforme y recibió una respuesta
+            retVal = '<a href="javascript:showPopupGuardia()" style="margin-left:34%;line-height:33px"><span class="glyphicon glyphicon-exclamation-sign amarillo icon-right-margin big-icon "></span></a>';
+            break;
+        case 3:
+            // --> Reclamo aceptado
+            retVal = '<a href="javascript:showPopupGuardia()" style="margin-left:34%;line-height:33px"><span class="glyphicon glyphicon-ok-circle azul icon-right-margin big-icon "></span></a>';
+            break;
+        case 4:
+            // --> Reclamo no aceptado
+            retVal = '<a href="javascript:showPopupGuardia()" style="margin-left:34%;line-height:33px"><span class="glyphicon glyphicon-remove-circle naranja icon-right-margin big-icon "></span></a>';
+            break;
+    }
+
+    return retVal;
+
 }
 
 
@@ -201,6 +228,7 @@ var crConfirmacionGuardia = function (row, columnfield, value, defaulthtml, colu
 var colGridGuardias =
              [
               { text: 'ID', datafield: 'ID', hidden: true },
+              { text: 'FecMovimiento', datafield: 'FecMovimiento', hidden: true },
               { text: 'D&iacute;a', datafield: 'DiaDeLaSemana', width: '5%', cellsalign: 'center' },
               { text: 'Tar', datafield: 'Tarifa', width: '4%', cellsalign: 'center' },
               { text: 'H.Ent', datafield: 'HorarioEntrada', width: '5%', cellsalign: 'center', cellsrenderer: crHorEntradaGuardia },
@@ -217,7 +245,7 @@ var colGridGuardias =
               { text: '$Exc', datafield: 'ImpPrestacionExcedente', width: '8%', cellsalign: 'right', cellsformat: 'c2' },
               { text: '$Ant', datafield: 'ImpAnticipo', width: '8%', cellsalign: 'right', cellsformat: 'c2' },
               { text: '$Tot', datafield: 'ImpFinal', width: '8%', cellsalign: 'right', cellsformat: 'c2' },
-              { text: 'Conf', width: '4%', cellsalign: 'center', cellsRenderer: crConfirmacionGuardia }
+              { text: 'Est', datafield: 'Estado', width: '4%', cellsalign: 'center', cellsRenderer: crConfirmacionGuardia }
              ];
 
 
@@ -255,8 +283,8 @@ $('#grdGuardias').on('bindingcomplete', function (event) {
         var row = $rows[i];
         acumServicios += row.Rojos + row.Amarillos + row.Verdes + row.TrasladosProgramados;
         acumImporteTotal += row.ImpFinal;
-        acumHoras += getHorasMinutosGuardia(row.HorasTrabajadas,0);
-        acumMinutos += getHorasMinutosGuardia(row.HorasTrabajadas,1);
+        acumHoras += getHorasMinutosGuardia(row.HorasTrabajadas, 0);
+        acumMinutos += getHorasMinutosGuardia(row.HorasTrabajadas, 1);
     }
 
     if (acumMinutos > 60) {
@@ -264,7 +292,7 @@ $('#grdGuardias').on('bindingcomplete', function (event) {
         acumMinutos = acumMinutos % 60;
     }
 
-    var totalHorasTrabajadas = acumHoras + " hs. " + acumMinutos + " min."; 
+    var totalHorasTrabajadas = acumHoras + " hs. " + acumMinutos + " min.";
 
     $('#cantServicios').text(acumServicios);
     $('#cantGuardias').text(cantGuardias);
@@ -276,7 +304,7 @@ $('#grdGuardias').on('bindingcomplete', function (event) {
     $grid.jqxGrid('localizestrings', localizationobj);
 });
 
-function getHorasMinutosGuardia(hsTrabajadas,idx) {
+function getHorasMinutosGuardia(hsTrabajadas, idx) {
 
     var horas = hsTrabajadas.split(":");
     return parseInt(horas[idx]);
@@ -294,3 +322,147 @@ $('#btnConsultarGuardias').on('click', function () {
     $('#grdGuardias').jqxGrid({ source: dtGridGuardias });
 
 });
+
+
+/*********************************************************************************************************/
+
+// --> Popup para reclamo de guardias
+
+
+// Set datasource para el filtro de motivo de reclamo, el dropDownList en el popup de reclamo de guardia
+var srcFtrMotivoReclamoGuardias = {
+    datatype: "json",
+    datafields: [
+        { name: 'ID' },
+        { name: 'Descripcion' }
+    ],
+    url: 'Medicos/getFiltroMotivoReclamo',
+    data: { flgTipoReclamo: 2 },
+    async: false
+};
+
+var dtFtrMotivoReclamoGuardias = new $.jqx.dataAdapter(srcFtrMotivoReclamoGuardias);
+
+$("#ftrMotivoReclamoGuardias").jqxDropDownList({
+    source: dtFtrMotivoReclamoGuardias, displayMember: "Descripcion", placeHolder: "Por favor seleccione:",
+    valueMember: "ID", width: 266, dropDownHeight: 150, dropDownWidth: 265, height: 32, theme: 'bootstrap'
+});
+
+//Cuando selecciono un motivo de reclamo de guardia, veo si es relacionado a un horario. Solo si es así, le saco el disabled
+// a los campos horario entrada y horario salida.
+$('#ftrMotivoReclamoGuardias').on('select', function (event) {
+
+    var args = event.args;
+    var item = args.item;
+    var vReclamo = item.value.split("/");
+    var idReclamo = parseInt(vReclamo[0]);
+    var difIngreso = parseInt(vReclamo[1]);
+    if (difIngreso == 0) {
+        $('input.popupGrdHorario').each(function () {
+            $(this).prop('readonly', true);
+        });
+    } else {
+        $('input.popupGrdHorario').each(function () {
+            $(this).prop('readonly', false);
+        });
+    }
+
+});
+
+// Muestro popup de reclamo de guardia
+function showPopupGuardia() {
+
+    $('#popupRevisarGuardias').modal('show');
+
+}
+
+// Cuando abro el popup de reclamo de guardias ..
+$('#popupRevisarGuardias').on('show.bs.modal', function (event) {
+
+    // Limpio todos los inputs, y saco de la grilla los datos necesarios para ir a buscar al servidor y setear datos en el popup
+
+    limpiarInputsPopupGuardia();
+    var rowindex = $('#grdGuardias').jqxGrid('getselectedrowindex');
+    var row = $('#grdGuardias').jqxGrid('getrowdata', rowindex);
+    var fechaGuardia = row.FecMovimiento;
+    var movil = row.Movil;
+    var estado = row.Estado;
+    console.log(row.ID);
+
+    $('#titlePopupGuardias').text('Confirmación de la guardia del ' + fechaGuardia + ' en el móvil ' + movil);
+
+    //Si hay conformidad, entonces escondo los demas campos que no tiene sentido mostrar.
+
+    if (estado == 1) {
+        $('input:radio[name=rdConformidad]')[0].checked = true;
+        setConformidad();
+    } else {
+
+        //Si no hay conformidad, muestro los campos a llenar
+        //Acá tambien tengo que setear todo lo que traigo de la base de datos, si es que fue cargado este reclamo
+        $('input:radio[name=rdConformidad]')[1].checked = true;
+        setNoConformidad();
+    }
+
+    //Si en el sistema se encuentra un medico...
+    if (tipoAcceso == 1) {
+
+        //Si se encuentra un administrador con readonly
+    } else if (tipoAcceso == 2) {
+
+        disableItemsForAdmins(true);
+        $('#btnGuardarReclamoGuardia').prop('disabled', true);
+
+        //Si se encuentra un administrador que puede leer y escribir..
+    } else {
+
+        disableItemsForAdmins(false);
+    }
+
+});
+
+
+//Disableo todos los campos para los admins. Solo los medicos puede interactuar con la mayoria de los componentes del popup
+//de reclamo de guardias.
+function disableItemsForAdmins(vRta) {
+    $('input:radio[name="rdConformidad"]').each(function () {
+        $(this).prop('disabled', true);
+    });
+    $('input.popupGrdHorario').each(function () {
+        $(this).val('');
+    });
+    $('#ftrMotivoReclamoGuardias').jqxDropDownList({ disabled: true });
+    $('#popupGrdObservaciones').prop('readonly', true);
+    $('#popupGrdRespuesta').prop('readonly', vRta);
+}
+
+//Limpio inputs del popup de reclamo de guardias
+function limpiarInputsPopupGuardia() {
+    $('input.popupGrdHorario').each(function () {
+        $(this).val('');
+    });
+    $('#popupGrdObservaciones').text('');
+    $('#popupGrdRespuesta').text('');
+    $('#ftrMotivoReclamoGuardias').jqxDropDownList('clearSelection');
+
+}
+
+// Evento que muestra o esconde los datos del popup segun si el medico esta conforme o no...
+$('input:radio[name="rdConformidad"]').on('change', function () {
+    $radio = $(this);
+    if ($radio.val() == 2) {
+        setNoConformidad();
+    } else {
+        setConformidad();
+    }
+});
+
+// Escondo datos, ya que el medico esta conforme y no va a reclamar.
+function setConformidad() {
+    $('#popupGrdContNoConforme').hide('slow');
+}
+
+// Muestro datos, para que el medico pueda reclamar.
+function setNoConformidad() {
+    $('#popupGrdContNoConforme').show('slow');
+}

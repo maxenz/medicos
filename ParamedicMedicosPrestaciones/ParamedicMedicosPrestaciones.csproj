@@ -147,6 +147,7 @@
     </Compile>
     <Compile Include="ViewModels\FiltroCoordinaciones.cs" />
     <Compile Include="ViewModels\FiltroPeriodos.cs" />
+    <Compile Include="ViewModels\FiltroReclamo.cs" />
     <Compile Include="ViewModels\Horario.cs" />
     <Compile Include="ViewModels\Medico.cs" />
     <Compile Include="ViewModels\ResumenLiquidacion.cs" />

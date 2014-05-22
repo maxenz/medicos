@@ -68,7 +68,7 @@
 
 .jqx-widget-bootstrap, .jqx-widget-header-bootstrap, .jqx-fill-state-normal-bootstrap,
 .jqx-widget-content-bootstrap, .jqx-fill-state-hover-bootstrap, .jqx-fill-state-pressed-bootstrap {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Droid-Sans", sans-serif;
     -webkit-transition: box-shadow linear 0.2s;
     -moz-transition: box-shadow linear 0.1s;
     -o-transition: box-shadow linear 0.1s;
@@ -920,4 +920,712 @@ input[type="password"].jqx-input-bootstrap:-ms-input-placeholder, input[type="pa
     background-image: url('images/icon-down-white.png');
     background-repeat: no-repeat;
     background-position: center;
+}
+.jqx-widget-bootstrap
+{
+  font-family:  'Droid-Sans', sans-serif;
+}
+.jqx-widget-content-bootstrap
+{
+  color: #333333;
+  text-shadow: none;
+  border-color: #e6e6e6;
+  background: #ffffff;
+  font-family:  'Droid-Sans', sans-serif;
+}
+.jqx-widget-header-bootstrap, .jqx-grid-bootstrap .jqx-widget-header-bootstrap
+{
+  font-family:  'Droid-Sans', sans-serif;
+}
+.jqx-grid-column-menubutton-bootstrap, .jqx-widget-bootstrap.jqx-grid-column-menubutton-bootstrap
+{
+}
+.jqx-grid-cell-bootstrap, .jqx-widget-bootstrap .jqx-grid-cell-bootstrap
+{
+  background-color: #ffffff;
+  color: #222222;
+  text-shadow: none;
+}
+.jqx-fill-state-normal-bootstrap
+{
+  font-family:  'Droid-Sans', sans-serif;
+}
+.jqx-button-bootstrap
+{
+  font-family:  'Droid-Sans', sans-serif;
+}
+.jqx-grid-selectionarea-bootstrap
+{
+}
+.jqx-widget-bootstrap .jqx-grid-cell-sort-bootstrap, .jqx-widget-bootstrap .jqx-grid-cell-filter-bootstrap, .jqx-widget-bootstrap .jqx-grid-cell-pinned-bootstrap, .jqx-grid-cell-sort-bootstrap, .jqx-grid-cell-filter-bootstrap, .jqx-grid-cell-pinned-bootstrap
+{
+  background-color: #E5E5E5;
+  color: #000000;
+  text-shadow: none;
+}
+.jqx-widget-bootstrap .jqx-grid-cell-alt-bootstrap, .jqx-widget-bootstrap .jqx-grid-cell-sort-alt-bootstrap, .jqx-widget-bootstrap .jqx-grid-cell-pinned-alt-bootstrap, .jqx-widget-bootstrap .jqx-grid-cell-filter-alt-bootstrap, .jqx-grid-cell-alt-bootstrap, .jqx-grid-cell-sort-alt-bootstrap, .jqx-grid-cell-filter-alt-bootstrap
+{
+  background-color: #f9f9f9;
+  color: #000000;
+  text-shadow: none;
+}
+.jqx-fill-state-hover-bootstrap, .jqx-widget-bootstrap .jqx-grid-cell-hover-bootstrap
+{
+  font-family:  'Droid-Sans', sans-serif;
+}
+.jqx-fill-state-pressed-bootstrap, .jqx-widget-bootstrap .jqx-grid-cell-selected-bootstrap
+{
+  font-family:  'Droid-Sans', sans-serif;
+}
+.jqx-switchbutton-label-on-bootstrap
+{
+}
+.jqx-tabs-title-selected-top-bootstrap, .jqx-tabs-selection-tracker-top-bootstrap
+{
+  color: #333333;
+  text-shadow: none;
+  border-color: #e6e6e6;
+  border-bottom: 1px solid #ffffff;
+  background-image: none ;
+  background-color: #ffffff;
+}
+.jqx-tabs-title-selected-bottom-bootstrap, .jqx-tabs-selection-tracker-bottom-bootstrap
+{
+  color: #333333;
+  text-shadow: none;
+  border-color: #e6e6e6;
+  border-top: 1px solid #ffffff;
+  background-image: none ;
+  background-color: #ffffff;
+}
+.jqx-splitter-splitbar-hover-bootstrap
+{
+}
+.jqx-splitter-splitbar-vertical-bootstrap, .jqx-splitter-splitbar-horizontal-bootstrap, .jqx-slider-track-horizontal-bootstrap, .jqx-slider-track-vertical-bootstrap
+{
+}
+.jqx-splitter-collapse-button-horizontal-bootstrap, .jqx-splitter-collapse-button-vertical-bootstrap, .jqx-slider-rangebar-bootstrap
+{
+}
+.jqx-scrollbar-state-normal-bootstrap
+{
+  background-color: #f0f0f0;
+  border-color: #f0f0f0;
+}
+.jqx-grid-bottomright-bootstrap, .jqx-panel-bottomright-bootstrap, .jqx-listbox-bottomright-bootstrap
+{
+  background-color: #f0f0f0;
+}
+.jqx-scrollbar-thumb-state-normal-bootstrap
+{
+  background-color: #e6e6e6;
+  background-color: #e6e6e6;
+  background-image: -moz-linear-gradient(left, #e6e6e6, #e6e6e6);
+  background-image: -ms-linear-gradient(left, #e6e6e6, #e6e6e6);
+  background-image: -o-linear-gradient(left, #e6e6e6, #e6e6e6);
+  background-image: -webkit-gradient(linear, left top, right top, from(#e6e6e6), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(left, #e6e6e6, #e6e6e6);
+  background-image: linear-gradient(left, #e6e6e6, #e6e6e6);
+  background-image: linear-gradient(left right, #e6e6e6, #e6e6e6);
+}
+.jqx-scrollbar-thumb-state-normal-horizontal-bootstrap
+{
+  background-color: #e6e6e6;
+  background-color: #e6e6e6;
+  background-image: -moz-linear-gradient(top, #e6e6e6, #e6e6e6);
+  background-image: -ms-linear-gradient(top, #e6e6e6, #e6e6e6);
+  background-image: -o-linear-gradient(top, #e6e6e6, #e6e6e6);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#e6e6e6), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(top, #e6e6e6, #e6e6e6);
+  background-image: linear-gradient(top, #e6e6e6, #e6e6e6);
+  background-image: linear-gradient(to bottom, #e6e6e6, #e6e6e6);
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+}
+.jqx-scrollbar-thumb-state-hover-bootstrap
+{
+  background-color: #e6e6e6;
+  border-color: #e6e6e6;
+  background-image: -moz-linear-gradient(left, #e6e6e6, #e6e6e6);
+  background-image: -ms-linear-gradient(left, #e6e6e6, #e6e6e6);
+  background-image: -o-linear-gradient(left, #e6e6e6, #e6e6e6);
+  background-image: -webkit-gradient(linear, left top, right top, from(#e6e6e6), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(left, #e6e6e6, #e6e6e6);
+  background-image: linear-gradient(left, #e6e6e6, #e6e6e6);
+  background-image: linear-gradient(left right, #e6e6e6, #e6e6e6);
+}
+.jqx-scrollbar-thumb-state-hover-horizontal-bootstrap
+{
+  background-color: #e6e6e6;
+  border-color: #e6e6e6;
+  background-image: -moz-linear-gradient(top, #e6e6e6, #e6e6e6);
+  background-image: -ms-linear-gradient(top, #e6e6e6, #e6e6e6);
+  background-image: -o-linear-gradient(top, #e6e6e6, #e6e6e6);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#e6e6e6), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(top, #e6e6e6, #e6e6e6);
+  background-image: linear-gradient(top, #e6e6e6, #e6e6e6);
+  background-image: linear-gradient(to bottom, #e6e6e6, #e6e6e6);
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+}
+.jqx-scrollbar-thumb-state-pressed-bootstrap
+{
+  background-color: #d9d9d9;
+  border-color: #d9d9d9;
+  background-image: -moz-linear-gradient(left, #d9d9d9, #d9d9d9);
+  background-image: -ms-linear-gradient(left, #d9d9d9, #d9d9d9);
+  background-image: -o-linear-gradient(left, #d9d9d9, #d9d9d9);
+  background-image: -webkit-gradient(linear, left top, right top, from(#d9d9d9), to(#d9d9d9));
+  background-image: -webkit-linear-gradient(left, #d9d9d9, #d9d9d9);
+  background-image: linear-gradient(left, #d9d9d9, #d9d9d9);
+  background-image: linear-gradient(left right, #d9d9d9, #d9d9d9);
+}
+.jqx-scrollbar-thumb-state-pressed-horizontal-bootstrap
+{
+  background-color: #d9d9d9;
+  border-color: #d9d9d9;
+  background-image: -moz-linear-gradient(top, #d9d9d9, #d9d9d9);
+  background-image: -ms-linear-gradient(top, #d9d9d9, #d9d9d9);
+  background-image: -o-linear-gradient(top, #d9d9d9, #d9d9d9);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#d9d9d9), to(#d9d9d9));
+  background-image: -webkit-linear-gradient(top, #d9d9d9, #d9d9d9);
+  background-image: linear-gradient(top, #d9d9d9, #d9d9d9);
+  background-image: linear-gradient(to bottom, #d9d9d9, #d9d9d9);
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+}
+.jqx-scrollbar-button-state-normal-bootstrap
+{
+  background-color: #f0f0f0;
+  background-image: -moz-linear-gradient(top, #f0f0f0, #f0f0f0);
+  background-image: -ms-linear-gradient(top, #f0f0f0, #f0f0f0);
+  background-image: -o-linear-gradient(top, #f0f0f0, #f0f0f0);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#f0f0f0), to(#f0f0f0));
+  background-image: -webkit-linear-gradient(top, #f0f0f0, #f0f0f0);
+  background-image: linear-gradient(top, #f0f0f0, #f0f0f0);
+  background-image: linear-gradient(to bottom, #f0f0f0, #f0f0f0);
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+}
+.jqx-scrollbar-button-state-hover-bootstrap
+{
+  background-color: #e6e6e6;
+  border-color: #b3b3b3;
+  background-image: -moz-linear-gradient(top, #e6e6e6, #e6e6e6);
+  background-image: -ms-linear-gradient(top, #e6e6e6, #e6e6e6);
+  background-image: -o-linear-gradient(top, #e6e6e6, #e6e6e6);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#e6e6e6), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(top, #e6e6e6, #e6e6e6);
+  background-image: linear-gradient(top, #e6e6e6, #e6e6e6);
+  background-image: linear-gradient(to bottom, #e6e6e6, #e6e6e6);
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+}
+.jqx-scrollbar-button-state-pressed-bootstrap
+{
+  background-color: #d9d9d9;
+  border-color: #b3b3b3;
+  background-image: -moz-linear-gradient(top, #d9d9d9, #d9d9d9);
+  background-image: -ms-linear-gradient(top, #d9d9d9, #d9d9d9);
+  background-image: -o-linear-gradient(top, #d9d9d9, #d9d9d9);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#d9d9d9), to(#d9d9d9));
+  background-image: -webkit-linear-gradient(top, #d9d9d9, #d9d9d9);
+  background-image: linear-gradient(top, #d9d9d9, #d9d9d9);
+  background-image: linear-gradient(to bottom, #d9d9d9, #d9d9d9);
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+}
+.jqx-radiobutton-check-checked-bootstrap
+{
+  background: #666666;
+  width: 7px;
+  height: 7px;
+  margin-left: 2px;
+  margin-top: 2px;
+  border-width: 1px;
+  border-style: solid;
+}
+.jqx-rc-tl-bootstrap
+{
+  -moz-border-radius-topleft: 4px;
+  -webkit-border-radius-topleft: 4px;
+  border-radius-topleft: 4px;
+}
+.jqx-rc-tr-bootstrap
+{
+  -moz-border-radius-topright: 4px;
+  -webkit-border-radius-topright: 4px;
+  border-radius-topright: 4px;
+}
+.jqx-rc-bl-bootstrap
+{
+  -moz-border-radius-bottomleft: 4px;
+  -webkit-border-radius-bottomleft: 4px;
+  border-radius-bottomleft: 4px;
+}
+.jqx-rc-br-bootstrap
+{
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-radius-bottomright: 4px;
+  border-radius-bottomright: 4px;
+}
+.jqx-rc-t-bootstrap
+{
+  -moz-border-radius-topleft: 4px;
+  -webkit-border-top-left-radius: 4px;
+  border-top-left-radius: 4px;
+  -moz-border-radius-topright: 4px;
+  -webkit-border-top-right-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.jqx-rc-b-bootstrap
+{
+  -moz-border-radius-bottomleft: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.jqx-rc-r-bootstrap
+{
+  -moz-border-radius-topright: 4px;
+  -webkit-border-top-right-radius: 4px;
+  border-top-right-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.jqx-rc-l-bootstrap
+{
+  -moz-border-radius-topleft: 4px;
+  -webkit-border-top-left-radius: 4px;
+  border-top-left-radius: 4px;
+  -moz-border-radius-bottomleft: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.jqx-radiobutton-default-bootstrap, .jqx-radiobutton-bootstrap, .jqx-radiobutton-check-checked-bootstrap, .jqx-radiobutton-hover-bootstrap, .jqx-radiobutton-check-indeterminate-bootstrap, .jqx-radiobutton-check-indeterminate-disabled-bootstrap, .jqx-slider-button-bootstrap
+{
+  -moz-border-radius: 100% !important;
+  -webkit-border-radius: 100% !important;
+  border-radius: 100% !important;
+}
+.jqx-rc-all-bootstrap, .jqx-tooltip-bootstrap, .jqx-tooltip-text-bootstrap, .jqx-tooltip-main-bootstrap
+{
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+.jqx-grid-column-sortascbutton-bootstrap, .jqx-expander-arrow-bottom-bootstrap, .jqx-window-collapse-button-bootstrap, .jqx-menu-item-arrow-up-bootstrap, .jqx-menu-item-arrow-top-up-bootstrap, .jqx-icon-arrow-up-bootstrap
+{
+  background-image: url('images/icon-up.png');
+}
+.jqx-icon-arrow-up-hover-bootstrap
+{
+  background-image: url('images/icon-up.png');
+}
+.jqx-menu-item-arrow-up-selected-bootstrap, .jqx-icon-arrow-up-selected-bootstrap.jqx-expander-arrow-expanded-bootstrap
+{
+  background-image: url('images/icon-up.png');
+}
+.jqx-grid-column-menubutton-bootstrap, .jqx-grid-column-sortdescbutton-bootstrap, .jqx-expander-arrow-top-bootstrap, .jqx-window-collapse-button-collapsed-bootstrap, .jqx-menu-item-arrow-down-bootstrap, .jqx-menu-item-arrow-down-bootstrap, .jqx-tree-item-arrow-expand-bootstrap, .jqx-grid-group-expand-bootstrap, .jqx-widget-bootstrap .jqx-grid-group-expand-bootstrap, .jqx-icon-arrow-down-bootstrap
+{
+  background-image: url('images/icon-down.png');
+}
+.jqx-icon-arrow-down-hover-bootstrap
+{
+  background-image: url('images/icon-down.png');
+}
+.jqx-menu-item-arrow-down-selected-bootstrap, .jqx-icon-arrow-down-selected-bootstrap
+{
+  background-image: url('images/icon-down.png');
+}
+.jqx-tabs-arrow-left-bootstrap, .jqx-menu-item-arrow-top-left-bootstrap, .jqx-grid-group-collapse-rtl-bootstrap, .jqx-widget-bootstrap .jqx-grid-group-collapse-rtl-bootstrap, .jqx-icon-arrow-left-bootstrap, .jqx-icon-arrow-down-left-bootstrap
+{
+  background-image: url('images/icon-left.png');
+}
+.jqx-icon-arrow-left-hover-bootstrap
+{
+  background-image: url('images/icon-left.png');
+}
+.jqx-menu-vertical-bootstrap
+{
+  background: #ffffff;
+}
+.jqx-menu-item-arrow-left-selected-bootstrap, .jqx-icon-arrow-left-selected-bootstrap
+{
+  background-image: url('images/icon-left.png');
+}
+.jqx-tabs-arrow-right-bootstrap, .jqx-menu-item-arrow-top-right-bootstrap, .jqx-menu-item-arrow-collapse-bootstrap, .jqx-grid-group-collapse-bootstrap, .jqx-widget-bootstrap .jqx-grid-group-collapse-bootstrap, .jqx-icon-arrow-right-bootstrap
+{
+  background-image: url('images/icon-right.png');
+}
+.jqx-icon-arrow-right-hover-bootstrap
+{
+  background-image: url('images/icon-right.png');
+}
+.jqx-menu-item-arrow-right-selected-bootstrap, .jqx-icon-arrow-right-selected-bootstrap
+{
+  background-image: url('images/icon-right.png');
+}
+.jqx-window-close-button-bootstrap, .jqx-tabs-close-button-bootstrap, .icon-close-bootstrap
+{
+  background-image: url('images/close.png');
+}
+.jqx-tabs-close-button-selected-bootstrap
+{
+  background-image: url('images/close.png');
+}
+.jqx-tabs-close-button-hover-bootstrap
+{
+  background-image: url('images/close.png');
+}
+.jqx-widget-bootstrap .jqx-grid-column-header-bootstrap, .jqx-widget-bootstrap .jqx-grid-cell-bootstrap, .jqx-widget-bootstrap .jqx-grid-group-cell-bootstrap, .jqx-grid-cell-bootstrap
+{
+  border-color: #cccccc;
+}
+.jqx-checkbox-check-checked-bootstrap
+{
+  background-image: url('images/check_black.png');
+}
+.jqx-checkbox-check-indeterminate-bootstrap
+{
+  background-image: url('images/check_indeterminate_black.png');
+}
+.jqx-tooltip-bootstrap, .jqx-tooltip-main-bootstrap
+{
+}
+.jqx-combobox-content-bootstrap, .jqx-input-bootstrap
+{
+  color: #333333;
+  text-shadow: none;
+  border-color: #cccccc;
+  background-color: #ffffff;
+}
+.jqx-combobox-input-bootstrap
+{
+  color: #333333;
+  text-shadow: none;
+}
+.jqx-input-content-bootstrap
+{
+  color: #333333;
+  text-shadow: none;
+  background-color: #ffffff;
+}
+.jqx-fill-state-focus-bootstrap, .jqx-popup-bootstrap .jqx-fill-state-focus-bootstrap
+{
+  border-color: #52A8EC;
+}
+.jqx-popup-bootstrap.jqx-listbox-bootstrap, .jqx-popup-bootstrap.jqx-calendar-bootstrap,.jqx-menu-dropdown-bootstrap,  .jqx-popup-bootstrap.jqx-dropdownbutton-popup-bootstrap
+{
+  color: #333333;
+  text-shadow: none;
+  border-color: #e6e6e6;
+  background-color: #ffffff;
+}
+.jqx-menu-item-arrow-right-bootstrap, .jqx-tree-item-arrow-collapse-bootstrap
+{
+  background-image: url('images/icon-right.png');
+}
+.jqx-menu-item-arrow-left-bootstrap
+{
+  background-image: url('images/icon-left.png');
+}
+.jqx-tree-item-arrow-expand-bootstrap
+{
+  background-image: url('images/icon-down.png');
+}
+.jqx-menu-item-arrow-right-hover-bootstrap
+{
+  background-image: url('images/icon-right.png');
+}
+.jqx-menu-item-arrow-left-hover-bootstrap
+{
+  background-image: url('images/icon-left.png');
+}
+.jqx-menu-item-arrow-right-selected-bootstrap
+{
+  background-image: url('images/icon-right-white.png');
+}
+.jqx-menu-item-arrow-left-selected-bootstrap
+{
+  background-image: url('images/icon-left-white.png');
+}
+.jqx-scrollbar-bootstrap .jqx-icon-arrow-up-bootstrap
+{
+  background-image: url('images/icon-up.png');
+}
+.jqx-scrollbar-bootstrap .jqx-icon-arrow-left-bootstrap
+{
+  background-image: url('images/icon-left.png');
+}
+.jqx-scrollbar-bootstrap .jqx-icon-arrow-right-bootstrap
+{
+  background-image: url('images/icon-right.png');
+}
+.jqx-scrollbar-bootstrap .jqx-icon-arrow-bottom-bootstrap
+{
+  background-image: url('images/icon-bottom.png');
+}
+.jqx-scrollbar-bootstrap .jqx-icon-arrow-up-hover-bootstrap
+{
+  background-image: url('images/icon-up.png');
+}
+.jqx-scrollbar-bootstrap .jqx-icon-arrow-left-hover-bootstrap
+{
+  background-image: url('images/icon-left.png');
+}
+.jqx-scrollbar-bootstrap .jqx-icon-arrow-right-hover-bootstrap
+{
+  background-image: url('images/icon-right.png');
+}
+.jqx-scrollbar-bootstrap .jqx-icon-arrow-bottom-hover-bootstrap
+{
+  background-image: url('images/icon-bottom.png');
+}
+.jqx-scrollbar-bootstrap .jqx-icon-arrow-up-selected-bootstrap
+{
+  background-image: url('images/icon-up.png');
+}
+.jqx-scrollbar-bootstrap .jqx-icon-arrow-left-selected-bootstrap
+{
+  background-image: url('images/icon-left.png');
+}
+.jqx-scrollbar-bootstrap .jqx-icon-arrow-right-selected-bootstrap
+{
+  background-image: url('images/icon-right.png');
+}
+.jqx-scrollbar-bootstrap .jqx-icon-arrow-bottom-selected-bootstrap
+{
+  background-image: url('images/icon-bottom.png');
+}
+.jqx-calendar-bootstrap .jqx-icon-arrow-up-bootstrap, .jqx-tabs-header-bootstrap .jqx-icon-arrow-up-bootstrap
+{
+}
+.jqx-calendar-bootstrap .jqx-icon-arrow-left-bootstrap, .jqx-tabs-header-bootstrap .jqx-icon-arrow-left-bootstrap
+{
+}
+.jqx-calendar-bootstrap .jqx-icon-arrow-right-bootstrap, .jqx-tabs-header-bootstrap .jqx-icon-arrow-right-bootstrap
+{
+}
+.jqx-calendar-bootstrap .jqx-icon-arrow-bottom-bootstrap, .jqx-tabs-header-bootstrap .jqx-icon-arrow-bottom-bootstrap
+{
+}
+.jqx-widget-bootstrap .jqx-grid-cell-bootstrap, .jqx-listitem-state-normal-bootstrap, .jqx-menu-item-normal-bootstrap, .jqx-tree-item-normal-bootstrap, .jqx-calendar-cell-bootstrap, .jqx-grid-cell-bootstrap,.jqx-menu-vertical-bootstrap .jqx-menu-item-top-normal-bootstrap, .jqx-input-popup-bootstrap .jqx-fill-state-normal-bootstrap,
+{
+  color: #0088CC;
+  text-shadow: none;
+  font-family:  'Droid-Sans', sans-serif;
+}
+.jqx-widget-bootstrap .jqx-grid-cell-hover-bootstrap, .jqx-listitem-state-hover-bootstrap, .jqx-menu-item-hover-bootstrap, .jqx-tree-item-hover-bootstrap, .jqx-calendar-cell-hover-bootstrap, .jqx-grid-cell-hover-bootstrap,.jqx-menu-vertical-bootstrap .jqx-menu-item-top-hover-bootstrap, .jqx-input-popup-bootstrap .jqx-fill-state-hover-bootstrap,.jqx-input-button-header-bootstrap, .jqx-input-popup-bootstrap .jqx-fill-state-pressed-bootstrap,.jqx-input-button-header-bootstrap
+{
+  color: #333333 !important;
+  text-shadow: none;
+  border-color: #ebebeb !important;
+  background-color: #ebebeb !important;
+  background-image: -moz-linear-gradient(top, #ebebeb, #ebebeb) !important;
+  background-image: -ms-linear-gradient(top, #ebebeb, #ebebeb) !important;
+  background-image: -o-linear-gradient(top, #ebebeb, #ebebeb) !important;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#ebebeb), to(#ebebeb)) !important;
+  background-image: -webkit-linear-gradient(top, #ebebeb, #ebebeb) !important;
+  background-image: linear-gradient(top, #ebebeb, #ebebeb) !important;
+  background-image: linear-gradient(to bottom, #ebebeb, #ebebeb) !important;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  font-family:  'Droid-Sans', sans-serif;
+}
+.jqx-widget-bootstrap  .jqx-grid-cell-selected-bootstrap, .jqx-listitem-state-selected-bootstrap, .jqx-menu-item-selected-bootstrap, .jqx-tree-item-selected-bootstrap, .jqx-calendar-cell-selected-bootstrap, .jqx-grid-cell-selected-bootstrap,.jqx-menu-vertical-bootstrap .jqx-menu-item-top-selected-bootstrap, .jqx-grid-selectionarea-bootstrap
+{
+  color: #ffffff !important;
+  text-shadow: none;
+  border-color: #357ebd !important;
+  background-color: #428bca !important;
+  background-image: -moz-linear-gradient(top, #428bca, #428bca) !important;
+  background-image: -ms-linear-gradient(top, #428bca, #428bca) !important;
+  background-image: -o-linear-gradient(top, #428bca, #428bca) !important;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#428bca), to(#428bca)) !important;
+  background-image: -webkit-linear-gradient(top, #428bca, #428bca) !important;
+  background-image: linear-gradient(top, #428bca, #428bca) !important;
+  background-image: linear-gradient(to bottom, #428bca, #428bca) !important;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  font-family:  'Droid-Sans', sans-serif;
+}
+.jqx-slider-rangebar-bootstrap
+{
+  background-color: #428bca !important;
+}
+.jqx-progressbar-value-bootstrap
+{
+  background-color: #428bca !important;
+  background-image: -moz-linear-gradient(top, #428bca, #428bca) !important;
+  background-image: -ms-linear-gradient(top, #428bca, #428bca) !important;
+  background-image: -o-linear-gradient(top, #428bca, #428bca) !important;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#428bca), to(#428bca)) !important;
+  background-image: -webkit-linear-gradient(top, #428bca, #428bca) !important;
+  background-image: linear-gradient(top, #428bca, #428bca) !important;
+  background-image: linear-gradient(to bottom, #428bca, #428bca) !important;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+}
+.jqx-progressbar-value-vertical-bootstrap
+{
+  background-color: #428bca !important;
+  background-image: -moz-linear-gradient(left, #428bca, #428bca) !important;
+  background-image: -ms-linear-gradient(left, #428bca, #428bca) !important;
+  background-image: -o-linear-gradient(left, #428bca, #428bca) !important;
+  background-image: -webkit-gradient(linear, left top, right top, from(#428bca), to(#428bca)) !important;
+  background-image: -webkit-linear-gradient(left, #428bca, #428bca) !important;
+  background-image: linear-gradient(left, #428bca, #428bca) !important;
+  background-image: linear-gradient(left right, #428bca, #428bca) !important;
+}
+.jqx-splitter-collapse-button-horizontal-bootstrap
+{
+  background-color: #428bca !important;
+}
+.jqx-splitter-collapse-button-vertical-bootstrap
+{
+  background-color: #428bca !important;
+}
+.jqx-tabs-title-bootstrap, .jqx-tabs-title-bottom-bootstrap, .jqx-expander-header-bootstrap
+{
+  color: #0088CC !important;
+  text-shadow: none;
+}
+.jqx-tabs-title-hover-top-bootstrap, .jqx-tabs-title-hover-bottom-bootstrap, .jqx-expander-header-bootstrap:hover
+{
+  color: #333333;
+  text-shadow: none;
+}
+.jqx-tabs-title-selected-top-bootstrap, jqx-tabs-selection-tracker-top-bootstrap.jqx-tabs-title-selected-bottom-bootstrap, jqx-tabs-selection-tracker-bottom-bootstrap, jqx-expander-header-expanded-bootstrap
+{
+  color: #0088CC !important;
+  text-shadow: none;
+}
+.jqx-icon-calendar-bootstrap
+{
+  background-image: url('images/icon-calendar.png');
+}
+.jqx-icon-calendar-hover-bootstrap
+{
+  background-image: url('images/icon-calendar.png');
+}
+.jqx-icon-calendar-pressed-bootstrap
+{
+  background-image: url('images/icon-calendar.png');
+}
+.jqx-icon-first-bootstrap
+{
+  background-image: url('images/icon-first.png');
+}
+.jqx-icon-first-hover-bootstrap
+{
+  background-image: url('images/icon-first.png');
+}
+.jqx-icon-first-selected-bootstrap
+{
+  background-image: url('images/icon-first.png');
+}
+.jqx-icon-last-bootstrap
+{
+  background-image: url('images/icon-last.png');
+}
+.jqx-icon-last-hover-bootstrap
+{
+  background-image: url('images/icon-last.png');
+}
+.jqx-icon-last-selected-bootstrap
+{
+  background-image: url('images/icon-last.png');
+}
+.jqx-grid-cell-bootstrap.jqx-grid-cell-bootstrap>.jqx-grid-group-expand-bootstrap
+{
+  background-image: url('images/icon-down.png');
+}
+.jqx-grid-cell-bootstrap.jqx-grid-cell-hover-bootstrap>.jqx-grid-group-expand-bootstrap
+{
+  background-image: url('images/icon-down.png');
+}
+.jqx-grid-cell-bootstrap.jqx-grid-cell-selected-bootstrap>.jqx-grid-group-expand-bootstrap
+{
+  background-image: url('images/icon-down-white.png');
+}
+.jqx-grid-cell-bootstrap.jqx-grid-cell-bootstrap>.jqx-grid-group-collapse-bootstrap
+{
+  background-image: url('images/icon-right.png');
+}
+.jqx-grid-cell-bootstrap.jqx-grid-cell-hover-bootstrap>.jqx-grid-group-collapse-bootstrap
+{
+  background-image: url('images/icon-right.png');
+}
+.jqx-grid-cell-bootstrap.jqx-grid-cell-selected-bootstrap>.jqx-grid-group-collapse-bootstrap
+{
+  background-image: url('images/icon-right-white.png');
+}
+.jqx-grid-cell-bootstrap.jqx-grid-cell-bootstrap>.jqx-grid-group-expand-rtl-bootstrap
+{
+  background-image: url('images/icon-down.png');
+}
+.jqx-grid-cell-bootstrap.jqx-grid-cell-hover-bootstrap>.jqx-grid-group-expand-rtl-bootstrap
+{
+  background-image: url('images/icon-down.png');
+}
+.jqx-grid-cell-bootstrap.jqx-grid-cell-selected-bootstrap>.jqx-grid-group-expand-rtl-bootstrap
+{
+  background-image: url('images/icon-down-white.png');
+}
+.jqx-grid-cell-bootstrap.jqx-grid-cell-bootstrap>.jqx-grid-group-collapse-rtl-bootstrap
+{
+  background-image: url('images/icon-left.png');
+}
+.jqx-grid-cell-bootstrap.jqx-grid-cell-hover-bootstrap>.jqx-grid-group-collapse-rtl-bootstrap
+{
+  background-image: url('images/icon-left.png');
+}
+.jqx-grid-cell-bootstrap.jqx-grid-cell-selected-bootstrap>.jqx-grid-group-collapse-rtl-bootstrap
+{
+  background-image: url('images/icon-left-white.png');
+}
+.jqx-grid-column-menubutton-bootstrap, .jqx-grid-column-sortdescbutton-bootstrap
+{
+  background-image: url('images/icon-down.png');
+}
+.jqx-grid-column-sortascbutton-bootstrap
+{
+  background-image: url('images/icon-up.png');
+}
+.jqx-icon-delete-bootstrap
+{
+  background-image: url('images/icon-delete.png');
+}
+.jqx-icon-edit-bootstrap
+{
+  background-image: url('images/icon-edit.png');
+}
+.jqx-icon-save-bootstrap
+{
+  background-image: url('images/icon-save.png');
+}
+.jqx-icon-cancel-bootstrap
+{
+  background-image: url('images/icon-cancel.png');
+}
+.jqx-icon-search-bootstrap
+{
+  background-image: url('images/icon-search.png');
+}
+.jqx-icon-plus-bootstrap
+{
+  background-image: url('images/icon-plus.png');
 }

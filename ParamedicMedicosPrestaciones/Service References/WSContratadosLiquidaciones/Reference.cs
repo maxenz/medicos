@@ -20,6 +20,10 @@ namespace ParamedicMedicosPrestaciones.WSContratadosLiquidaciones {
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Data.DataSet GetCoordinaciones(long pUsr);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetEstadoReclamo", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Data.DataSet GetEstadoReclamo(string pItmLiq);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetGuardiasDetalle", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Data.DataSet GetGuardiasDetalle(long pUsr, long pPer, long pCoo);
@@ -35,6 +39,10 @@ namespace ParamedicMedicosPrestaciones.WSContratadosLiquidaciones {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetMedicos", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Data.DataSet GetMedicos();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetMotivosReclamo", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Data.DataSet GetMotivosReclamo(long pClf);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetResumen", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -76,6 +84,10 @@ namespace ParamedicMedicosPrestaciones.WSContratadosLiquidaciones {
             return base.Channel.GetCoordinaciones(pUsr);
         }
         
+        public System.Data.DataSet GetEstadoReclamo(string pItmLiq) {
+            return base.Channel.GetEstadoReclamo(pItmLiq);
+        }
+        
         public System.Data.DataSet GetGuardiasDetalle(long pUsr, long pPer, long pCoo) {
             return base.Channel.GetGuardiasDetalle(pUsr, pPer, pCoo);
         }
@@ -90,6 +102,10 @@ namespace ParamedicMedicosPrestaciones.WSContratadosLiquidaciones {
         
         public System.Data.DataSet GetMedicos() {
             return base.Channel.GetMedicos();
+        }
+        
+        public System.Data.DataSet GetMotivosReclamo(long pClf) {
+            return base.Channel.GetMotivosReclamo(pClf);
         }
         
         public System.Data.DataSet GetResumen(long pUsr, long pPer, long pCoo) {

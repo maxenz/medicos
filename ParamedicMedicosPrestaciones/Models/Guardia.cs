@@ -28,6 +28,8 @@ namespace ParamedicMedicosPrestaciones.Models
         public double ImpPrestacionExcedente { get; set; }
         public double ImpAnticipo { get; set; }
         public double ImpFinal { get; set; }
+        public int Estado { get; set; }
+        public string FecMovimiento { get; set; }
 
     }
 }
