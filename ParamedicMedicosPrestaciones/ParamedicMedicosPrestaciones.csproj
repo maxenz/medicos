@@ -137,10 +137,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EstadoReclamoGuardia.cs" />
     <Compile Include="Models\Servicio.cs" />
     <Compile Include="Models\Guardia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\WSContratadosLiquidaciones\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\WSProduccionContratadosLiquidaciones\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -154,7 +160,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\img\404.gif" />
+    <Content Include="Content\img\error.png" />
     <Content Include="Content\img\paramedic.png" />
+    <Content Include="Content\img\valid.png" />
     <Content Include="Content\styles\bootstrap-select.css" />
     <Content Include="Content\styles\bootstrap-select.min.css" />
     <Content Include="Content\styles\bootstrap-theme.css" />
@@ -526,8 +534,12 @@
     <Content Include="Content\jqwidgets\styles\jqx.ui-sunny.css" />
     <Content Include="Content\jqwidgets\styles\jqx.web.css" />
     <Content Include="Content\jqwidgets\styles\jqx.windowsphone.css" />
+    <Content Include="Content\styles\bootstrapValidator.css" />
     <Content Include="Content\styles\droid-font.css" />
     <Content Include="Content\styles\main.css" />
+    <Content Include="Content\styles\messenger-spinner.css" />
+    <Content Include="Content\styles\messenger-theme-future.css" />
+    <Content Include="Content\styles\messenger.css" />
     <Content Include="Content\styles\shapes.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\styles\bootstrap-theme.css.map" />
@@ -536,6 +548,11 @@
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
+    <Content Include="Scripts\bootstrapValidator.js" />
+    <Content Include="Scripts\jquery.serialize-object.js" />
+    <Content Include="Scripts\messenger-theme-future.js" />
+    <Content Include="Scripts\messenger.js" />
+    <Content Include="Scripts\messenger.min.js" />
     <Content Include="Scripts\site\guardias.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -566,6 +583,12 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Service References\WSProduccionContratadosLiquidaciones\configuration91.svcinfo" />
+    <Content Include="Service References\WSProduccionContratadosLiquidaciones\configuration.svcinfo" />
+    <Content Include="Service References\WSProduccionContratadosLiquidaciones\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -583,8 +606,9 @@
     <Content Include="Views\Medicos\_Servicios.cshtml" />
     <Content Include="Views\Medicos\_Totalizador.cshtml" />
     <Content Include="Views\Medicos\_Resumen.cshtml" />
-    <None Include="Service References\WSContratadosLiquidaciones\WebServices1.wsdl" />
     <Content Include="Views\Medicos\_PopupRevisarGuardias.cshtml" />
+    <None Include="Service References\WSContratadosLiquidaciones\WebServices.wsdl" />
+    <Content Include="Service References\WSProduccionContratadosLiquidaciones\WebServices.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -597,6 +621,7 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\WSContratadosLiquidaciones\" />
+    <WCFMetadataStorage Include="Service References\WSProduccionContratadosLiquidaciones\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

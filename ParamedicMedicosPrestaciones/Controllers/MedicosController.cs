@@ -46,6 +46,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
             }
             else
             {
+                Session["usr_id_medico"] = usr;
                 ViewBag.UserName = dtUsuario.Rows[0]["NombreUsuario"].ToString();
                 ViewBag.MedicoName = dtUsuario.Rows[0]["NombreMedico"].ToString();
                 ViewBag.Acceso = Convert.ToInt32(dtUsuario.Rows[0]["Acceso"]);
@@ -111,7 +112,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
                 //Esto lo hago para no tener que ir a la base de datos cada vez que hago un select en un motivo
                 //Entonces tengo id/difIngreso en el value del select, y si esta en 1, habilito para modificar horario.
                 string idConDifIngreso = dtRow["ID"].ToString() + "/" + dtRow["flgDifIngreso"].ToString();
-                FiltroReclamo reclamo = new FiltroReclamo(idConDifIngreso,dtRow["Descripcion"].ToString());
+                FiltroReclamo reclamo = new FiltroReclamo(idConDifIngreso, dtRow["Descripcion"].ToString());
                 lstFtrReclamo.Add(reclamo);
             }
 
@@ -123,10 +124,10 @@ namespace ParamedicMedicosPrestaciones.Controllers
         // Obtengo los datos para el filtro de medicos (Si me llega el id de un medico, es porque es un medico el que está solicitando
         // el filtro, entonces solamente accede a su registro.
 
-        public JsonResult getFiltroMedicos(long usr_id = 0)
+        public JsonResult getFiltroMedicos(long usr_id, int esMedico = 0)
         {
             WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
-            DataSet dsMedicos = wsClient.GetMedicos();
+            DataSet dsMedicos = wsClient.GetMedicos(usr_id);
 
             List<Medico> lstMedicos = new List<Medico>();
 
@@ -140,7 +141,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
                 lstMedicos.Add(medico);
             }
 
-            if (usr_id != 0)
+            if (esMedico == 1)
             {
                 lstMedicos = lstMedicos.Where(x => x.UsuarioID == usr_id).ToList();
             }
@@ -213,7 +214,35 @@ namespace ParamedicMedicosPrestaciones.Controllers
         }
 
         //
+        // Obtengo los datos de estado del reclamo de la guardia. Para eso me llega el id de la guardia
+
+        public JsonResult GetEstadoReclamo(string idGuardia)
+        {
+            DataTable dtEstadoReclamo = getEstadoReclamoFromWebService(idGuardia);
+            EstadoReclamoGuardia estadoReclamo = getEstadoReclamoGuardiaFormatted(dtEstadoReclamo);
+
+            return Json(estadoReclamo, JsonRequestBehavior.AllowGet);
+        }
+
+        //
         // Obtengo datos de los diferentes webservices
+
+        private DataTable getEstadoReclamoFromWebService(string idGuardia)
+        {
+
+            WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
+            try
+            {
+                DataSet dsEstReclamo = wsClient.GetEstadoReclamo(idGuardia);
+                return dsEstReclamo.Tables[0];
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                return null;
+            }
+
+        }
 
         private DataSet getGuardiasFromWebService(long periodo, int coord, long usr_id)
         {
@@ -246,6 +275,25 @@ namespace ParamedicMedicosPrestaciones.Controllers
             {
                 return null;
             }
+
+        }
+
+        //Formateo la datarow del estadoreclamo para pasarselo a una instancia de EstadoReclamoGuardia
+
+        private EstadoReclamoGuardia getEstadoReclamoGuardiaFormatted(DataTable dt)
+        {
+            DataRow dr = dt.Rows[0];
+            EstadoReclamoGuardia estReclamo = new EstadoReclamoGuardia();
+            estReclamo.Cerrado = Convert.ToInt32(dr["Cerrado"]);
+            estReclamo.Conforme = Convert.ToInt32(dr["Conforme"]);
+            estReclamo.Entrada = dr["Entrada"].ToString();
+            estReclamo.Salida = dr["Salida"].ToString();
+            estReclamo.Reclamo = dr["Reclamo"].ToString();
+            estReclamo.Respuesta = dr["Respuesta"].ToString();
+            estReclamo.MotivoId = dr["MotivoId"].ToString();
+            estReclamo.Estado = Convert.ToInt32(dr["Estado"]);
+
+            return estReclamo;
 
         }
 
@@ -453,6 +501,71 @@ namespace ParamedicMedicosPrestaciones.Controllers
             return retVal;
 
         }
+
+
+        // --> Set reclamo de guardia
+        [HttpPost]
+        public int setReclamoGuardia(EstadoReclamoGuardia estadoReclamoGuardia)
+        {
+            string pHEnt = "", pMEnt = "", pHSal = "", pMSal = "", pObs = "", pItm = "";
+            int pMot = 0, motConDifHoraria = 0, pCnf = 0, pUsr = 0;
+
+            try
+            {
+                if (estadoReclamoGuardia.Conforme == 0)
+                {
+                    if (estadoReclamoGuardia.MotivoId == "" || estadoReclamoGuardia.Reclamo == "")
+                    {
+                        return 0;
+                    }
+
+                    pMot = getMotivoDiferencia(estadoReclamoGuardia.MotivoId, 0);
+                    motConDifHoraria = getMotivoDiferencia(estadoReclamoGuardia.MotivoId, 1);
+                    if (motConDifHoraria == 1)
+                    {
+
+                        pHEnt = estadoReclamoGuardia.Entrada.Substring(0, 2);
+                        pMEnt = estadoReclamoGuardia.Entrada.Substring(3, 2);
+                        pHSal = estadoReclamoGuardia.Salida.Substring(0, 2);
+                        pMSal = estadoReclamoGuardia.Salida.Substring(3, 2);
+
+                    }
+
+                    pObs = estadoReclamoGuardia.Reclamo;
+
+                }
+
+                pUsr = Convert.ToInt32(Session["usr_id_medico"]);
+                pItm = estadoReclamoGuardia.GuardiaID;
+                pCnf = estadoReclamoGuardia.Conforme;
+
+                WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
+                DataTable dtResultadoReclamo = wsClient.SetReclamo(pItm, pCnf, pMot, pHEnt, pMEnt, pHSal, pMSal, pObs, pUsr).Tables[0];
+                if (Convert.ToInt32(dtResultadoReclamo.Rows[0]["Resultado"]) == 1)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                return 0;
+            }
+
+        }
+
+        private int getMotivoDiferencia(string pMot, int idx)
+        {
+
+            return Convert.ToInt32(pMot.Split('/')[idx]);
+
+        }
+
 
     }
 }

@@ -21,7 +21,11 @@ namespace ParamedicMedicosPrestaciones
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                         "~/Scripts/vendor/bootstrap.js",
                         "~/Scripts/bootstrap-select.js",
-                        "~/Scripts/jquery.maskedinput.js"
+                        "~/Scripts/jquery.maskedinput.js",
+                        "~/Scripts/bootstrapValidator.js",
+                        "~/Scripts/messenger.js",
+                        "~/Scripts/messenger-theme-future.js",
+                        "~/Scripts/jquery.serialize-object.js"                    
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/main").Include(
@@ -46,6 +50,11 @@ namespace ParamedicMedicosPrestaciones
                         "~/Content/jqwidgets/jqxcheckbox.js",
                         "~/Content/jqwidgets/jqxcombobox.js",
                         "~/Content/jqwidgets/jqxgrid.filter.js",
+                        "~/Content/jqwidgets/jqxdatetimeinput.js",
+                        "~/Content/jqwidgets/jqxcalendar.js",
+                        "~/Content/jqwidgets/jqxtooltip.js",
+                        "~/Content/jqwidgets/jqxvalidator.js",
+                        "~/Content/jqwidgets/globalization/globalize.js",
                         "~/Content/jqwidgets/jqxgrid.columnsresize.js" 
                         ));
 
@@ -59,6 +68,10 @@ namespace ParamedicMedicosPrestaciones
                         "~/Content/styles/bootstrap.css",
                         "~/Content/styles/bootstrap-theme.css",
                         "~/Content/styles/bootstrap-select.css",
+                        "~/Content/styles/bootstrapValidator.css",
+                        "~/Content/styles/messenger.css",
+                        "~/Content/styles/messenger-theme-future.css",
+                        "~/Content/styles/messenger-spinner.css",
                         "~/Content/styles/shapes.css",
                         "~/Content/jqwidgets/styles/jqx.base.css",
                         "~/Content/jqwidgets/styles/jqx.arctic.css",

@@ -1,4 +1,16 @@
 ﻿$("#btnConsultarGuardias").jqxButton({ width: '100', theme: 'bootstrap', height: '26' });
+$("#popupGrdEntrada").jqxDateTimeInput({ width: '100%', height: '32', formatString: 'HH:mm', disabled: true, showCalendarButton: false, theme: 'bootstrap', textAlign: 'center' });
+$("#popupGrdSalida").jqxDateTimeInput({ width: '100%', height: '32', formatString: 'HH:mm', disabled: true, showCalendarButton: false, theme: 'bootstrap', textAlign: 'center' });
+
+$('#rowResolucionForAdmin').hide();
+$('#rowEstadoForMedico').hide();
+
+Messenger().options = {
+    extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+    theme: 'flat',
+};
+
+
 
 // --> Seteo dropdownlist para seleccionar periodo en la grilla de guardias
 
@@ -23,10 +35,10 @@ $("#ftrPeriodoGuardias").jqxDropDownList({
 
 // --> Seteo dropdownlist para seleccionar medico en la grilla de guardias
 
-var urlMedicoGuardias = 'Medicos/getFiltroMedicos';
+var urlMedicoGuardias = 'Medicos/getFiltroMedicos?usr_id=' + usr_id_medico;
 
 if (tipoAcceso == 1) {
-    urlMedicoGuardias += '?usr_id=' + usr_id_medico;
+    urlMedicoGuardias += '&esMedico=1';
     $('#colMedicoGuardias').hide();
     $('#colMedicoServicios').hide();
     $('#colMedicoResumen').hide();
@@ -358,13 +370,9 @@ $('#ftrMotivoReclamoGuardias').on('select', function (event) {
     var idReclamo = parseInt(vReclamo[0]);
     var difIngreso = parseInt(vReclamo[1]);
     if (difIngreso == 0) {
-        $('input.popupGrdHorario').each(function () {
-            $(this).prop('readonly', true);
-        });
+        enableDisablePopupGuardiaHorarios(true);
     } else {
-        $('input.popupGrdHorario').each(function () {
-            $(this).prop('readonly', false);
-        });
+        enableDisablePopupGuardiaHorarios(false);
     }
 
 });
@@ -372,64 +380,170 @@ $('#ftrMotivoReclamoGuardias').on('select', function (event) {
 // Muestro popup de reclamo de guardia
 function showPopupGuardia() {
 
-    $('#popupRevisarGuardias').modal('show');
+    var rowindex = $('#grdGuardias').jqxGrid('getselectedrowindex');
+    var row = $('#grdGuardias').jqxGrid('getrowdata', rowindex);
+    var idGuardia = row.ID;
+
+    $.ajax({
+        url: 'Medicos/GetEstadoReclamo',
+        dataType: 'json',
+        data: { idGuardia: idGuardia },
+        type: 'GET',
+        success: function (estadoReclamo) {
+            // Limpio todos los inputs, y saco de la grilla los datos necesarios para ir a buscar al servidor y setear datos en el popup
+            limpiarInputsPopupGuardia();
+
+            //Datos que extraigo de la grilla
+            var fechaGuardia = row.FecMovimiento;
+            var movil = row.Movil;
+
+            $('#GuardiaID').val(row.ID);
+
+            // --> Datos que extraigo del servidor
+            console.log(estadoReclamo.Entrada.split("/")[0]);
+            $('#popupGrdObservaciones').val(estadoReclamo.Reclamo);
+            $('#popupGrdRespuesta').val(estadoReclamo.Respuesta);
+            $('#popupGrdEntrada').jqxDateTimeInput('setDate', new Date(2014, 1, 1, estadoReclamo.Entrada.split(":")[0], estadoReclamo.Entrada.split(":")[1]));
+            $('#popupGrdSalida').jqxDateTimeInput('setDate', new Date(2014, 1, 1, estadoReclamo.Salida.split(":")[0], estadoReclamo.Salida.split(":")[1]));
+            $("input:radio[name=Conforme][value=" + estadoReclamo.Conforme + "]").prop('checked', true);
+            $('#titlePopupGuardias').text('Confirmación de la guardia del ' + fechaGuardia + ' en el móvil ' + movil);
+
+            //estadoReclamo.MotivoId = "14";
+            // Toda esta movida la hago porque no puedo poner 2 values en el dropdown de motivo de reclamo. Entonces tengo
+            // id de motivo reclamo / si acepta diferencia horaria
+            var motivo = estadoReclamo.MotivoId + "/0";
+            var itemMotivo = $("#ftrMotivoReclamoGuardias").jqxDropDownList('getItemByValue', motivo);
+            if (itemMotivo == null) {
+                itemMotivo = $("#ftrMotivoReclamoGuardias").jqxDropDownList('getItemByValue', estadoReclamo.MotivoId + "/1");
+            }
+            $("#ftrMotivoReclamoGuardias").jqxDropDownList('selectItem', itemMotivo);
+
+            //tipoAcceso = 3;
+            //estadoReclamo.Estado = 0;
+            //tipoAcceso = 1;
+
+            switch (tipoAcceso) {
+
+                case 1:
+                    if (estadoReclamo.Respuesta != "") {
+                        enableDisablePopupGuardiaGeneral(true, true, true, true);
+
+                        enableDisablePopupGuardiaConformidad(true);
+                        enableDisablePopupGuardiaBotonGuardar(true);
+
+                        if (estadoReclamo.Conforme == 0) $('#rowEstadoForMedico').show();
+
+                        switch (estadoReclamo.Estado) {
+                            case 0:
+                                $('#alertRowEstadoForMedico').addClass('alert-warning');
+                                $('#txtRowEstadoForMedico').html('<span class="glyphicon glyphicon-exclamation-sign amarillo icon-right-margin big-icon "></span> Su reclamo está pendiente de aprobación');
+                                break;
+                            case 1:
+                                $('#alertRowEstadoForMedico').addClass('alert-success');
+                                $('#txtRowEstadoForMedico').html('<span class="glyphicon glyphicon-ok-circle verde icon-right-margin big-icon"></span> Su reclamo ha sido aceptado');
+                                break;
+                            case 2:
+                                $('#alertRowEstadoForMedico').addClass('alert-danger');
+                                $('#txtRowEstadoForMedico').html('<span class="glyphicon glyphicon-remove-circle rojo icon-right-margin big-icon "></span> Su reclamo ha sido rechazado.');
+                                break;
+                        }
+
+                    } else {
+                        if (estadoReclamo.Conforme == 1) {
+                            enableDisablePopupGuardiaGeneral(true, true, true, true);
+                        } else {
+                            enableDisablePopupGuardiaGeneral(false, false, false, false);
+                        }
+                    }
+                    break;
+                case 2:
+                    $('#rowResolucionForAdmin').show();
+                    enableDisablePopupGuardiaGeneral(true, true, true, true);
+                    enableDisablePopupGuardiaConformidad(true);
+                    enableDisablePopupGuardiaBotonGuardar(true);
+                    enableDisablePopupGuardiaRadioRespuesta(true);
+                    break;
+                case 3:
+                    $('#rowResolucionForAdmin').show();
+                    enableDisablePopupGuardiaGeneral(true, true, true, true);
+                    enableDisablePopupGuardiaConformidad(true);
+                    enableDisablePopupGuardiaRta(false);
+                    break;
+
+            }
+
+            $('#popupRevisarGuardias').modal('show');
+        },
+        error: function () {
+            alert('Error, no se pudo recuperar la guardia seleccionada');
+        }
+    });
+}
+
+function getHoraMinutosEstadoReclamo(fechaReclamo, idx) {
+
+    var vHorarioEntrada = fechaReclamo.split(" ");
+    var vHHMMEntrada = vHorarioEntrada[1].split(":");
+    return vHHMMEntrada[idx];
 
 }
 
 // Cuando abro el popup de reclamo de guardias ..
-$('#popupRevisarGuardias').on('show.bs.modal', function (event) {
+//$('#popupRevisarGuardias').on('show.bs.modal', function (event) {
 
-    // Limpio todos los inputs, y saco de la grilla los datos necesarios para ir a buscar al servidor y setear datos en el popup
+//});
 
-    limpiarInputsPopupGuardia();
-    var rowindex = $('#grdGuardias').jqxGrid('getselectedrowindex');
-    var row = $('#grdGuardias').jqxGrid('getrowdata', rowindex);
-    var fechaGuardia = row.FecMovimiento;
-    var movil = row.Movil;
-    var estado = row.Estado;
-    console.log(row.ID);
+function enableDisablePopupGuardiaConformidad(vBool) {
+    $('input:radio[name="Conforme"]').each(function () {
+        $(this).prop('disabled', vBool);
+    });
+}
 
-    $('#titlePopupGuardias').text('Confirmación de la guardia del ' + fechaGuardia + ' en el móvil ' + movil);
+function enableDisablePopupGuardiaRadioRespuesta(vBool) {
+    $('input:radio[name="rdRespuestaAdmin"]').each(function () {
+        $(this).prop('disabled', vBool);
+    });
+}
 
-    //Si hay conformidad, entonces escondo los demas campos que no tiene sentido mostrar.
+function enableDisablePopupGuardiaObserv(vBool) {
+    $('#popupGrdObservaciones').prop('readonly', vBool);
+}
 
-    if (estado == 1) {
-        $('input:radio[name=rdConformidad]')[0].checked = true;
-        setConformidad();
-    } else {
+function enableDisablePopupGuardiaRta(vBool) {
+    $('#popupGrdRespuesta').prop('readonly', vBool);
+}
 
-        //Si no hay conformidad, muestro los campos a llenar
-        //Acá tambien tengo que setear todo lo que traigo de la base de datos, si es que fue cargado este reclamo
-        $('input:radio[name=rdConformidad]')[1].checked = true;
-        setNoConformidad();
-    }
+function enableDisablePopupGuardiaMotivo(vBool) {
+    $('#ftrMotivoReclamoGuardias').jqxDropDownList({ disabled: vBool });
+}
 
-    //Si en el sistema se encuentra un medico...
-    if (tipoAcceso == 1) {
+function enableDisablePopupGuardiaHorarios(vBool) {
+    $('.popupGrdHorario').each(function (event) {
 
-        //Si se encuentra un administrador con readonly
-    } else if (tipoAcceso == 2) {
+        $ctrl = $(this);
+        $ctrl.jqxDateTimeInput({ disabled: vBool });
 
-        disableItemsForAdmins(true);
-        $('#btnGuardarReclamoGuardia').prop('disabled', true);
+    });
+}
 
-        //Si se encuentra un administrador que puede leer y escribir..
-    } else {
+function enableDisablePopupGuardiaBotonGuardar(vBool) {
+    $('#btnGuardarReclamoGuardia').prop('disabled', vBool);
+}
 
-        disableItemsForAdmins(false);
-    }
+function enableDisablePopupGuardiaGeneral(bObserv, bRta, bMotivo, bHorarios) {
 
-});
+    enableDisablePopupGuardiaMotivo(bMotivo);
+    enableDisablePopupGuardiaObserv(bObserv);
+    enableDisablePopupGuardiaRta(bRta);
+    enableDisablePopupGuardiaHorarios(bHorarios);
 
+}
 
 //Disableo todos los campos para los admins. Solo los medicos puede interactuar con la mayoria de los componentes del popup
 //de reclamo de guardias.
-function disableItemsForAdmins(vRta) {
-    $('input:radio[name="rdConformidad"]').each(function () {
+function disableItemsPopupGuardia(vRta) {
+    $('input:radio[name="Conforme"]').each(function () {
         $(this).prop('disabled', true);
-    });
-    $('input.popupGrdHorario').each(function () {
-        $(this).val('');
     });
     $('#ftrMotivoReclamoGuardias').jqxDropDownList({ disabled: true });
     $('#popupGrdObservaciones').prop('readonly', true);
@@ -438,22 +552,23 @@ function disableItemsForAdmins(vRta) {
 
 //Limpio inputs del popup de reclamo de guardias
 function limpiarInputsPopupGuardia() {
-    $('input.popupGrdHorario').each(function () {
-        $(this).val('');
-    });
-    $('#popupGrdObservaciones').text('');
-    $('#popupGrdRespuesta').text('');
-    $('#ftrMotivoReclamoGuardias').jqxDropDownList('clearSelection');
 
+    $('#popupGrdObservaciones').val('');
+    $('#popupGrdRespuesta').val('');
+    $('.popupGrdHorario').each(function (event) {
+        $(this).jqxDateTimeInput('setDate', new Date(2014, 1, 1, 00, 00));
+    });
+    $('#ftrMotivoReclamoGuardias').jqxDropDownList('clearSelection');
 }
 
 // Evento que muestra o esconde los datos del popup segun si el medico esta conforme o no...
-$('input:radio[name="rdConformidad"]').on('change', function () {
+$('input:radio[name="Conforme"]').on('select', function () {
+    limpiarInputsPopupGuardia();
     $radio = $(this);
-    if ($radio.val() == 2) {
-        setNoConformidad();
+    if ($radio.val() == 0) {
+        enableDisablePopupGuardiaGeneral(false, true, true, true);
     } else {
-        setConformidad();
+        enableDisablePopupGuardiaGeneral(true, true, true, true);
     }
 });
 
@@ -466,3 +581,76 @@ function setConformidad() {
 function setNoConformidad() {
     $('#popupGrdContNoConforme').show('slow');
 }
+
+
+$('#formSetReclamo').on('submit', function (e) {
+
+    var frmReclamo = $(this);
+    var jsonReclamoObj = frmReclamo.serializeObject();
+    var jsonReclamoStr = JSON.stringify(jsonReclamoObj);
+
+    if (reclamoValidado(jsonReclamoObj)) {
+        $.ajax({
+            url: frmReclamo.attr("action"),
+            type: 'POST',
+            cache: false,
+            dataType: 'json',
+            data: jsonReclamoStr,
+            contentType: 'application/json; charset=utf-8',
+            success: function (reclamoOk) {
+
+                if (reclamoOk == 1) {
+                    setAlert("El reclamo fue enviado satisfactoriamente.", "info");
+                    $('#popupRevisarGuardias').modal('hide');
+
+                    var dtGridGuardias = getSourceGridGuardias();
+
+                    $('#grdGuardias').jqxGrid({ source: dtGridGuardias });
+
+                } else {
+                    setAlert("El reclamo no se pudo enviar. Intente nuevamente por favor", "error");
+                }
+
+            },
+            error: function (error) {
+                setAlert("El reclamo no se pudo enviar. Intente nuevamente por favor", "error");
+            }
+        });
+    }
+
+    e.preventDefault();
+
+});
+
+function reclamoValidado(reclamo) {
+
+    console.log(reclamo);
+
+    var msgError = "";
+
+    if (reclamo.Conforme == 0) {
+
+        if (reclamo.Reclamo == "") msgError += "Debe ingresar el reclamo\n";
+        if (reclamo.MotivoId == "") msgError += "Debe ingresar el motivo del reclamo\n";
+
+        if (msgError != "") {
+            alert(msgError);
+            return false;
+        }
+
+    }
+
+    return true;
+}
+
+function setAlert(msg, tipoMsg) {
+
+    Messenger().post({
+        message: msg,
+        type: tipoMsg,
+        showCloseButton: true
+    });
+
+}
+
+

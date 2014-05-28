@@ -8,12 +8,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ParamedicMedicosPrestaciones.WSContratadosLiquidaciones {
+namespace ParamedicMedicosPrestaciones.WSProduccionContratadosLiquidaciones {
     using System.Data;
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="http://tempuri.org", ConfigurationName="WSContratadosLiquidaciones.ContratadosLiquidacionesSoap")]
+    [System.ServiceModel.ServiceContractAttribute(Namespace="http://tempuri.org", ConfigurationName="WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoap")]
     public interface ContratadosLiquidacionesSoap {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetCoordinaciones", ReplyAction="*")]
@@ -62,12 +62,12 @@ namespace ParamedicMedicosPrestaciones.WSContratadosLiquidaciones {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface ContratadosLiquidacionesSoapChannel : ParamedicMedicosPrestaciones.WSContratadosLiquidaciones.ContratadosLiquidacionesSoap, System.ServiceModel.IClientChannel {
+    public interface ContratadosLiquidacionesSoapChannel : ParamedicMedicosPrestaciones.WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoap, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class ContratadosLiquidacionesSoapClient : System.ServiceModel.ClientBase<ParamedicMedicosPrestaciones.WSContratadosLiquidaciones.ContratadosLiquidacionesSoap>, ParamedicMedicosPrestaciones.WSContratadosLiquidaciones.ContratadosLiquidacionesSoap {
+    public partial class ContratadosLiquidacionesSoapClient : System.ServiceModel.ClientBase<ParamedicMedicosPrestaciones.WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoap>, ParamedicMedicosPrestaciones.WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoap {
         
         public ContratadosLiquidacionesSoapClient() {
         }

@@ -14,13 +14,13 @@ body {
     padding-top: 50px;
 }
 
-.jqx-widget,.jqx-widget-content,.jqx-widget-bootstrap {
+.jqx-widget, .jqx-widget-content, .jqx-widget-bootstrap {
     font-family: 'Droid Sans', sans-serif;
     font-weight: 400;
 }
 
-.jqx-dropdownlist-content,.jqx-listitem-state-selected ,.jqx-listitem-state-normal {
-        font-family: 'Droid Sans', sans-serif;
+.jqx-dropdownlist-content, .jqx-listitem-state-selected, .jqx-listitem-state-normal {
+    font-family: 'Droid Sans', sans-serif;
     font-weight: 400;
 }
 

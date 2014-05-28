@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="d438f57c-a6ff-409b-8f74-cb82a91eee0d" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="822b1e40-2187-41db-a0eb-4064109a9dc1" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <EnableDataBinding>true</EnableDataBinding>
@@ -18,10 +18,10 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://192.168.0.248:57773/csp/shaman/WebServices.ContratadosLiquidaciones.cls?WSDL" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://192.168.0.249:57772/csp/shaman/WebServices.ContratadosLiquidaciones.cls?WSDL" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="WebServices.wsdl" MetadataType="Wsdl" ID="532b4a34-a2da-4921-a5b2-95da6acd5b77" SourceId="1" SourceUrl="http://192.168.0.248:57773/csp/shaman/WebServices.ContratadosLiquidaciones.cls?WSDL" />
+    <MetadataFile FileName="WebServices.wsdl" MetadataType="Wsdl" ID="598e5f08-72e3-4fcc-a3c2-bc02b10171b2" SourceId="1" SourceUrl="http://192.168.0.249:57772/csp/shaman/WebServices.ContratadosLiquidaciones.cls?WSDL" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
