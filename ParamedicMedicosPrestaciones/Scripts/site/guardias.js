@@ -1,15 +1,14 @@
-﻿$("#btnConsultarGuardias").jqxButton({ width: '100', theme: 'bootstrap', height: '26' });
+﻿
+// --> Inicializo algunos componentes jqwidgets
+$("#btnConsultarGuardias").jqxButton({ width: '100', theme: 'bootstrap', height: '26' });
 $("#popupGrdEntrada").jqxDateTimeInput({ width: '100%', height: '32', formatString: 'HH:mm', disabled: true, showCalendarButton: false, theme: 'bootstrap', textAlign: 'center' });
 $("#popupGrdSalida").jqxDateTimeInput({ width: '100%', height: '32', formatString: 'HH:mm', disabled: true, showCalendarButton: false, theme: 'bootstrap', textAlign: 'center' });
 
-$('#rowResolucionForAdmin').hide();
-$('#rowEstadoForMedico').hide();
-
+// --> Inicializo opciones generales para el alerta que uso en vez del alert de javascript comun
 Messenger().options = {
     extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
     theme: 'flat',
 };
-
 
 
 // --> Seteo dropdownlist para seleccionar periodo en la grilla de guardias
@@ -387,28 +386,43 @@ function showPopupGuardia() {
     $.ajax({
         url: 'Medicos/GetEstadoReclamo',
         dataType: 'json',
+        beforeSend: function() {
+            $('#busy').show();
+        },
         data: { idGuardia: idGuardia },
         type: 'GET',
         success: function (estadoReclamo) {
-            // Limpio todos los inputs, y saco de la grilla los datos necesarios para ir a buscar al servidor y setear datos en el popup
+
+            $('#busy').hide();
+
+            // --> Limpio todos los inputs, y saco de la grilla los datos necesarios para ir a buscar al servidor y setear datos en el popup
             limpiarInputsPopupGuardia();
 
-            //Datos que extraigo de la grilla
+            // --> Datos que extraigo de la grilla
             var fechaGuardia = row.FecMovimiento;
             var movil = row.Movil;
 
+            // --> Seteo ID de la guardia en un campo hidden del form
             $('#GuardiaID').val(row.ID);
 
+            // --> Seteo el radio button dependiendo si esta conforme o no, y hago un disable o enable general de los controles
+            $("input:radio[name=Conforme][value='" + estadoReclamo.Conforme + "']").prop("checked", true);
+            $("input:radio[name=Estado][value='" + estadoReclamo.Estado + "']").prop("checked", true);
+            hideOrShowPopupGuardiaElements();
+
+
             // --> Datos que extraigo del servidor
-            console.log(estadoReclamo.Entrada.split("/")[0]);
             $('#popupGrdObservaciones').val(estadoReclamo.Reclamo);
             $('#popupGrdRespuesta').val(estadoReclamo.Respuesta);
-            $('#popupGrdEntrada').jqxDateTimeInput('setDate', new Date(2014, 1, 1, estadoReclamo.Entrada.split(":")[0], estadoReclamo.Entrada.split(":")[1]));
-            $('#popupGrdSalida').jqxDateTimeInput('setDate', new Date(2014, 1, 1, estadoReclamo.Salida.split(":")[0], estadoReclamo.Salida.split(":")[1]));
-            $("input:radio[name=Conforme][value=" + estadoReclamo.Conforme + "]").prop('checked', true);
+            console.log(estadoReclamo.Entrada);
+            if (estadoReclamo.Entrada != "") {
+                $('#popupGrdEntrada').jqxDateTimeInput('setDate', new Date(2014, 1, 1, estadoReclamo.Entrada.split(":")[0], estadoReclamo.Entrada.split(":")[1]));
+                $('#popupGrdSalida').jqxDateTimeInput('setDate', new Date(2014, 1, 1, estadoReclamo.Salida.split(":")[0], estadoReclamo.Salida.split(":")[1]));
+            }
+
+            // --> Seteo titulo del popup con movil y fecha de la guardia
             $('#titlePopupGuardias').text('Confirmación de la guardia del ' + fechaGuardia + ' en el móvil ' + movil);
 
-            //estadoReclamo.MotivoId = "14";
             // Toda esta movida la hago porque no puedo poner 2 values en el dropdown de motivo de reclamo. Entonces tengo
             // id de motivo reclamo / si acepta diferencia horaria
             var motivo = estadoReclamo.MotivoId + "/0";
@@ -418,45 +432,45 @@ function showPopupGuardia() {
             }
             $("#ftrMotivoReclamoGuardias").jqxDropDownList('selectItem', itemMotivo);
 
-            //tipoAcceso = 3;
-            //estadoReclamo.Estado = 0;
-            //tipoAcceso = 1;
-
-            switch (tipoAcceso) {
+            // --> Dependiendo el tipo de acceso, voy a permitir o no diferentes cosas
+            switch (parseInt(tipoAcceso)) {
 
                 case 1:
+                    // --> Si es un médico, y la respuesta del reclamo ya fue hecha, no puede tocar nada del popup. Todo deshabilitado.
                     if (estadoReclamo.Respuesta != "") {
                         enableDisablePopupGuardiaGeneral(true, true, true, true);
-
                         enableDisablePopupGuardiaConformidad(true);
                         enableDisablePopupGuardiaBotonGuardar(true);
 
-                        if (estadoReclamo.Conforme == 0) $('#rowEstadoForMedico').show();
+                        // --> Si hay una respuesta, entonces muestro el estado de la respuesta.
+                        $('#rowEstadoForMedico').show();
 
-                        switch (estadoReclamo.Estado) {
+                        switch (parseInt(estadoReclamo.Estado)) {
+                            // --> Reclamo pendiente de aprobacion
                             case 0:
-                                $('#alertRowEstadoForMedico').addClass('alert-warning');
+                                $('#alertRowEstadoForMedico').removeClass().addClass('alert fade in alert-warning');
                                 $('#txtRowEstadoForMedico').html('<span class="glyphicon glyphicon-exclamation-sign amarillo icon-right-margin big-icon "></span> Su reclamo está pendiente de aprobación');
                                 break;
+                                // --> Reclamo aceptado
                             case 1:
-                                $('#alertRowEstadoForMedico').addClass('alert-success');
+                                $('#alertRowEstadoForMedico').removeClass().addClass('alert fade in alert-success');
                                 $('#txtRowEstadoForMedico').html('<span class="glyphicon glyphicon-ok-circle verde icon-right-margin big-icon"></span> Su reclamo ha sido aceptado');
                                 break;
+                                // --> Reclamo rechazado
                             case 2:
-                                $('#alertRowEstadoForMedico').addClass('alert-danger');
+                                $('#alertRowEstadoForMedico').removeClass().addClass('alert fade in alert-danger');
                                 $('#txtRowEstadoForMedico').html('<span class="glyphicon glyphicon-remove-circle rojo icon-right-margin big-icon "></span> Su reclamo ha sido rechazado.');
                                 break;
                         }
-
                     } else {
-                        if (estadoReclamo.Conforme == 1) {
-                            enableDisablePopupGuardiaGeneral(true, true, true, true);
-                        } else {
-                            enableDisablePopupGuardiaGeneral(false, false, false, false);
-                        }
+                        // --> Si no hay respuesta, entonces no muestro el estado del reclamo y puedo seguir editando si soy medico
+                        $('#rowEstadoForMedico').hide();
+                        enableDisablePopupGuardiaConformidad(false);
+                        enableDisablePopupGuardiaBotonGuardar(false);
                     }
                     break;
                 case 2:
+                    // --> Si es un admin readonly ..
                     $('#rowResolucionForAdmin').show();
                     enableDisablePopupGuardiaGeneral(true, true, true, true);
                     enableDisablePopupGuardiaConformidad(true);
@@ -464,90 +478,72 @@ function showPopupGuardia() {
                     enableDisablePopupGuardiaRadioRespuesta(true);
                     break;
                 case 3:
+                    // --> Si es un admin que puede responder ..
                     $('#rowResolucionForAdmin').show();
-                    enableDisablePopupGuardiaGeneral(true, true, true, true);
                     enableDisablePopupGuardiaConformidad(true);
-                    enableDisablePopupGuardiaRta(false);
+                    enableDisablePopupGuardiaGeneral(true, false, true, true);
                     break;
 
             }
 
+            // --> Mostrar popup de guardia
             $('#popupRevisarGuardias').modal('show');
         },
         error: function () {
-            alert('Error, no se pudo recuperar la guardia seleccionada');
+            setAlert('Error, no se pudo recuperar la guardia seleccionada','error');
         }
     });
 }
 
-function getHoraMinutosEstadoReclamo(fechaReclamo, idx) {
-
-    var vHorarioEntrada = fechaReclamo.split(" ");
-    var vHHMMEntrada = vHorarioEntrada[1].split(":");
-    return vHHMMEntrada[idx];
-
-}
-
-// Cuando abro el popup de reclamo de guardias ..
-//$('#popupRevisarGuardias').on('show.bs.modal', function (event) {
-
-//});
-
+// --> Enable / Disable el radio button para setear Conforme / No Conforme en el reclamo
 function enableDisablePopupGuardiaConformidad(vBool) {
     $('input:radio[name="Conforme"]').each(function () {
         $(this).prop('disabled', vBool);
     });
 }
 
+// --> Enable / Disable el radio button para setear el tipo de respuesta del admin sobre el reclamo generado por un medico
 function enableDisablePopupGuardiaRadioRespuesta(vBool) {
-    $('input:radio[name="rdRespuestaAdmin"]').each(function () {
+    $('input:radio[name="Estado"]').each(function () {
         $(this).prop('disabled', vBool);
     });
 }
 
+// --> Enable / Disable la observacion del reclamo
 function enableDisablePopupGuardiaObserv(vBool) {
     $('#popupGrdObservaciones').prop('readonly', vBool);
 }
 
+// --> Enable / Disable la respuesta del reclamo
 function enableDisablePopupGuardiaRta(vBool) {
     $('#popupGrdRespuesta').prop('readonly', vBool);
 }
 
+// --> Enable / Disable el dropdownlist del motivo del reclamo
 function enableDisablePopupGuardiaMotivo(vBool) {
     $('#ftrMotivoReclamoGuardias').jqxDropDownList({ disabled: vBool });
 }
 
+// --> Enable / Disable los campos de horario del reclamo (solo se usa si el reclamo tiene diferencia horaria)
 function enableDisablePopupGuardiaHorarios(vBool) {
     $('.popupGrdHorario').each(function (event) {
-
         $ctrl = $(this);
         $ctrl.jqxDateTimeInput({ disabled: vBool });
-
     });
 }
 
+// --> Enable / Disable boton guardar reclamo
 function enableDisablePopupGuardiaBotonGuardar(vBool) {
     $('#btnGuardarReclamoGuardia').prop('disabled', vBool);
 }
 
+// --> Agrupo varios enable / disable juntos para mayor claridad
 function enableDisablePopupGuardiaGeneral(bObserv, bRta, bMotivo, bHorarios) {
 
     enableDisablePopupGuardiaMotivo(bMotivo);
     enableDisablePopupGuardiaObserv(bObserv);
     enableDisablePopupGuardiaRta(bRta);
     enableDisablePopupGuardiaHorarios(bHorarios);
-
-}
-
-//Disableo todos los campos para los admins. Solo los medicos puede interactuar con la mayoria de los componentes del popup
-//de reclamo de guardias.
-function disableItemsPopupGuardia(vRta) {
-    $('input:radio[name="Conforme"]').each(function () {
-        $(this).prop('disabled', true);
-    });
-    $('#ftrMotivoReclamoGuardias').jqxDropDownList({ disabled: true });
-    $('#popupGrdObservaciones').prop('readonly', true);
-    $('#popupGrdRespuesta').prop('readonly', vRta);
 }
 
 //Limpio inputs del popup de reclamo de guardias
@@ -562,55 +558,65 @@ function limpiarInputsPopupGuardia() {
 }
 
 // Evento que muestra o esconde los datos del popup segun si el medico esta conforme o no...
-$('input:radio[name="Conforme"]').on('select', function () {
+$('input:radio[name="Conforme"]').on('change', function () {
+    hideOrShowPopupGuardiaElements();
+});
+
+function hideOrShowPopupGuardiaElements() {
+
     limpiarInputsPopupGuardia();
-    $radio = $(this);
-    if ($radio.val() == 0) {
-        enableDisablePopupGuardiaGeneral(false, true, true, true);
+    $radio = $('input:radio[name="Conforme"]');
+
+    if ($("input:radio[name=Conforme][value='0']").is(":checked")) {
+        enableDisablePopupGuardiaGeneral(false, true, false, true);
     } else {
         enableDisablePopupGuardiaGeneral(true, true, true, true);
     }
-});
-
-// Escondo datos, ya que el medico esta conforme y no va a reclamar.
-function setConformidad() {
-    $('#popupGrdContNoConforme').hide('slow');
-}
-
-// Muestro datos, para que el medico pueda reclamar.
-function setNoConformidad() {
-    $('#popupGrdContNoConforme').show('slow');
 }
 
 
+// --> Guardo el reclamo ..
 $('#formSetReclamo').on('submit', function (e) {
 
+    // --> Obtengo el objeto del form, lo serializo a un json y lo paso a un querystring. Del lado del server, lo bindeo
+    // --> contra un objeto EstadoReclamoGuardia y ya tengo todas las propiedades cargadas.
     var frmReclamo = $(this);
     var jsonReclamoObj = frmReclamo.serializeObject();
     var jsonReclamoStr = JSON.stringify(jsonReclamoObj);
 
+    
+    var urlToPostReclamoGuardia = "";
+    if (tipoAcceso == 1) {
+        // --> Si soy médico, seteo el reclamo de la guardia
+        urlToPostReclamoGuardia = "Medicos/SetReclamoGuardia";
+    } else {
+        // --> Si soy administrador, respondo y seteo la respuesta del reclamo de la guardia
+        urlToPostReclamoGuardia = "Medicos/SetRespuestaReclamoGuardia";
+    }
+
+    // --> Si el reclamo paso la validacion del lado cliente ..
     if (reclamoValidado(jsonReclamoObj)) {
         $.ajax({
-            url: frmReclamo.attr("action"),
+            url: urlToPostReclamoGuardia,
             type: 'POST',
             cache: false,
+            beforeSend: function () {
+                $('#busy').show();
+            },
             dataType: 'json',
             data: jsonReclamoStr,
             contentType: 'application/json; charset=utf-8',
             success: function (reclamoOk) {
-
+                // --> Si el reclamo se envio bien..
                 if (reclamoOk == 1) {
-                    setAlert("El reclamo fue enviado satisfactoriamente.", "info");
-                    $('#popupRevisarGuardias').modal('hide');
 
-                    var dtGridGuardias = getSourceGridGuardias();
-
-                    $('#grdGuardias').jqxGrid({ source: dtGridGuardias });
+                    setAlert("Aguarde un instante por favor..", "info");
+                    // --> Actualizo la grilla con los ultimos datos cargados
+                    updateGridAfterAdminResponse();
 
                 } else {
                     setAlert("El reclamo no se pudo enviar. Intente nuevamente por favor", "error");
                 }
-
             },
             error: function (error) {
                 setAlert("El reclamo no se pudo enviar. Intente nuevamente por favor", "error");
@@ -622,35 +628,52 @@ $('#formSetReclamo').on('submit', function (e) {
 
 });
 
-function reclamoValidado(reclamo) {
+// --> Como escribo en produccion, y leo del shadow, por un tema de licencias, los datos tienen un pequeño delay. Entonces, para que cuando
+// --> modifique o cargue un reclamo, se vea bien en la grilla, meto un delay de 3 segundos para aguantar que el dato pase de produccion al shadow,
+// --> y la grilla se vea correctamente.
+function updateGridAfterAdminResponse() {
 
-    console.log(reclamo);
+    window.setTimeout(function () {
+        var dtGridGuardias = getSourceGridGuardias();
+        $('#grdGuardias').jqxGrid({ source: dtGridGuardias });
+        setAlert("El reclamo fue enviado satisfactoriamente.", "info");
+        $('#busy').hide();
+        $('#popupRevisarGuardias').modal('hide');
+    }, 3000);
+
+}
+
+// --> Valido algunos campos del lado cliente
+function reclamoValidado(reclamo) {
 
     var msgError = "";
 
     if (reclamo.Conforme == 0) {
 
-        if (reclamo.Reclamo == "") msgError += "Debe ingresar el reclamo\n";
-        if (reclamo.MotivoId == "") msgError += "Debe ingresar el motivo del reclamo\n";
-
-        if (msgError != "") {
-            alert(msgError);
-            return false;
+        if (reclamo.Reclamo == "") {
+            msgError = "Debe ingresar el reclamo\n";
+            setAlert(msgError, 'error');
+        }
+        if (reclamo.MotivoId == "") {
+            msgError = "Debe ingresar el motivo del reclamo\n";
+            setAlert(msgError, 'error');
         }
 
+        if (msgError != "") {
+            return false;
+        }
     }
 
     return true;
 }
 
+// --> Seteo alerta mas linda que el clasico alert. Le paso el mensaje y el tipo de alerta.
 function setAlert(msg, tipoMsg) {
-
     Messenger().post({
         message: msg,
         type: tipoMsg,
         showCloseButton: true
     });
-
 }
 
 

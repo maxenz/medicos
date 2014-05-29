@@ -161,6 +161,7 @@
   <ItemGroup>
     <Content Include="Content\img\404.gif" />
     <Content Include="Content\img\error.png" />
+    <Content Include="Content\img\paramedic-loader.gif" />
     <Content Include="Content\img\paramedic.png" />
     <Content Include="Content\img\valid.png" />
     <Content Include="Content\styles\bootstrap-select.css" />
@@ -583,12 +584,12 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <Content Include="Service References\WSProduccionContratadosLiquidaciones\configuration91.svcinfo" />
-    <Content Include="Service References\WSProduccionContratadosLiquidaciones\configuration.svcinfo" />
-    <Content Include="Service References\WSProduccionContratadosLiquidaciones\Reference.svcmap">
+    <None Include="Service References\WSProduccionContratadosLiquidaciones\configuration91.svcinfo" />
+    <None Include="Service References\WSProduccionContratadosLiquidaciones\configuration.svcinfo" />
+    <None Include="Service References\WSProduccionContratadosLiquidaciones\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -607,8 +608,8 @@
     <Content Include="Views\Medicos\_Totalizador.cshtml" />
     <Content Include="Views\Medicos\_Resumen.cshtml" />
     <Content Include="Views\Medicos\_PopupRevisarGuardias.cshtml" />
-    <None Include="Service References\WSContratadosLiquidaciones\WebServices.wsdl" />
-    <Content Include="Service References\WSProduccionContratadosLiquidaciones\WebServices.wsdl" />
+    <None Include="Service References\WSContratadosLiquidaciones\WebServices1.wsdl" />
+    <None Include="Service References\WSProduccionContratadosLiquidaciones\WebServices1.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

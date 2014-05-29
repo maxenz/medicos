@@ -13,7 +13,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     <i class="fa fa-check-circle big-icon icon-right-margin verde"></i>
-                                    <input type="radio" name="Conforme" value="1" checked>
+                                    <input type="radio" name="Conforme" value="1">
                                 </span>
                                 <input type="text" readonly class="form-control" value="ESTOY CONFORME" />
                             </div>
@@ -56,7 +56,7 @@
                             </div>
                         </div>
 
-                        <div class="row" id="rowEstadoForMedico">
+                        <div class="row" id="rowEstadoForMedico" style="display:none">
                             <div class="col-md-12">
                                 <div class="alert fade in" id="alertRowEstadoForMedico">
                                     <strong id="txtRowEstadoForMedico"></strong>
@@ -64,12 +64,12 @@
                             </div>
                         </div>
 
-                        <div class="row row-show-grid" id="rowResolucionForAdmin">
+                        <div class="row row-show-grid" id="rowResolucionForAdmin" style="display:none">
                             <div class="col-md-4">
                                 <div class="input-group">
                                     <span class="input-group-addon">
                                         <i class="fa fa-exclamation-circle big-icon icon-right-margin amarillo"></i>
-                                        <input type="radio" name="rdRespuestaAdmin" value="0" checked>
+                                        <input type="radio" name="Estado" value="0" checked>
                                     </span>
                                     <input type="text" readonly class="form-control" value="Pendiente" />
                                 </div>
@@ -77,8 +77,8 @@
                             <div class="col-md-4">
                                 <div class="input-group">
                                     <span class="input-group-addon">
-                                        <i class="fa fa-check-circle big-icon icon-right-margin verde"></i>
-                                        <input type="radio" name="rdRespuestaAdmin" value="1">
+                                        <i class="fa fa-check-circle big-icon icon-right-margin azul"></i>
+                                        <input type="radio" name="Estado" value="1">
                                     </span>
                                     <input type="text" readonly class="form-control" value="Aceptado" />
                                 </div>
@@ -86,8 +86,8 @@
                             <div class="col-md-4">
                                 <div class="input-group">
                                     <span class="input-group-addon">
-                                        <i class="fa fa-times-circle big-icon icon-right-margin rojo"></i>
-                                        <input type="radio" name="rdRespuestaAdmin" value="2">
+                                        <i class="fa fa-times-circle big-icon icon-right-margin naranja"></i>
+                                        <input type="radio" name="Estado" value="2">
                                     </span>
                                     <input type="text" readonly class="form-control" value="Rechazado" />
                                 </div>

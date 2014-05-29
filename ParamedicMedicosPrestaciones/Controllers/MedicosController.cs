@@ -46,7 +46,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
             }
             else
             {
-                Session["usr_id_medico"] = usr;
+                Session["usr_id"] = usr;
                 ViewBag.UserName = dtUsuario.Rows[0]["NombreUsuario"].ToString();
                 ViewBag.MedicoName = dtUsuario.Rows[0]["NombreMedico"].ToString();
                 ViewBag.Acceso = Convert.ToInt32(dtUsuario.Rows[0]["Acceso"]);
@@ -502,6 +502,37 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
         }
 
+        [HttpPost]
+        public int setRespuestaReclamoGuardia(EstadoReclamoGuardia estadoReclamoGuardia)
+        {
+            string pItm = estadoReclamoGuardia.GuardiaID;
+            int pSta = estadoReclamoGuardia.Estado;
+            string pRta = estadoReclamoGuardia.Respuesta;
+            int pUsr = Convert.ToInt32(Session["usr_id"]);
+
+            // sacar comillas y demas al texto de respuesta
+            try
+            {
+                WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsCliente = new WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
+
+                DataTable dtResultadoReclamo = wsCliente.SetRespuesta(pItm, pSta, pRta, pUsr).Tables[0];
+                if (Convert.ToInt32(dtResultadoReclamo.Rows[0]["Resultado"]) == 1)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                return 0;
+            }
+
+        }
+
 
         // --> Set reclamo de guardia
         [HttpPost]
@@ -535,7 +566,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
                 }
 
-                pUsr = Convert.ToInt32(Session["usr_id_medico"]);
+                pUsr = Convert.ToInt32(Session["usr_id"]);
                 pItm = estadoReclamoGuardia.GuardiaID;
                 pCnf = estadoReclamoGuardia.Conforme;
 
