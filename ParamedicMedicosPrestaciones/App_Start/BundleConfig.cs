@@ -25,7 +25,8 @@ namespace ParamedicMedicosPrestaciones
                         "~/Scripts/bootstrapValidator.js",
                         "~/Scripts/messenger.js",
                         "~/Scripts/messenger-theme-future.js",
-                        "~/Scripts/jquery.serialize-object.js"                    
+                        "~/Scripts/jquery.serialize-object.js",
+                        "~/Scripts/jquery.maskMoney.js"                      
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/main").Include(

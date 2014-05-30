@@ -21,6 +21,8 @@ namespace ParamedicMedicosPrestaciones.Models
         public double CoPago { get; set; }
         public double Importe { get; set; }
         public int Dia { get; set; }
+        public string MesDia { get; set; }
+        public int Estado { get; set; }
 
 
     }

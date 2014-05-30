@@ -137,6 +137,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EstadoReclamoServicio.cs" />
     <Compile Include="Models\EstadoReclamoGuardia.cs" />
     <Compile Include="Models\Servicio.cs" />
     <Compile Include="Models\Guardia.cs" />
@@ -550,6 +551,7 @@
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\bootstrapValidator.js" />
+    <Content Include="Scripts\jquery.maskMoney.js" />
     <Content Include="Scripts\jquery.serialize-object.js" />
     <Content Include="Scripts\messenger-theme-future.js" />
     <Content Include="Scripts\messenger.js" />
@@ -610,6 +612,7 @@
     <Content Include="Views\Medicos\_PopupRevisarGuardias.cshtml" />
     <None Include="Service References\WSContratadosLiquidaciones\WebServices1.wsdl" />
     <None Include="Service References\WSProduccionContratadosLiquidaciones\WebServices1.wsdl" />
+    <Content Include="Views\Medicos\_PopupRevisarServicios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

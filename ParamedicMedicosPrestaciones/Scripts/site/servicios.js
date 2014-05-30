@@ -100,6 +100,7 @@ var dtFieldsServicios = [
                         { name: 'Grado', type: 'string' },
                         { name: 'CoPago', type: 'number' },
                         { name: 'Importe', type: 'number' },
+                        { name: 'MesDia', type: 'string' }
                        ];
 
 // --> Seteo source grilla de guardias
@@ -128,7 +129,7 @@ var dtGridServicios = getSourceGridServicios();
 // --> Seteo cellsrenderers de grilla de guardias, para poner en rojo valores dependiendo si llegaron tarde, etc.
 
 var crConfirmacionServicio = function (row, columnfield, value, defaulthtml, columnproperties) {
-    return '<a href="javascript:showPopupGuardia()" style="margin-left:34%;line-height:25px"><i class="fa fa-check-circle verde icon-right-margin big-icon"></i></a>';
+    return '<a href="javascript:showPopupServicio()" style="margin-left:34%;line-height:25px"><i class="fa fa-check-circle verde icon-right-margin big-icon"></i></a>';
 }
 
 
@@ -137,6 +138,7 @@ var crConfirmacionServicio = function (row, columnfield, value, defaulthtml, col
 var colGridServicios =
              [
               { text: 'ID', datafield: 'IncidenteID', hidden: true },
+              { text: 'MesDia', datafield: 'MesDia', hidden: true },
               { text: 'Fecha', datafield: 'Fecha', width: '7%' },
               { text: 'Inc', datafield: 'NroInc', width: '7%', cellsalign: 'center' },
               { text: 'Iva', datafield: 'Iva', width: '7%', cellsalign: 'center' },
@@ -193,3 +195,85 @@ $('#grdServicios').on('bindingcomplete', function (event) {
     $grid = $(this);
     $grid.jqxGrid('localizestrings', localizationobj);
 });
+
+
+/*********************************************************************************************************/
+
+// --> Popup para reclamo de servicios
+
+//$("#popupServDiferencia").maskMoney({ allowZero: true });
+//$("#popupServNuestroValor").maskMoney({ allowZero: true });
+//$("#popupServValorEsperado").maskMoney({ allowZero: true });
+//$('#popupServDiferencia,#popupServNuestroValor,#popupServValorEsperado').maskMoney('mask', 0.00);
+//$('#popupServNuestroValor, #popupServValorEsperado').prop('readonly', true);
+
+
+function showPopupServicio() {
+
+
+    var rowindex = $('#grdServicios').jqxGrid('getselectedrowindex');
+    var row = $('#grdServicios').jqxGrid('getrowdata', rowindex);
+    var idInc = row.IncidenteID;
+
+    $.ajax({
+        url: 'Medicos/GetEstadoReclamo',
+        dataType: 'json',
+        beforeSend: function () {
+            $('#busy').show();
+        },
+        data: { id: idInc, pMode: 1 },
+        type: 'GET',
+        success: function (estadoReclamo) {
+
+            console.log(estadoReclamo);
+            $('#busy').hide();
+
+            // --> Datos que extraigo de la grilla
+            var nroServicio = row.NroInc;
+            var mesDiaServicio = row.MesDia;
+
+            // --> Seteo titulo del popup con id de servicio y fecha
+            $('#titlePopupServicios').text('Conformidad con Copago de Incidente: ' + nroServicio + ' (' + mesDiaServicio + ')');
+
+            // --> Limpio todos los inputs, y saco de la grilla los datos necesarios para ir a buscar al servidor y setear datos en el popup
+            // limpiarInputsPopupGuardia();
+
+            switch (parseInt(tipoAcceso)) {
+
+                case 1:
+                    enableDisablePopupServRespuesta(true);
+                    //si ya respondio el admin.. deshabilitar todo..
+                    if (estadoReclamo.Respuesta != "") {
+                        enableDisablePopupServicioConformidad(true);
+                        $('#btnGuardarReclamoServicio').prop('disabled', true);
+                    }
+
+                    
+                    break;
+            }
+
+            $('#popupRevisarServicio').modal('show');
+
+        }
+    });
+
+
+    // --> Enable / Disable el radio button para setear Conforme / No Conforme en el reclamo
+    function enableDisablePopupServicioConformidad(vBool) {
+        $('#formSetReclamoServicio input:radio[name="Conforme"]').each(function () {
+            $(this).prop('disabled', vBool);
+        });
+    }
+
+    // --> Enable / Disable la observacion del reclamo
+    function enableDisablePopupServObserv(vBool) {
+        $('#popupServObservaciones').prop('readonly', vBool);
+    }
+
+    // --> Enable / Disable la respuesta del reclamo
+    function enableDisablePopupServRespuesta(vBool) {
+        $('#popupServRespuesta').prop('readonly', vBool);
+    }
+
+
+}

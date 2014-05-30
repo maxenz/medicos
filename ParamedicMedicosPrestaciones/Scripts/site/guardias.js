@@ -389,7 +389,7 @@ function showPopupGuardia() {
         beforeSend: function() {
             $('#busy').show();
         },
-        data: { idGuardia: idGuardia },
+        data: { id: idGuardia, pMode : 0 },
         type: 'GET',
         success: function (estadoReclamo) {
 
@@ -414,7 +414,7 @@ function showPopupGuardia() {
             // --> Datos que extraigo del servidor
             $('#popupGrdObservaciones').val(estadoReclamo.Reclamo);
             $('#popupGrdRespuesta').val(estadoReclamo.Respuesta);
-            console.log(estadoReclamo.Entrada);
+
             if (estadoReclamo.Entrada != "") {
                 $('#popupGrdEntrada').jqxDateTimeInput('setDate', new Date(2014, 1, 1, estadoReclamo.Entrada.split(":")[0], estadoReclamo.Entrada.split(":")[1]));
                 $('#popupGrdSalida').jqxDateTimeInput('setDate', new Date(2014, 1, 1, estadoReclamo.Salida.split(":")[0], estadoReclamo.Salida.split(":")[1]));
@@ -434,7 +434,6 @@ function showPopupGuardia() {
 
             // --> Dependiendo el tipo de acceso, voy a permitir o no diferentes cosas
             switch (parseInt(tipoAcceso)) {
-
                 case 1:
                     // --> Si es un médico, y la respuesta del reclamo ya fue hecha, no puede tocar nada del popup. Todo deshabilitado.
                     if (estadoReclamo.Respuesta != "") {

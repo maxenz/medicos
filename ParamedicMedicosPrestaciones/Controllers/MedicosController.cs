@@ -216,24 +216,35 @@ namespace ParamedicMedicosPrestaciones.Controllers
         //
         // Obtengo los datos de estado del reclamo de la guardia. Para eso me llega el id de la guardia
 
-        public JsonResult GetEstadoReclamo(string idGuardia)
+        public JsonResult GetEstadoReclamo(string id, int pMode)
         {
-            DataTable dtEstadoReclamo = getEstadoReclamoFromWebService(idGuardia);
-            EstadoReclamoGuardia estadoReclamo = getEstadoReclamoGuardiaFormatted(dtEstadoReclamo);
+            DataTable dtEstadoReclamo = getEstadoReclamoFromWebService(id, pMode);
 
-            return Json(estadoReclamo, JsonRequestBehavior.AllowGet);
+            if (pMode == 0)
+            {
+                // --> Si es una guardia..
+                EstadoReclamoGuardia estadoReclamo = getEstadoReclamoGuardiaFormatted(dtEstadoReclamo);
+                return Json(estadoReclamo, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                // --> Si es un incidente..
+                EstadoReclamoServicio estadoServicio = getEstadoReclamoServicioFormatted(dtEstadoReclamo);
+                return Json(estadoServicio, JsonRequestBehavior.AllowGet);
+            }
+
         }
 
         //
         // Obtengo datos de los diferentes webservices
 
-        private DataTable getEstadoReclamoFromWebService(string idGuardia)
+        private DataTable getEstadoReclamoFromWebService(string id, int pMode)
         {
 
             WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
             try
             {
-                DataSet dsEstReclamo = wsClient.GetEstadoReclamo(idGuardia);
+                DataSet dsEstReclamo = wsClient.GetEstadoReclamo(id, pMode);
                 return dsEstReclamo.Tables[0];
             }
             catch (Exception ex)
@@ -297,6 +308,24 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
         }
 
+        //Formateo la datarow del estadoreclamo para pasarselo a una instancia de EstadoReclamoServicio
+
+        private EstadoReclamoServicio getEstadoReclamoServicioFormatted(DataTable dt)
+        {
+            //editar con los datos reales del getEstadoReclamoServicio
+            DataRow dr = dt.Rows[0];
+            EstadoReclamoServicio estServicio = new EstadoReclamoServicio();
+            estServicio.Cerrado = Convert.ToInt32(dr["Cerrado"]);
+            estServicio.Conforme = Convert.ToInt32(dr["Conforme"]);
+            estServicio.Reclamo = dr["Reclamo"].ToString();
+            estServicio.Respuesta = dr["Respuesta"].ToString();
+            estServicio.MotivoId = dr["MotivoId"].ToString();
+            estServicio.Estado = Convert.ToInt32(dr["Estado"]);
+
+            return estServicio;
+
+        }
+
         //Formateo los dataset traidos de los webservices para armar los datos estructurados en objetos de distintas clases
 
         private List<Guardia> getGuardiasFormatted(DataSet dsGuardias, int dia)
@@ -355,10 +384,11 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
             foreach (DataRow dtRow in dtServicios.Rows)
             {
+                string fecInc = dtRow["FecIncidente"].ToString();
                 Servicio servicio = new Servicio();
-                servicio.IncidenteID = dtRow["IncidenteId"].ToString();
+                servicio.IncidenteID = dtRow["ID"].ToString();
                 servicio.NroInc = dtRow["NroIncidente"].ToString();
-                servicio.Fecha = getGuardiaFechaFormatted(dtRow["FecIncidente"].ToString(), 1);
+                servicio.Fecha = getGuardiaFechaFormatted(fecInc, 1);
                 servicio.Iva = dtRow["Iva"].ToString();
                 servicio.Paciente = dtRow["Paciente"].ToString();
                 servicio.Localidad = dtRow["Localidad"].ToString();
@@ -370,6 +400,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
                 servicio.CoPago = Convert.ToDouble(dtRow["CoPago"]);
                 servicio.Importe = Convert.ToDouble(dtRow["Importe"]);
                 servicio.Dia = Convert.ToInt32((dtRow["FecIncidente"].ToString()).Substring(6, 2));
+                servicio.MesDia = fecInc.Substring(4, 2) + "/" + fecInc.Substring(6, 2);
 
                 lstServicios.Add(servicio);
 
@@ -515,7 +546,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
             {
                 WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsCliente = new WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
 
-                DataTable dtResultadoReclamo = wsCliente.SetRespuesta(pItm, pSta, pRta, pUsr).Tables[0];
+                DataTable dtResultadoReclamo = wsCliente.SetRespuesta(pItm, 0, pSta, pRta, pUsr).Tables[0];
                 if (Convert.ToInt32(dtResultadoReclamo.Rows[0]["Resultado"]) == 1)
                 {
                     return 1;
@@ -571,7 +602,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
                 pCnf = estadoReclamoGuardia.Conforme;
 
                 WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
-                DataTable dtResultadoReclamo = wsClient.SetReclamo(pItm, pCnf, pMot, pHEnt, pMEnt, pHSal, pMSal, pObs, pUsr).Tables[0];
+                DataTable dtResultadoReclamo = wsClient.SetReclamo(pItm, 0, pCnf, pMot, pHEnt, pMEnt, pHSal, pMSal, pObs, pUsr).Tables[0];
                 if (Convert.ToInt32(dtResultadoReclamo.Rows[0]["Resultado"]) == 1)
                 {
                     return 1;
@@ -580,7 +611,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
                 {
                     return 0;
                 }
-                
+
             }
             catch (Exception ex)
             {
