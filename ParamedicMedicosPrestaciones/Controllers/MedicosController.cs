@@ -38,20 +38,29 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
         public bool validarUsuario(long usr)
         {
-            WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
-            DataTable dtUsuario = wsClient.GetUsuarioValidacion(usr).Tables[0];
-            if (Convert.ToInt32(dtUsuario.Rows[0]["Acceso"]) == 0)
+            try
             {
-                return false;
+                WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
+                DataTable dtUsuario = wsClient.GetUsuarioValidacion(usr).Tables[0];
+                if (Convert.ToInt32(dtUsuario.Rows[0]["Acceso"]) == 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    Session["usr_id"] = usr;
+                    ViewBag.UserName = dtUsuario.Rows[0]["NombreUsuario"].ToString();
+                    ViewBag.MedicoName = dtUsuario.Rows[0]["NombreMedico"].ToString();
+                    ViewBag.Acceso = Convert.ToInt32(dtUsuario.Rows[0]["Acceso"]);
+                    ViewBag.Usuario_Id_Medico = usr;
+                    return true;
+                }
             }
-            else
+            catch
             {
-                Session["usr_id"] = usr;
-                ViewBag.UserName = dtUsuario.Rows[0]["NombreUsuario"].ToString();
-                ViewBag.MedicoName = dtUsuario.Rows[0]["NombreMedico"].ToString();
-                ViewBag.Acceso = Convert.ToInt32(dtUsuario.Rows[0]["Acceso"]);
-                ViewBag.Usuario_Id_Medico = usr;
-                return true;
+
+                return false;
+
             }
 
         }
@@ -124,10 +133,10 @@ namespace ParamedicMedicosPrestaciones.Controllers
         // Obtengo los datos para el filtro de medicos (Si me llega el id de un medico, es porque es un medico el que está solicitando
         // el filtro, entonces solamente accede a su registro.
 
-        public JsonResult getFiltroMedicos(long usr_id, int esMedico = 0)
+        public JsonResult getFiltroMedicos(long usr_id,long selPeriodo, int selEstado, int esMedico = 0)
         {
             WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
-            DataSet dsMedicos = wsClient.GetMedicos(usr_id);
+            DataSet dsMedicos = wsClient.GetMedicos(usr_id, selPeriodo, selEstado);
 
             List<Medico> lstMedicos = new List<Medico>();
 
@@ -161,7 +170,15 @@ namespace ParamedicMedicosPrestaciones.Controllers
             int coordinacion = Convert.ToInt32(query.GetValues("coordinacion")[0]);
             long medico = Convert.ToInt64(query.GetValues("medico")[0]);
             DataSet dsGuardias = getGuardiasFromWebService(periodo, coordinacion, medico);
-            List<Guardia> guardias = getGuardiasFormatted(dsGuardias, dia);
+            List<Guardia> guardias = new List<Guardia>();
+            if (dsGuardias == null)
+            {
+                guardias = null;
+            }
+            else
+            {
+                guardias = getGuardiasFormatted(dsGuardias, dia);
+            }
 
             return Json(guardias, JsonRequestBehavior.AllowGet);
         }
@@ -177,7 +194,15 @@ namespace ParamedicMedicosPrestaciones.Controllers
             int coordinacion = Convert.ToInt32(query.GetValues("coordinacion")[0]);
             long medico = Convert.ToInt64(query.GetValues("medico")[0]);
             DataSet dsServicios = getServiciosFromWebService(periodo, coordinacion, medico);
-            List<Servicio> servicios = getServiciosFormatted(dsServicios, dia);
+            List<Servicio> servicios = new List<Servicio>();
+            if (dsServicios == null)
+            {
+                servicios = null;
+            }
+            else
+            {
+                servicios = getServiciosFormatted(dsServicios, dia);
+            }
 
             return Json(servicios, JsonRequestBehavior.AllowGet);
         }
@@ -192,7 +217,15 @@ namespace ParamedicMedicosPrestaciones.Controllers
             int coordinacion = Convert.ToInt32(query.GetValues("coordinacion")[0]);
             long medico = Convert.ToInt64(query.GetValues("medico")[0]);
             DataSet dsResumen = getResumenFromWebService(periodo, coordinacion, medico);
-            List<ResumenLiquidacion> resLiquidacion = getResumenLiquidacionFormatted(dsResumen);
+            List<ResumenLiquidacion> resLiquidacion = new List<ResumenLiquidacion>();
+            if (dsResumen == null)
+            {
+                resLiquidacion = null;
+            }
+            else
+            {
+                resLiquidacion = getResumenLiquidacionFormatted(dsResumen);
+            }
 
             GetHorarios();
 
@@ -208,7 +241,16 @@ namespace ParamedicMedicosPrestaciones.Controllers
             long periodo = Convert.ToInt64(query.GetValues("periodo")[0]);
             long medico = Convert.ToInt64(query.GetValues("medico")[0]);
             DataSet dsHorarios = getHorariosFromWebService(periodo, medico);
-            List<Horario> lstHorarios = getHorariosFormatted(dsHorarios);
+            List<Horario> lstHorarios = new List<Horario>();
+
+            if (dsHorarios == null)
+            {
+                lstHorarios = null;
+            }
+            else
+            {
+                lstHorarios = getHorariosFormatted(dsHorarios);
+            }
 
             return Json(lstHorarios, JsonRequestBehavior.AllowGet);
         }
@@ -223,13 +265,29 @@ namespace ParamedicMedicosPrestaciones.Controllers
             if (pMode == 0)
             {
                 // --> Si es una guardia..
-                EstadoReclamoGuardia estadoReclamo = getEstadoReclamoGuardiaFormatted(dtEstadoReclamo);
+                EstadoReclamoGuardia estadoReclamo = new EstadoReclamoGuardia();
+                if (dtEstadoReclamo == null)
+                {
+                    estadoReclamo = null;
+                }
+                else
+                {
+                    estadoReclamo = getEstadoReclamoGuardiaFormatted(dtEstadoReclamo);
+                }
                 return Json(estadoReclamo, JsonRequestBehavior.AllowGet);
             }
             else
             {
                 // --> Si es un incidente..
-                EstadoReclamoServicio estadoServicio = getEstadoReclamoServicioFormatted(dtEstadoReclamo);
+                EstadoReclamoServicio estadoServicio = new EstadoReclamoServicio();
+                if (dtEstadoReclamo == null)
+                {
+                    estadoServicio = null;
+                }
+                else
+                {
+                    estadoServicio = getEstadoReclamoServicioFormatted(dtEstadoReclamo);
+                }
                 return Json(estadoServicio, JsonRequestBehavior.AllowGet);
             }
 
@@ -257,21 +315,52 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
         private DataSet getGuardiasFromWebService(long periodo, int coord, long usr_id)
         {
-            WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
-            return wsClient.GetGuardiasDetalle(usr_id, periodo, coord);
+            try
+            {
+                WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
+                return wsClient.GetGuardiasDetalle(usr_id, periodo, coord);
+            }
+            catch (Exception ex)
+            {
+
+                var msg = ex.Message;
+                return null;
+            }
 
         }
 
         private DataSet getServiciosFromWebService(long periodo, int coord, long medico)
         {
-            WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
-            return wsClient.GetIncidentes(medico, periodo, coord);
+
+            try
+            {
+                WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
+                return wsClient.GetIncidentes(medico, periodo, coord);
+            }
+            catch (Exception ex)
+            {
+
+                var msg = ex.Message;
+                return null;
+            }
+
         }
 
         private DataSet getResumenFromWebService(long periodo, int coord, long medico)
         {
-            WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
-            return wsClient.GetResumen(medico, periodo, coord);
+            try
+            {
+                WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
+                return wsClient.GetResumen(medico, periodo, coord);
+
+            }
+            catch (Exception ex)
+            {
+
+                var msg = ex.Message;
+                return null;
+            }
+
         }
 
         private DataSet getHorariosFromWebService(long periodo, long medico)
@@ -400,8 +489,8 @@ namespace ParamedicMedicosPrestaciones.Controllers
                 servicio.CoPago = Convert.ToDouble(dtRow["CoPago"]);
                 servicio.Importe = Convert.ToDouble(dtRow["Importe"]);
                 servicio.Dia = Convert.ToInt32((dtRow["FecIncidente"].ToString()).Substring(6, 2));
-                servicio.MesDia = fecInc.Substring(4, 2) + "/" + fecInc.Substring(6, 2);
-
+                servicio.MesDia = fecInc.Substring(6, 2) + "/" + fecInc.Substring(4, 2);
+                servicio.Estado = Convert.ToInt32(dtRow["Estado"]);
                 lstServicios.Add(servicio);
 
             }
@@ -564,6 +653,37 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
         }
 
+        [HttpPost]
+        public int setRespuestaReclamoServicio(EstadoReclamoServicio estadoReclamoServicio)
+        {
+            string pItm = estadoReclamoServicio.ServicioID;
+            int pSta = estadoReclamoServicio.Estado;
+            string pRta = estadoReclamoServicio.Respuesta;
+            int pUsr = Convert.ToInt32(Session["usr_id"]);
+
+            // sacar comillas y demas al texto de respuesta
+            try
+            {
+                WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsCliente = new WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
+
+                DataTable dtResultadoReclamo = wsCliente.SetRespuesta(pItm, 1, pSta, pRta, pUsr).Tables[0];
+                if (Convert.ToInt32(dtResultadoReclamo.Rows[0]["Resultado"]) == 1)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                return 0;
+            }
+
+        }
+
 
         // --> Set reclamo de guardia
         [HttpPost]
@@ -620,6 +740,52 @@ namespace ParamedicMedicosPrestaciones.Controllers
             }
 
         }
+
+
+        // --> Set reclamo de guardia
+        [HttpPost]
+        public int setReclamoServicio(EstadoReclamoServicio estadoReclamoServicio)
+        {
+            string pObs = "", pItm = "";
+            int pCnf = 0, pUsr = 0;
+
+            try
+            {
+                if (estadoReclamoServicio.Conforme == 0)
+                {
+                    if (estadoReclamoServicio.Reclamo == "")
+                    {
+                        return 0;
+                    }
+
+                    pObs = estadoReclamoServicio.Reclamo;
+
+                }
+
+                pUsr = Convert.ToInt32(Session["usr_id"]);
+                pItm = estadoReclamoServicio.ServicioID;
+                pCnf = estadoReclamoServicio.Conforme;
+
+                WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
+                DataTable dtResultadoReclamo = wsClient.SetReclamo(pItm, 1, pCnf, 0, "", "", "", "", pObs, pUsr).Tables[0];
+                if (Convert.ToInt32(dtResultadoReclamo.Rows[0]["Resultado"]) == 1)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                return 0;
+            }
+
+        }
+
 
         private int getMotivoDiferencia(string pMot, int idx)
         {

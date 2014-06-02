@@ -30,30 +30,58 @@ $("#ftrPeriodoGuardias").jqxDropDownList({
     valueMember: "Periodo", width: '110%', dropDownHeight: 80, height: 25, theme: 'bootstrap'
 });
 
+// --> Seteo dropdownlist para seleccionar estado de guardias
+
+var vEstadosGuardias = [];
+var vEstadosDesc = ['Todos', 'Pendientes', 'Aceptados', 'Rechazados'];
+for (var j = 0; j < vEstadosDesc.length; j++) {
+    var obj = { ID: j, Descripcion: vEstadosDesc[j] };
+    vEstadosGuardias.push(obj);
+}
+
+$("#ftrEstadoGuardias").jqxDropDownList({
+    selectedIndex: 0, source: vEstadosGuardias, displayMember: "Descripcion",
+    valueMember: "ID", width: '110%', dropDownHeight: 110, height: 25, theme: 'bootstrap'
+});
+
+
 /*************************************************************************************************/
 
 // --> Seteo dropdownlist para seleccionar medico en la grilla de guardias
 
-var urlMedicoGuardias = 'Medicos/getFiltroMedicos?usr_id=' + usr_id_medico;
+function getSourceFiltroMedicos() {
+
+    var urlMedicoGuardias = 'Medicos/getFiltroMedicos?usr_id=' + usr_id_medico +
+                            '&selPeriodo=' + getSelectedPeriodo() + '&selEstado=' + getSelectedEstado();
+
+    if (tipoAcceso == 1) {
+        urlMedicoGuardias += '&esMedico=1';
+    }
+
+    var srcFtrMedicoGuardias = {
+        datatype: "json",
+        datafields: [
+            { name: 'UsuarioID' },
+            { name: 'Nombre' }
+        ],
+        url: urlMedicoGuardias,
+        async: false
+    };
+
+    var dtFtrMedicoGuardias = new $.jqx.dataAdapter(srcFtrMedicoGuardias);
+
+    return dtFtrMedicoGuardias;
+
+}
 
 if (tipoAcceso == 1) {
-    urlMedicoGuardias += '&esMedico=1';
     $('#colMedicoGuardias').hide();
     $('#colMedicoServicios').hide();
     $('#colMedicoResumen').hide();
+    $('#colEstadoGuardias').hide();
 }
 
-var srcFtrMedicoGuardias = {
-    datatype: "json",
-    datafields: [
-        { name: 'UsuarioID' },
-        { name: 'Nombre' }
-    ],
-    url: urlMedicoGuardias,
-    async: false
-};
-
-var dtFtrMedicoGuardias = new $.jqx.dataAdapter(srcFtrMedicoGuardias);
+var dtFtrMedicoGuardias = getSourceFiltroMedicos();
 
 $("#ftrMedicoGuardias").jqxDropDownList({
     source: dtFtrMedicoGuardias, displayMember: "Nombre", selectedIndex: 0,
@@ -129,6 +157,10 @@ function getSelectedCoord() {
 
 function getSelectedMedico() {
     return $("#ftrMedicoGuardias").jqxDropDownList('getSelectedItem').value;
+}
+
+function getSelectedEstado() {
+    return $("#ftrEstadoGuardias").jqxDropDownList('getSelectedItem').value;
 }
 
 function getDescriptionSelectedPeriodo() {
@@ -313,6 +345,8 @@ $('#grdGuardias').on('bindingcomplete', function (event) {
     $('#titMedico').text(getDescriptionSelectedMedico());
 
     $grid.jqxGrid('localizestrings', localizationobj);
+    $grid.jqxGrid('gotonextpage');
+    $grid.jqxGrid('gotoprevpage');
 });
 
 function getHorasMinutosGuardia(hsTrabajadas, idx) {
@@ -406,8 +440,8 @@ function showPopupGuardia() {
             $('#GuardiaID').val(row.ID);
 
             // --> Seteo el radio button dependiendo si esta conforme o no, y hago un disable o enable general de los controles
-            $("input:radio[name=Conforme][value='" + estadoReclamo.Conforme + "']").prop("checked", true);
-            $("input:radio[name=Estado][value='" + estadoReclamo.Estado + "']").prop("checked", true);
+            $("#formSetReclamo input:radio[name=Conforme][value='" + estadoReclamo.Conforme + "']").prop("checked", true);
+            $("#formSetReclamo input:radio[name=Estado][value='" + estadoReclamo.Estado + "']").prop("checked", true);
             hideOrShowPopupGuardiaElements();
 
 
@@ -470,17 +504,20 @@ function showPopupGuardia() {
                     break;
                 case 2:
                     // --> Si es un admin readonly ..
-                    $('#rowResolucionForAdmin').show();
-                    enableDisablePopupGuardiaGeneral(true, true, true, true);
-                    enableDisablePopupGuardiaConformidad(true);
-                    enableDisablePopupGuardiaBotonGuardar(true);
-                    enableDisablePopupGuardiaRadioRespuesta(true);
+                    disableAllForReadOnly();
                     break;
                 case 3:
                     // --> Si es un admin que puede responder ..
-                    $('#rowResolucionForAdmin').show();
-                    enableDisablePopupGuardiaConformidad(true);
-                    enableDisablePopupGuardiaGeneral(true, false, true, true);
+                    if (estadoReclamo.Conforme == 1) {
+                        disableAllForReadOnly();
+                    } else {
+
+                        $('#rowResolucionForAdmin').show();
+                        enableDisablePopupGuardiaConformidad(true);
+                        enableDisablePopupGuardiaGeneral(true, false, true, true);
+                        enableDisablePopupGuardiaBotonGuardar(false);
+                        enableDisablePopupGuardiaRadioRespuesta(false);
+                    }
                     break;
 
             }
@@ -494,16 +531,25 @@ function showPopupGuardia() {
     });
 }
 
+function disableAllForReadOnly() {
+
+    $('#rowResolucionForAdmin').show();
+    enableDisablePopupGuardiaGeneral(true, true, true, true);
+    enableDisablePopupGuardiaConformidad(true);
+    enableDisablePopupGuardiaBotonGuardar(true);
+    enableDisablePopupGuardiaRadioRespuesta(true);
+}
+
 // --> Enable / Disable el radio button para setear Conforme / No Conforme en el reclamo
 function enableDisablePopupGuardiaConformidad(vBool) {
-    $('input:radio[name="Conforme"]').each(function () {
+    $('#formSetReclamo input:radio[name="Conforme"]').each(function () {
         $(this).prop('disabled', vBool);
     });
 }
 
 // --> Enable / Disable el radio button para setear el tipo de respuesta del admin sobre el reclamo generado por un medico
 function enableDisablePopupGuardiaRadioRespuesta(vBool) {
-    $('input:radio[name="Estado"]').each(function () {
+    $('#formSetReclamo input:radio[name="Estado"]').each(function () {
         $(this).prop('disabled', vBool);
     });
 }
@@ -543,6 +589,7 @@ function enableDisablePopupGuardiaGeneral(bObserv, bRta, bMotivo, bHorarios) {
     enableDisablePopupGuardiaObserv(bObserv);
     enableDisablePopupGuardiaRta(bRta);
     enableDisablePopupGuardiaHorarios(bHorarios);
+
 }
 
 //Limpio inputs del popup de reclamo de guardias
@@ -557,16 +604,16 @@ function limpiarInputsPopupGuardia() {
 }
 
 // Evento que muestra o esconde los datos del popup segun si el medico esta conforme o no...
-$('input:radio[name="Conforme"]').on('change', function () {
+$('#formSetReclamo input:radio[name="Conforme"]').on('change', function () {
     hideOrShowPopupGuardiaElements();
 });
 
 function hideOrShowPopupGuardiaElements() {
 
     limpiarInputsPopupGuardia();
-    $radio = $('input:radio[name="Conforme"]');
+    $radio = $('#formSetReclamo input:radio[name="Conforme"]');
 
-    if ($("input:radio[name=Conforme][value='0']").is(":checked")) {
+    if ($("#formSetReclamo input:radio[name=Conforme][value='0']").is(":checked")) {
         enableDisablePopupGuardiaGeneral(false, true, false, true);
     } else {
         enableDisablePopupGuardiaGeneral(true, true, true, true);
@@ -615,10 +662,12 @@ $('#formSetReclamo').on('submit', function (e) {
 
                 } else {
                     setAlert("El reclamo no se pudo enviar. Intente nuevamente por favor", "error");
+                    $('#busy').hide();
                 }
             },
             error: function (error) {
                 setAlert("El reclamo no se pudo enviar. Intente nuevamente por favor", "error");
+                $('#busy').hide();
             }
         });
     }

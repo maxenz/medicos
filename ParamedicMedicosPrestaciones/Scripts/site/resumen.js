@@ -86,11 +86,12 @@ var crImporte = function (row, columnfield, value, defaulthtml, columnproperties
     var item = $("#grdResumen").jqxGrid('getrowdata', row).Item;
     var importe = $("#grdResumen").jqxGrid('getrowdata', row).Importe.toString();
     if ((item == "Total a Facturar") || (item == "Anticipos Cobrados")) {
+
         if (importe.indexOf("-") == -1) {
-            return '<div style="text-align:right"><span style="line-height:25px;font-weight: bold">' + '$' + numberWithCommas(parseFloat(value).toFixed(2)) + '</span></div>';
+            return '<div style="text-align:right"><span style="line-height:25px;font-weight: bold">' + '$' + numberWithCommas(parseFloat(importe).toFixed(2)) + '</span></div>';
         } else {
-            importe.slice(0, 1);
-            return '<div style="text-align:right"><span style="line-height:25px;font-weight: bold">' + '($' + numberWithCommas(parseFloat(value).toFixed(2)) + ')' + '</span></div>';
+            importe = importe.replace("-", " ");
+            return '<div style="text-align:right"><span style="line-height:25px;font-weight: bold">' + '($' + numberWithCommas(parseFloat(importe).toFixed(2)) + ')' + '</span></div>';
         }
     }
 }

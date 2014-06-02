@@ -38,7 +38,7 @@ namespace ParamedicMedicosPrestaciones.WSContratadosLiquidaciones {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetMedicos", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Data.DataSet GetMedicos(long pUsr);
+        System.Data.DataSet GetMedicos(long pUsr, long pPer, long pVis);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetMotivosReclamo", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -108,8 +108,8 @@ namespace ParamedicMedicosPrestaciones.WSContratadosLiquidaciones {
             return base.Channel.GetIncidentes(pUsr, pPer, pCoo);
         }
         
-        public System.Data.DataSet GetMedicos(long pUsr) {
-            return base.Channel.GetMedicos(pUsr);
+        public System.Data.DataSet GetMedicos(long pUsr, long pPer, long pVis) {
+            return base.Channel.GetMedicos(pUsr, pPer, pVis);
         }
         
         public System.Data.DataSet GetMotivosReclamo(long pClf) {

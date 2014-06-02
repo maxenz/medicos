@@ -18,9 +18,9 @@
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     <i class="fa fa-check-circle big-icon icon-right-margin verde"></i>
-                                    <input type="radio" name="Conforme" value="1">
+                                    <input type="radio" name="Conforme" value="1" checked>
                                 </span>
-                                <input type="text" readonly="readonly"  class="form-control" value="ESTOY CONFORME" />
+                                <input type="text" readonly="readonly" class="form-control" value="ESTOY CONFORME" />
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -37,7 +37,7 @@
                     <div id="popupServicioContNoConforme">
                         <hr />
 
-@*                        <div class="row">
+                        @*                        <div class="row">
                             <div class="form-group col-md-3">
                                 <label for="ftrMotivoReclamoServicio">Motivo:</label>
                                 <div id="ftrMotivoReclamoServicio" name="MotivoIdServicio"></div>
@@ -76,6 +76,36 @@
                             <div class="col-md-12">
                                 <div class="alert fade in" id="alertRowEstadoForMedicoServ">
                                     <strong id="txtRowEstadoForMedicoServ"></strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-show-grid" id="rowResolucionForAdminServ" style="display: none">
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-exclamation-circle big-icon icon-right-margin amarillo"></i>
+                                        <input type="radio" name="Estado" value="0" checked>
+                                    </span>
+                                    <input type="text" readonly class="form-control" value="Pendiente" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-check-circle big-icon icon-right-margin azul"></i>
+                                        <input type="radio" name="Estado" value="1">
+                                    </span>
+                                    <input type="text" readonly class="form-control" value="Aceptado" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-times-circle big-icon icon-right-margin naranja"></i>
+                                        <input type="radio" name="Estado" value="2">
+                                    </span>
+                                    <input type="text" readonly class="form-control" value="Rechazado" />
                                 </div>
                             </div>
                         </div>

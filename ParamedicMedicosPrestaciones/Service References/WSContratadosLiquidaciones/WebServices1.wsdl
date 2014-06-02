@@ -88,6 +88,8 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" name="pUsr" type="s:long" />
+            <s:element minOccurs="0" name="pPer" type="s:long" />
+            <s:element minOccurs="0" name="pVis" type="s:long" />
           </s:sequence>
         </s:complexType>
       </s:element>
