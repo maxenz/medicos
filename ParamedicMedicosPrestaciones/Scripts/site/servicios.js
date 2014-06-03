@@ -1,37 +1,62 @@
 ﻿$("#btnConsultarServicios").jqxButton({ width: '100', theme: 'bootstrap', height: '26' });
 
-//// --> Inicializo opciones generales para el alerta que uso en vez del alert de javascript comun
-//Messenger().options = {
-//    extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
-//    theme: 'flat',
-//};
-
 // --> Seteo dropdownlist para seleccionar periodo en la grilla de servicios
 // --> Uso mismo source que filtro de periodo de guardias
 
 $("#ftrPeriodoServicios").jqxDropDownList({
-    selectedIndex: 2, source: dtFtrPeriodoGuardias, displayMember: "Descripcion",
+    selectedIndex: 2, source: setFtrPeriodoGuardias(), displayMember: "Descripcion",
     valueMember: "Periodo", width: '110%', dropDownHeight: 80, height: 25, theme: 'bootstrap'
 });
 
 // --> Seteo dropdownlist para seleccionar estado de guardias
-
 
 $("#ftrEstadoServicios").jqxDropDownList({
     selectedIndex: 0, source: vEstadosGuardias, displayMember: "Descripcion",
     valueMember: "ID", width: '110%', dropDownHeight: 110, height: 25, theme: 'bootstrap'
 });
 
-/*********************************************************************************************************/
-
 // --> Seteo dropdownlist para seleccionar periodo,guardias en la grilla de servicios
 // --> Uso mismo source que filtro de dia,guardias de guardias
 $("#ftrDiaServicios").jqxDropDownList({ selectedIndex: 0, source: srcFtrDiaGuardias, width: '110%', height: 25, theme: 'bootstrap' });
 
 $("#ftrMedicoServicios").jqxDropDownList({
-    source: dtFtrMedicoGuardias, displayMember: "Nombre", selectedIndex: 0,
+    source: getSourceFiltroMedicosServ(), displayMember: "Nombre", selectedIndex: 0,
     valueMember: "UsuarioID", width: '110%', dropDownHeight: 150, dropDownWidth: 320, height: 25, theme: 'bootstrap'
 });
+
+$("#ftrCoordServicios").jqxDropDownList({
+    selectedIndex: 0, source: setSrcFtrCoordServicios(), displayMember: "Descripcion",
+    valueMember: "ID", width: '110%', dropDownHeight: 80, height: 25, theme: 'bootstrap'
+});
+
+/*********************************************************************************************************/
+
+// --> Seteo dropdownlist para seleccionar medico en la grilla de guardias
+
+function getSourceFiltroMedicosServ() {
+
+    var urlMedicoServ = 'Medicos/getFiltroMedicos?usr_id=' + usr_id_medico +
+                            '&selPeriodo=' + getSelectedPeriodoServ() + '&selEstado=' + getSelectedEstadoServ();
+
+    if (tipoAcceso == 1) {
+        urlMedicoServ += '&esMedico=1';
+    }
+
+    var srcFtrMedicoServ = {
+        datatype: "json",
+        datafields: [
+            { name: 'UsuarioID' },
+            { name: 'Nombre' }
+        ],
+        url: urlMedicoServ,
+        async: false
+    };
+
+    var dtFtrMedicoServ = new $.jqx.dataAdapter(srcFtrMedicoServ);
+
+    return dtFtrMedicoServ;
+
+}
 
 // --> Seteo dropdownlist para seleccionar coordinacion en la grilla de servicios
 
@@ -53,18 +78,16 @@ function setSrcFtrCoordServicios() {
 
 }
 
-var dtFtrCoordServicios = setSrcFtrCoordServicios();
-
-$("#ftrCoordServicios").jqxDropDownList({
-    selectedIndex: 0, source: dtFtrCoordServicios, displayMember: "Descripcion",
-    valueMember: "ID", width: '110%', dropDownHeight: 80, height: 25, theme: 'bootstrap'
-});
-
 $('#ftrMedicoServicios').on('select', function (event) {
 
-    var dtFtrCoordServicios = setSrcFtrCoordServicios();
+    $('#ftrCoordServicios').jqxDropDownList({ source: setSrcFtrCoordServicios() });
 
-    $('#ftrCoordServicios').jqxDropDownList({ source: dtFtrCoordServicios });
+});
+
+$('#ftrEstadoServicios, #ftrPeriodoServicios').on('select', function (event) {
+
+    $('#ftrMedicoServicios').jqxDropDownList({ source: getSourceFiltroMedicosServ() });
+    $('#ftrCoordServicios').jqxDropDownList({ source: setSrcFtrCoordServicios() });
 
 });
 
@@ -86,6 +109,10 @@ function getSelectedCoordServ() {
 
 function getSelectedMedicoServ() {
     return $("#ftrMedicoServicios").jqxDropDownList('getSelectedItem').value;
+}
+
+function getSelectedEstadoServ() {
+    return $("#ftrEstadoServicios").jqxDropDownList('getSelectedItem').value;
 }
 
 function getDescriptionSelectedPeriodoServ() {
@@ -231,9 +258,8 @@ $("#grdServicios").jqxGrid(
 
 $('#btnConsultarServicios').on('click', function () {
 
-    var dtGridServicios = getSourceGridServicios();
-
-    $('#grdServicios').jqxGrid({ source: dtGridServicios });
+    $('#grdServicios').jqxGrid({ source: getSourceGridServicios() });
+    ejecutoResumen(getSelectedMedicoServ(), getSelectedPeriodoServ(), getSelectedCoordServ());
 
 });
 

@@ -4,31 +4,18 @@ $("#btnConsultarGuardias").jqxButton({ width: '100', theme: 'bootstrap', height:
 $("#popupGrdEntrada").jqxDateTimeInput({ width: '100%', height: '32', formatString: 'HH:mm', disabled: true, showCalendarButton: false, theme: 'bootstrap', textAlign: 'center' });
 $("#popupGrdSalida").jqxDateTimeInput({ width: '100%', height: '32', formatString: 'HH:mm', disabled: true, showCalendarButton: false, theme: 'bootstrap', textAlign: 'center' });
 
+if (tipoAcceso == 1) {
+    $('#colMedicoGuardias').hide();
+    $('#colMedicoServicios').hide();
+    $('#colMedicoResumen').hide();
+    $('#colEstadoGuardias').hide();
+}
+
 // --> Inicializo opciones generales para el alerta que uso en vez del alert de javascript comun
 Messenger().options = {
     extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
     theme: 'flat',
 };
-
-
-// --> Seteo dropdownlist para seleccionar periodo en la grilla de guardias
-
-var srcFtrPeriodoGuardias = {
-    datatype: "json",
-    datafields: [
-        { name: 'Periodo' },
-        { name: 'Descripcion' }
-    ],
-    url: 'Medicos/getFiltroPeriodos',
-    async: false
-};
-
-var dtFtrPeriodoGuardias = new $.jqx.dataAdapter(srcFtrPeriodoGuardias);
-
-$("#ftrPeriodoGuardias").jqxDropDownList({
-    selectedIndex: 2, source: dtFtrPeriodoGuardias, displayMember: "Descripcion",
-    valueMember: "Periodo", width: '110%', dropDownHeight: 80, height: 25, theme: 'bootstrap'
-});
 
 // --> Seteo dropdownlist para seleccionar estado de guardias
 
@@ -39,11 +26,45 @@ for (var j = 0; j < vEstadosDesc.length; j++) {
     vEstadosGuardias.push(obj);
 }
 
+// --> Set dropdownlist periodo de guardias
+
+$("#ftrPeriodoGuardias").jqxDropDownList({
+    selectedIndex: 2, source: setFtrPeriodoGuardias(), displayMember: "Descripcion",
+    valueMember: "Periodo", width: '110%', dropDownHeight: 80, height: 25, theme: 'bootstrap'
+});
+
+// --> Set dropdownlist estado de guardias
+
 $("#ftrEstadoGuardias").jqxDropDownList({
     selectedIndex: 0, source: vEstadosGuardias, displayMember: "Descripcion",
     valueMember: "ID", width: '110%', dropDownHeight: 110, height: 25, theme: 'bootstrap'
 });
 
+// --> Set dropdownlist medicos de guardias
+
+$("#ftrMedicoGuardias").jqxDropDownList({
+    source: getSourceFiltroMedicos(), displayMember: "Nombre", selectedIndex: 0,
+    valueMember: "UsuarioID", width: '110%', dropDownHeight: 150, dropDownWidth: 320, height: 25, theme: 'bootstrap'
+});
+
+function setFtrPeriodoGuardias() {
+
+    // --> Seteo dropdownlist para seleccionar periodo en la grilla de guardias
+
+    var srcFtrPeriodoGuardias = {
+        datatype: "json",
+        datafields: [
+            { name: 'Periodo' },
+            { name: 'Descripcion' }
+        ],
+        url: 'Medicos/getFiltroPeriodos',
+        async: false
+    };
+
+    var dtFtrPeriodoGuardias = new $.jqx.dataAdapter(srcFtrPeriodoGuardias);
+    
+    return dtFtrPeriodoGuardias;
+}
 
 /*************************************************************************************************/
 
@@ -74,27 +95,18 @@ function getSourceFiltroMedicos() {
 
 }
 
-if (tipoAcceso == 1) {
-    $('#colMedicoGuardias').hide();
-    $('#colMedicoServicios').hide();
-    $('#colMedicoResumen').hide();
-    $('#colEstadoGuardias').hide();
-}
-
-var dtFtrMedicoGuardias = getSourceFiltroMedicos();
-
-$("#ftrMedicoGuardias").jqxDropDownList({
-    source: dtFtrMedicoGuardias, displayMember: "Nombre", selectedIndex: 0,
-    valueMember: "UsuarioID", width: '110%', dropDownHeight: 150, dropDownWidth: 320, height: 25, theme: 'bootstrap'
-});
-
 // --> Cuando selecciono medico, actualizo el dropdownlist de las coordinaciones
 
 $('#ftrMedicoGuardias').on('select', function (event) {
 
-    var dtFtrCoordGuardias = setSrcFtrCoordGuardias();
+    $('#ftrCoordGuardias').jqxDropDownList({ source: setSrcFtrCoordGuardias() });
 
-    $('#ftrCoordGuardias').jqxDropDownList({ source: dtFtrCoordGuardias });
+});
+
+$('#ftrEstadoGuardias, #ftrPeriodoGuardias').on('select', function (event) {
+
+    $('#ftrMedicoGuardias').jqxDropDownList({ source: getSourceFiltroMedicos() });
+    $('#ftrCoordGuardias').jqxDropDownList({ source: setSrcFtrCoordGuardias() });
 
 });
 
@@ -362,11 +374,25 @@ function getHorasMinutosGuardia(hsTrabajadas, idx) {
 
 $('#btnConsultarGuardias').on('click', function () {
 
-    var dtGridGuardias = getSourceGridGuardias();
-
-    $('#grdGuardias').jqxGrid({ source: dtGridGuardias });
+    $('#grdGuardias').jqxGrid({ source: getSourceGridGuardias() });
+    ejecutoResumen(getSelectedMedico(), getSelectedPeriodo(), getSelectedCoord());
 
 });
+
+function ejecutoResumen(valMedico, valPeriodo, valCoord) {
+
+    var itemMed = $("#ftrMedicoResumen").jqxDropDownList('getItemByValue', valMedico);
+    $('#ftrMedicoResumen').jqxDropDownList('selectItem', itemMed);
+
+    var itemPer = $("#ftrPeriodoResumen").jqxDropDownList('getItemByValue', valPeriodo);
+    $('#ftrPeriodoResumen').jqxDropDownList('selectItem', itemPer);
+
+    var itemCoord = $("#ftrCoordResumen").jqxDropDownList('getItemByValue', valCoord);
+    $('#ftrCoordResumen').jqxDropDownList('selectItem', itemCoord);
+
+    setSourceResumen();
+
+}
 
 
 /*********************************************************************************************************/
@@ -671,7 +697,7 @@ $('#formSetReclamo').on('submit', function (e) {
             }
         });
     }
-
+    
     e.preventDefault();
 
 });
@@ -723,5 +749,9 @@ function setAlert(msg, tipoMsg) {
         showCloseButton: true
     });
 }
+
+
+
+
 
 

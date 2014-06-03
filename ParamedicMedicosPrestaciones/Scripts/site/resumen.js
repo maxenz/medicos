@@ -4,7 +4,7 @@
 // --> Uso mismo source que filtro de periodo de guardias
 
 $("#ftrPeriodoResumen").jqxDropDownList({
-    selectedIndex: 2, source: dtFtrPeriodoGuardias, displayMember: "Descripcion",
+    selectedIndex: 2, source: setFtrPeriodoGuardias(), displayMember: "Descripcion",
     valueMember: "Periodo", width: '110%', dropDownHeight: 80, height: 25, theme: 'bootstrap'
 });
 
@@ -12,7 +12,7 @@ $("#ftrPeriodoResumen").jqxDropDownList({
 // --> Uso mismo source que filtro de medicos de guardias
 
 $("#ftrMedicoResumen").jqxDropDownList({
-    source: dtFtrMedicoGuardias, displayMember: "Nombre", selectedIndex: 0,
+    source: getSourceFiltroMedicos(), displayMember: "Nombre", selectedIndex: 0,
     valueMember: "UsuarioID", width: '110%', dropDownHeight: 150, dropDownWidth: 320, height: 25, theme: 'bootstrap'
 });
 
@@ -34,18 +34,14 @@ function setSrcFtrCoordResumen() {
 
 }
 
-var dtFtrCoordResumen = setSrcFtrCoordResumen();
-
 $("#ftrCoordResumen").jqxDropDownList({
-    selectedIndex: 0, source: dtFtrCoordResumen, displayMember: "Descripcion",
+    selectedIndex: 0, source: setSrcFtrCoordResumen(), displayMember: "Descripcion",
     valueMember: "ID", width: '110%', dropDownHeight: 80, height: 25, theme: 'bootstrap'
 });
 
 $('#ftrMedicoResumen').on('select', function (event) {
 
-    var dtFtrCoordResumen = setSrcFtrCoordResumen();
-
-    $('#ftrCoordResumen').jqxDropDownList({ source: dtFtrCoordResumen });
+    $('#ftrCoordResumen').jqxDropDownList({ source: setSrcFtrCoordResumen() });
 
 });
 
@@ -196,12 +192,14 @@ $('#grdHorarios').on('bindingcomplete', function (event) {
 
 $('#btnConsultarResumen').on('click', function () {
 
-    var dtGridResumen = getSourceGridResumen();
-
-    var dtGridHorarios = getSourceGridHorarios();
-
-    $('#grdResumen').jqxGrid({ source: dtGridResumen });
-
-    $('#grdHorarios').jqxGrid({ source: dtGridHorarios });
+    setSourceResumen();
 
 });
+
+function setSourceResumen() {
+
+    $('#grdResumen').jqxGrid({ source: getSourceGridResumen() });
+
+    $('#grdHorarios').jqxGrid({ source: getSourceGridHorarios() });
+
+}
