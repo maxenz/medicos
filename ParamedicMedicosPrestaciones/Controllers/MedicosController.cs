@@ -169,6 +169,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
             int dia = Convert.ToInt32(query.GetValues("dia")[0]);
             int coordinacion = Convert.ToInt32(query.GetValues("coordinacion")[0]);
             long medico = Convert.ToInt64(query.GetValues("medico")[0]);
+            int estado = Convert.ToInt32(query.GetValues("estado")[0]);
             DataSet dsGuardias = getGuardiasFromWebService(periodo, coordinacion, medico);
             List<Guardia> guardias = new List<Guardia>();
             if (dsGuardias == null)
@@ -177,7 +178,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
             }
             else
             {
-                guardias = getGuardiasFormatted(dsGuardias, dia);
+                guardias = getGuardiasFormatted(dsGuardias, dia, estado);
             }
 
             return Json(guardias, JsonRequestBehavior.AllowGet);
@@ -417,7 +418,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
         //Formateo los dataset traidos de los webservices para armar los datos estructurados en objetos de distintas clases
 
-        private List<Guardia> getGuardiasFormatted(DataSet dsGuardias, int dia)
+        private List<Guardia> getGuardiasFormatted(DataSet dsGuardias, int dia, int estado)
         {
 
             List<Guardia> lstGuardias = new List<Guardia>();
@@ -455,9 +456,9 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
             }
 
-            if (dia != 0)
+            if (dia != 0 && estado != 0 )
             {
-                lstGuardias = lstGuardias.Where(x => x.Dia == dia).ToList();
+                lstGuardias = lstGuardias.Where(x => (x.Dia == dia) && (x.Estado == estado)).ToList();
             }
 
             return lstGuardias;

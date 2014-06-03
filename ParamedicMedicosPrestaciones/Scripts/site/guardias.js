@@ -20,11 +20,13 @@ Messenger().options = {
 // --> Seteo dropdownlist para seleccionar estado de guardias
 
 var vEstadosGuardias = [];
-var vEstadosDesc = ['Todos', 'Pendientes', 'Aceptados', 'Rechazados'];
-for (var j = 0; j < vEstadosDesc.length; j++) {
-    var obj = { ID: j, Descripcion: vEstadosDesc[j] };
-    vEstadosGuardias.push(obj);
-}
+//var vEstadosDesc = ['Todos', 'Pendientes', 'Aceptados', 'Rechazados'];
+vEstadosGuardias.push({ ID: 5, Descripcion: 'Todos' }, { ID: 2, Descripcion: 'Pendientes' },
+                        { ID: 3, Descripcion: 'Aceptados' }, { ID: 4, Descripcion: 'Rechazados' })
+//for (var j = 0; j < vEstadosDesc.length; j++) {
+//    var obj = { ID: j, Descripcion: vEstadosDesc[j] };
+//    vEstadosGuardias.push(obj);
+//}
 
 // --> Set dropdownlist periodo de guardias
 
@@ -221,7 +223,8 @@ function getSourceGridGuardias() {
             periodo: getSelectedPeriodo(),
             dia: getSelectedDia(),
             coordinacion: getSelectedCoord(),
-            medico: getSelectedMedico()
+            medico: getSelectedMedico(),
+            estado: getSelectedestado()
         }
     };
 

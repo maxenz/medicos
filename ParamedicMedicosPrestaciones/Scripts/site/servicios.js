@@ -157,7 +157,8 @@ function getSourceGridServicios() {
             periodo: getSelectedPeriodoServ(),
             dia: getSelectedDiaServ(),
             coordinacion: getSelectedCoordServ(),
-            medico: getSelectedMedicoServ()
+            medico: getSelectedMedicoServ(),
+            estado: getSelectedEstadoServ()
         }
     };
 
