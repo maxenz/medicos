@@ -67,8 +67,8 @@ namespace ParamedicMedicosPrestaciones
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                         "~/Content/styles/droid-font.css",
-                        "~/Content/styles/bootstrap.css",
-                        "~/Content/styles/bootstrap-theme.css",
+                        //"~/Content/styles/bootstrap.css",
+                        //"~/Content/styles/bootstrap-theme.css",
                         "~/Content/styles/bootstrap-select.css",
                         "~/Content/styles/bootstrapValidator.css",
                         "~/Content/styles/messenger.css",

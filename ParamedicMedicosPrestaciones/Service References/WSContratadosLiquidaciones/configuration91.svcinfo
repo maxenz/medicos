@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="5RB7W7lmRIhoFwxS7+RLeWRUP1w=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="g7nQygwRLOINrnadSrEv/GwlZT8=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="basicHttpBinding" name="ContratadosLiquidacionesSoap">
       <properties>
@@ -112,10 +112,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="ContratadosLiquidacionesSoap" contract="WSContratadosLiquidaciones.ContratadosLiquidacionesSoap" bindingType="basicHttpBinding" address="http://paramedicapps.com.ar:57773/csp/shaman/WebServices.ContratadosLiquidaciones.cls" bindingConfiguration="ContratadosLiquidacionesSoap">
+    <endpoint name="ContratadosLiquidacionesSoap" contract="WSContratadosLiquidaciones.ContratadosLiquidacionesSoap" bindingType="basicHttpBinding" address="http://192.168.0.248:57773/csp/shaman/WebServices.ContratadosLiquidaciones.cls" bindingConfiguration="ContratadosLiquidacionesSoap">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://paramedicapps.com.ar:57773/csp/shaman/WebServices.ContratadosLiquidaciones.cls</serializedValue>
+          <serializedValue>http://192.168.0.248:57773/csp/shaman/WebServices.ContratadosLiquidaciones.cls</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

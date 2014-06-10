@@ -26,7 +26,7 @@ namespace ParamedicMedicosPrestaciones.WSContratadosLiquidaciones {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetGuardiasDetalle", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Data.DataSet GetGuardiasDetalle(long pUsr, long pPer, long pCoo);
+        System.Data.DataSet GetGuardiasDetalle(long pUsr, long pPer, long pCoo, long pVis);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetHorarios", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -34,7 +34,7 @@ namespace ParamedicMedicosPrestaciones.WSContratadosLiquidaciones {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetIncidentes", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Data.DataSet GetIncidentes(long pUsr, long pPer, long pCoo);
+        System.Data.DataSet GetIncidentes(long pUsr, long pPer, long pCoo, long pVis);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WebServices.ContratadosLiquidaciones.GetMedicos", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -96,16 +96,16 @@ namespace ParamedicMedicosPrestaciones.WSContratadosLiquidaciones {
             return base.Channel.GetEstadoReclamo(pItm, pMode);
         }
         
-        public System.Data.DataSet GetGuardiasDetalle(long pUsr, long pPer, long pCoo) {
-            return base.Channel.GetGuardiasDetalle(pUsr, pPer, pCoo);
+        public System.Data.DataSet GetGuardiasDetalle(long pUsr, long pPer, long pCoo, long pVis) {
+            return base.Channel.GetGuardiasDetalle(pUsr, pPer, pCoo, pVis);
         }
         
         public System.Data.DataSet GetHorarios(long pUsr, long pPer) {
             return base.Channel.GetHorarios(pUsr, pPer);
         }
         
-        public System.Data.DataSet GetIncidentes(long pUsr, long pPer, long pCoo) {
-            return base.Channel.GetIncidentes(pUsr, pPer, pCoo);
+        public System.Data.DataSet GetIncidentes(long pUsr, long pPer, long pCoo, long pVis) {
+            return base.Channel.GetIncidentes(pUsr, pPer, pCoo, pVis);
         }
         
         public System.Data.DataSet GetMedicos(long pUsr, long pPer, long pVis) {

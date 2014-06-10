@@ -21,6 +21,12 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
         public ActionResult Index(long usr = 0)
         {
+        
+            if (Convert.ToInt32(Session["usr_id"]) != 0 && usr == 0)
+            {
+                return View();
+            }
+
             if (usr == 0)
             {
                 return RedirectToAction("Index", "Error");
@@ -29,7 +35,8 @@ namespace ParamedicMedicosPrestaciones.Controllers
             {
                 return RedirectToAction("Index", "Error");
             }
-            return View();
+
+            return RedirectToAction("Index");
         }
 
         //
@@ -49,10 +56,9 @@ namespace ParamedicMedicosPrestaciones.Controllers
                 else
                 {
                     Session["usr_id"] = usr;
-                    ViewBag.UserName = dtUsuario.Rows[0]["NombreUsuario"].ToString();
-                    ViewBag.MedicoName = dtUsuario.Rows[0]["NombreMedico"].ToString();
-                    ViewBag.Acceso = Convert.ToInt32(dtUsuario.Rows[0]["Acceso"]);
-                    ViewBag.Usuario_Id_Medico = usr;
+                    Session["UserName"] = dtUsuario.Rows[0]["NombreUsuario"].ToString();
+                    Session["MedicoName"] = dtUsuario.Rows[0]["NombreMedico"].ToString();
+                    Session["Acceso"] = Convert.ToInt32(dtUsuario.Rows[0]["Acceso"]);
                     return true;
                 }
             }
@@ -133,7 +139,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
         // Obtengo los datos para el filtro de medicos (Si me llega el id de un medico, es porque es un medico el que está solicitando
         // el filtro, entonces solamente accede a su registro.
 
-        public JsonResult getFiltroMedicos(long usr_id,long selPeriodo, int selEstado, int esMedico = 0)
+        public JsonResult getFiltroMedicos(long usr_id, long selPeriodo, int selEstado, int esMedico = 0)
         {
             WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
             DataSet dsMedicos = wsClient.GetMedicos(usr_id, selPeriodo, selEstado);
@@ -170,7 +176,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
             int coordinacion = Convert.ToInt32(query.GetValues("coordinacion")[0]);
             long medico = Convert.ToInt64(query.GetValues("medico")[0]);
             int estado = Convert.ToInt32(query.GetValues("estado")[0]);
-            DataSet dsGuardias = getGuardiasFromWebService(periodo, coordinacion, medico);
+            DataSet dsGuardias = getGuardiasFromWebService(periodo, coordinacion, medico, estado);
             List<Guardia> guardias = new List<Guardia>();
             if (dsGuardias == null)
             {
@@ -178,7 +184,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
             }
             else
             {
-                guardias = getGuardiasFormatted(dsGuardias, dia, estado);
+                guardias = getGuardiasFormatted(dsGuardias, dia);
             }
 
             return Json(guardias, JsonRequestBehavior.AllowGet);
@@ -194,7 +200,8 @@ namespace ParamedicMedicosPrestaciones.Controllers
             int dia = Convert.ToInt32(query.GetValues("dia")[0]);
             int coordinacion = Convert.ToInt32(query.GetValues("coordinacion")[0]);
             long medico = Convert.ToInt64(query.GetValues("medico")[0]);
-            DataSet dsServicios = getServiciosFromWebService(periodo, coordinacion, medico);
+            int estado = Convert.ToInt32(query.GetValues("estado")[0]);
+            DataSet dsServicios = getServiciosFromWebService(periodo, coordinacion, medico, estado);
             List<Servicio> servicios = new List<Servicio>();
             if (dsServicios == null)
             {
@@ -314,12 +321,12 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
         }
 
-        private DataSet getGuardiasFromWebService(long periodo, int coord, long usr_id)
+        private DataSet getGuardiasFromWebService(long periodo, int coord, long usr_id, int estado)
         {
             try
             {
                 WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
-                return wsClient.GetGuardiasDetalle(usr_id, periodo, coord);
+                return wsClient.GetGuardiasDetalle(usr_id, periodo, coord, estado);
             }
             catch (Exception ex)
             {
@@ -330,13 +337,13 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
         }
 
-        private DataSet getServiciosFromWebService(long periodo, int coord, long medico)
+        private DataSet getServiciosFromWebService(long periodo, int coord, long medico, int estado)
         {
 
             try
             {
                 WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
-                return wsClient.GetIncidentes(medico, periodo, coord);
+                return wsClient.GetIncidentes(medico, periodo, coord, estado);
             }
             catch (Exception ex)
             {
@@ -418,7 +425,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
         //Formateo los dataset traidos de los webservices para armar los datos estructurados en objetos de distintas clases
 
-        private List<Guardia> getGuardiasFormatted(DataSet dsGuardias, int dia, int estado)
+        private List<Guardia> getGuardiasFormatted(DataSet dsGuardias, int dia)
         {
 
             List<Guardia> lstGuardias = new List<Guardia>();
@@ -456,9 +463,9 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
             }
 
-            if (dia != 0 && estado != 0 )
+            if (dia != 0)
             {
-                lstGuardias = lstGuardias.Where(x => (x.Dia == dia) && (x.Estado == estado)).ToList();
+                lstGuardias = lstGuardias.Where(x => x.Dia == dia).ToList();
             }
 
             return lstGuardias;
