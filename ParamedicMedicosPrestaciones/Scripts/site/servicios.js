@@ -250,7 +250,7 @@ $("#grdServicios").jqxGrid(
     showaggregates: true,
     showstatusbar: true,
     statusbarheight: 25,
-    pagesizeoptions: [12]
+    pagesizeoptions: ['12']
 });
 
 /*********************************************************************************************************/
@@ -276,8 +276,8 @@ function getHorasMinutosGuardia(hsTrabajadas, idx) {
 $('#grdServicios').on('bindingcomplete', function (event) {
     $grid = $(this);
     $grid.jqxGrid('localizestrings', localizationobj);
-    $grid.jqxGrid('gotonextpage');
-    $grid.jqxGrid('gotoprevpage');
+    //$grid.jqxGrid('gotonextpage');
+    //$grid.jqxGrid('gotoprevpage');
 });
 
 
