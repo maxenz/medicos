@@ -278,6 +278,21 @@ $('#grdServicios').on('bindingcomplete', function (event) {
     $grid.jqxGrid('localizestrings', localizationobj);
     //$grid.jqxGrid('gotonextpage');
     //$grid.jqxGrid('gotoprevpage');
+
+    $("#grdServicios").jqxGrid('setcellvalue', 0, "NroInc", "4KT");
+    //$("#grdServicios").jqxGrid('setcellvalue', 1, "NroInc", "4LL");
+    //$("#grdServicios").jqxGrid('setcellvalue', 2, "NroInc", "5B1");
+    //$("#grdServicios").jqxGrid('setcellvalue', 3, "NroInc", "6U5");
+    //$("#grdServicios").jqxGrid('setcellvalue', 4, "NroInc", "9DQ");
+    //$("#grdServicios").jqxGrid('setcellvalue', 5, "NroInc", "2HN");
+    //$("#grdServicios").jqxGrid('setcellvalue', 6, "NroInc", "1KU");
+    //$("#grdServicios").jqxGrid('setcellvalue', 7, "NroInc", "9IO");
+    //$("#grdServicios").jqxGrid('setcellvalue', 8, "NroInc", "5TT");
+    //$("#grdServicios").jqxGrid('setcellvalue', 9, "NroInc", "1BN");
+    //$("#grdServicios").jqxGrid('setcellvalue', 10, "NroInc", "8DD");
+    //$("#grdServicios").jqxGrid('setcellvalue',11, "NroInc", "3NP");
+
+
 });
 
 

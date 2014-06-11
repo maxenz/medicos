@@ -360,8 +360,14 @@ $('#grdGuardias').on('bindingcomplete', function (event) {
     $('#titMedico').text(getDescriptionSelectedMedico());
 
     $grid.jqxGrid('localizestrings', localizationobj);
-    $grid.jqxGrid('gotonextpage');
-    $grid.jqxGrid('gotoprevpage');
+    //$grid.jqxGrid('gotonextpage');
+    //$grid.jqxGrid('gotoprevpage');
+    $('#user-paramedic').text('diego.laise');
+    $('#titMedico').text('LAISE DIEGO');
+
+
+
+
 });
 
 function getHorasMinutosGuardia(hsTrabajadas, idx) {
@@ -765,6 +771,8 @@ function setAlert(msg, tipoMsg) {
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+
 
 
 
