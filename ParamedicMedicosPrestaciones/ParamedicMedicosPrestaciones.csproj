@@ -851,7 +851,7 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <Content Include="Service References\WSContratadosLiquidaciones\WebServices.wsdl" />
+    <None Include="Service References\WSContratadosLiquidaciones\WebServices11.wsdl" />
     <None Include="Service References\WSProduccionContratadosLiquidaciones\configuration91.svcinfo" />
     <None Include="Service References\WSProduccionContratadosLiquidaciones\configuration.svcinfo" />
     <None Include="Service References\WSProduccionContratadosLiquidaciones\Reference.svcmap">
@@ -877,7 +877,7 @@
     <Content Include="Views\Medicos\_Resumen.cshtml" />
     <Content Include="Views\Medicos\_PopupRevisarGuardias.cshtml" />
     <Content Include="Views\Medicos\_PopupRevisarServicios.cshtml" />
-    <Content Include="Service References\WSProduccionContratadosLiquidaciones\WebServices.wsdl" />
+    <None Include="Service References\WSProduccionContratadosLiquidaciones\WebServices11.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

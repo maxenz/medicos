@@ -405,7 +405,7 @@
   </wsdl:binding>
   <wsdl:service name="ContratadosLiquidaciones">
     <wsdl:port name="ContratadosLiquidacionesSoap" binding="s0:ContratadosLiquidacionesSoap">
-      <soap:address location="http://192.168.0.249:57772/csp/shaman/WebServices.ContratadosLiquidaciones.cls" />
+      <soap:address location="http://paramedicapps.com.ar:57772/csp/shaman/WebServices.ContratadosLiquidaciones.cls" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

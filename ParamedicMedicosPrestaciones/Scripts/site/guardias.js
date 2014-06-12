@@ -311,7 +311,7 @@ var colGridGuardias =
 
 $("#grdGuardias").jqxGrid(
 {
-    width: '99%',
+    width: '100%',
     autoheight: true,
     source: getSourceGridGuardias(),
     pageable: true,
@@ -362,11 +362,6 @@ $('#grdGuardias').on('bindingcomplete', function (event) {
     $grid.jqxGrid('localizestrings', localizationobj);
     //$grid.jqxGrid('gotonextpage');
     //$grid.jqxGrid('gotoprevpage');
-    $('#user-paramedic').text('diego.laise');
-    $('#titMedico').text('LAISE DIEGO');
-
-
-
 
 });
 
