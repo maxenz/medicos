@@ -26,7 +26,7 @@ $("#ftrMedicoServicios").jqxDropDownList({
 
 $("#ftrCoordServicios").jqxDropDownList({
     selectedIndex: 0, source: setSrcFtrCoordServicios(), displayMember: "Descripcion",
-    valueMember: "ID", width: '110%', dropDownHeight: 80, height: 25, theme: 'bootstrap'
+    valueMember: "ID", width: '110%', dropDownHeight: 80,dropDownHeight: 125, height: 25, theme: 'bootstrap'
 });
 
 /*********************************************************************************************************/

@@ -50,7 +50,7 @@ $("#ftrMedicoGuardias").jqxDropDownList({
 
 $("#ftrCoordGuardias").jqxDropDownList({
     selectedIndex: 0, source: setSrcFtrCoordGuardias(), displayMember: "Descripcion",
-    valueMember: "ID", width: '110%', dropDownHeight: 80, height: 25, theme: 'bootstrap'
+    valueMember: "ID", width: '110%', dropDownHeight: 125, height: 25, theme: 'bootstrap'
 });
 
 function setFtrPeriodoGuardias() {
@@ -246,6 +246,11 @@ var crHorSalidaGuardia = function (row, columnfield, value, defaulthtml, columnp
     }
 }
 
+var crAnticipoGuardia = function (row, columnfield, value, defaulthtml, columnproperties) {
+    return '<div style="text-align:right"><span style="line-height:25px">' + '($' + numberWithCommas(parseFloat(value).toFixed(2)) + ')' + '</span></div>';
+}
+
+
 var crConfirmacionGuardia = function (row, columnfield, value, defaulthtml, columnproperties) {
     var retVal = "";
     switch (value) {
@@ -296,7 +301,7 @@ var colGridGuardias =
               { text: '$Esp', datafield: 'ImpEspecialidad', width: '8%', cellsalign: 'right', cellsformat: 'c2' },
               { text: '$Inc', datafield: 'ImpPrestacion', width: '8%', cellsalign: 'right', cellsformat: 'c2' },
               { text: '$Exc', datafield: 'ImpPrestacionExcedente', width: '8%', cellsalign: 'right', cellsformat: 'c2' },
-              { text: '$Ant', datafield: 'ImpAnticipo', width: '8%', cellsalign: 'right', cellsformat: 'c2' },
+              { text: '$Ant', datafield: 'ImpAnticipo', width: '8%', cellsalign: 'right', cellsRenderer: crAnticipoGuardia },
               { text: '$Tot', datafield: 'ImpFinal', width: '8%', cellsalign: 'right', cellsformat: 'c2' },
               { text: 'Est', datafield: 'Estado', width: '4%', cellsalign: 'center', cellsRenderer: crConfirmacionGuardia }
              ];
@@ -306,7 +311,7 @@ var colGridGuardias =
 
 $("#grdGuardias").jqxGrid(
 {
-    width: '99%',
+    width: '100%',
     autoheight: true,
     source: getSourceGridGuardias(),
     pageable: true,
@@ -314,7 +319,7 @@ $("#grdGuardias").jqxGrid(
     pagesize: 12,
     theme: 'arctic',
     columns: colGridGuardias,
-    pagesizeoptions: [12]
+    pagesizeoptions: ['12']
 });
 
 /*********************************************************************************************************/
@@ -355,8 +360,9 @@ $('#grdGuardias').on('bindingcomplete', function (event) {
     $('#titMedico').text(getDescriptionSelectedMedico());
 
     $grid.jqxGrid('localizestrings', localizationobj);
-    $grid.jqxGrid('gotonextpage');
-    $grid.jqxGrid('gotoprevpage');
+    //$grid.jqxGrid('gotonextpage');
+    //$grid.jqxGrid('gotoprevpage');
+
 });
 
 function getHorasMinutosGuardia(hsTrabajadas, idx) {
@@ -756,6 +762,13 @@ function setAlert(msg, tipoMsg) {
         showCloseButton: true
     });
 }
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+
+
 
 
 

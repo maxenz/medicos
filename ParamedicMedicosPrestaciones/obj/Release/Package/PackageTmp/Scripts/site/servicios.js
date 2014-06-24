@@ -26,7 +26,7 @@ $("#ftrMedicoServicios").jqxDropDownList({
 
 $("#ftrCoordServicios").jqxDropDownList({
     selectedIndex: 0, source: setSrcFtrCoordServicios(), displayMember: "Descripcion",
-    valueMember: "ID", width: '110%', dropDownHeight: 80, height: 25, theme: 'bootstrap'
+    valueMember: "ID", width: '110%', dropDownHeight: 80,dropDownHeight: 125, height: 25, theme: 'bootstrap'
 });
 
 /*********************************************************************************************************/
@@ -239,7 +239,7 @@ var colGridServicios =
 
 $("#grdServicios").jqxGrid(
 {
-    width: '99%',
+    width: '100%',
     autoheight: true,
     source: dtGridServicios,
     pageable: true,
@@ -250,7 +250,7 @@ $("#grdServicios").jqxGrid(
     showaggregates: true,
     showstatusbar: true,
     statusbarheight: 25,
-    pagesizeoptions: [12]
+    pagesizeoptions: ['12']
 });
 
 /*********************************************************************************************************/
@@ -276,8 +276,9 @@ function getHorasMinutosGuardia(hsTrabajadas, idx) {
 $('#grdServicios').on('bindingcomplete', function (event) {
     $grid = $(this);
     $grid.jqxGrid('localizestrings', localizationobj);
-    $grid.jqxGrid('gotonextpage');
-    $grid.jqxGrid('gotoprevpage');
+    //$grid.jqxGrid('gotonextpage');
+    //$grid.jqxGrid('gotoprevpage');
+
 });
 
 

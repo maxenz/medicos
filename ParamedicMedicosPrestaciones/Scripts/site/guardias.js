@@ -50,7 +50,7 @@ $("#ftrMedicoGuardias").jqxDropDownList({
 
 $("#ftrCoordGuardias").jqxDropDownList({
     selectedIndex: 0, source: setSrcFtrCoordGuardias(), displayMember: "Descripcion",
-    valueMember: "ID", width: '110%', dropDownHeight: 80, height: 25, theme: 'bootstrap'
+    valueMember: "ID", width: '110%', dropDownHeight: 125, height: 25, theme: 'bootstrap'
 });
 
 function setFtrPeriodoGuardias() {

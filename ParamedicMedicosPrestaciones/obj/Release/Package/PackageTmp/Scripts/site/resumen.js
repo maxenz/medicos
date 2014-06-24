@@ -63,9 +63,6 @@ function getSelectedMedicoResumen() {
 
 /*********************************************************************************************************/
 
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
 
 // --> Seteo datafields de grilla de resumen
 
@@ -167,7 +164,7 @@ $("#grdResumen").jqxGrid(
     altrows: true,
     theme: 'arctic',
     columns: colGridResumen,
-    pagesizeoptions: [8]
+    pagesizeoptions: ['8']
 });
 
 $("#grdHorarios").jqxGrid(
@@ -180,7 +177,7 @@ $("#grdHorarios").jqxGrid(
     altrows: true,
     theme: 'arctic',
     columns: colGridHorarios,
-    pagesizeoptions: [8]
+    pagesizeoptions: ['8']
 });
 
 $('#grdResumen').on('bindingcomplete', function (event) {

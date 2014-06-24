@@ -4,7 +4,6 @@ $('#navbar-top-logout').tooltip({
     placement: 'right'
 });
 
-
 // --> Seteo localization obj para traducir grillas de ingles
 
 var localizationobj = {};
