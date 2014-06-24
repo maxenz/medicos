@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-    <title>Paramedic - Prestaciones de M&eacute;dicos</title>
+    <title>Paramedic - @ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -19,7 +19,24 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqwidgets")
     @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/main")
+
+
+    @*Cargo diferentes js dependiendo del controlador*@
+    @{
+        string controladorActual = (string)@ViewContext.RouteData.Values["Controller"];
+    }
+
+    @switch (controladorActual)
+    {
+        case "Medicos":
+            @Scripts.Render("~/bundles/main")
+            break;
+        case "OperativaClientes":
+            @Scripts.Render("~/bundles/opClientes");
+            break;
+    }
+
     @RenderSection("scripts", required: false)
 </body>
+
 </html>

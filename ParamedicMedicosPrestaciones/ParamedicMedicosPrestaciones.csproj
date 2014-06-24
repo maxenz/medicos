@@ -134,6 +134,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\MedicosController.cs" />
+    <Compile Include="Controllers\OperativaClientesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -147,6 +148,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Service References\WSOperativaClientes\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\WSProduccionContratadosLiquidaciones\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -156,6 +162,7 @@
     <Compile Include="ViewModels\FiltroPeriodos.cs" />
     <Compile Include="ViewModels\FiltroReclamo.cs" />
     <Compile Include="ViewModels\Horario.cs" />
+    <Compile Include="ViewModels\OperativaEnCurso.cs" />
     <Compile Include="ViewModels\Medico.cs" />
     <Compile Include="ViewModels\ResumenLiquidacion.cs" />
   </ItemGroup>
@@ -821,6 +828,7 @@
     <Content Include="Scripts\messenger-theme-future.js" />
     <Content Include="Scripts\messenger.js" />
     <Content Include="Scripts\messenger.min.js" />
+    <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\site\guardias.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -838,6 +846,7 @@
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\site\main.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\site\OperativaClientes\opClientes.js" />
     <Content Include="Scripts\site\resumen.js" />
     <Content Include="Scripts\site\servicios.js" />
     <Content Include="Scripts\vendor\bootstrap.js" />
@@ -852,9 +861,16 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Service References\WSContratadosLiquidaciones\WebServices11.wsdl" />
+    <None Include="Service References\WSOperativaClientes\WebServices.wsdl" />
     <None Include="Service References\WSProduccionContratadosLiquidaciones\configuration91.svcinfo" />
     <None Include="Service References\WSProduccionContratadosLiquidaciones\configuration.svcinfo" />
     <None Include="Service References\WSProduccionContratadosLiquidaciones\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\WSOperativaClientes\configuration91.svcinfo" />
+    <None Include="Service References\WSOperativaClientes\configuration.svcinfo" />
+    <None Include="Service References\WSOperativaClientes\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
@@ -878,10 +894,11 @@
     <Content Include="Views\Medicos\_PopupRevisarGuardias.cshtml" />
     <Content Include="Views\Medicos\_PopupRevisarServicios.cshtml" />
     <None Include="Service References\WSProduccionContratadosLiquidaciones\WebServices11.wsdl" />
+    <Content Include="Views\OperativaClientes\Index.cshtml" />
+    <Content Include="Views\OperativaClientes\_EnCurso.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Scripts\site\OperativaClientes\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -891,6 +908,7 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\WSContratadosLiquidaciones\" />
+    <WCFMetadataStorage Include="Service References\WSOperativaClientes\" />
     <WCFMetadataStorage Include="Service References\WSProduccionContratadosLiquidaciones\" />
   </ItemGroup>
   <PropertyGroup>

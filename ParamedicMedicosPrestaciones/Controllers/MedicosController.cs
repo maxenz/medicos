@@ -21,7 +21,9 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
         public ActionResult Index(long usr = 0)
         {
-        
+
+            ViewBag.Title = "Gestión de Reclamos Web para Liquidación de Honorarios";
+
             if (Convert.ToInt32(Session["usr_id"]) != 0 && usr == 0)
             {
                 return View();

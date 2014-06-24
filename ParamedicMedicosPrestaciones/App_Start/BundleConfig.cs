@@ -24,6 +24,7 @@ namespace ParamedicMedicosPrestaciones
                         "~/Scripts/jquery.maskedinput.js",
                         "~/Scripts/bootstrapValidator.js",
                         "~/Scripts/messenger.js",
+                        "~/Scripts/moment.js",
                         "~/Scripts/messenger-theme-future.js",
                         "~/Scripts/jquery.serialize-object.js",
                         "~/Scripts/jquery.maskMoney.js"                      
@@ -34,6 +35,10 @@ namespace ParamedicMedicosPrestaciones
                         "~/Scripts/site/guardias.js",
                         "~/Scripts/site/servicios.js",
                         "~/Scripts/site/resumen.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/opClientes").Include(
+                        "~/Scripts/site/main.js",
+                        "~/Scripts/site/OperativaClientes/opClientes.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqwidgets").Include(
                         "~/Content/jqwidgets/jqxcore.js",
