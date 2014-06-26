@@ -62,6 +62,7 @@ namespace ParamedicMedicosPrestaciones
                         "~/Content/jqwidgets/jqxtooltip.js",
                         "~/Content/jqwidgets/jqxvalidator.js",
                         "~/Content/jqwidgets/globalization/globalize.js",
+                        "~/Content/jqwidgets/globalization/globalize.culture.es-AR.js",
                         "~/Content/jqwidgets/jqxgrid.columnsresize.js" 
                         ));
 

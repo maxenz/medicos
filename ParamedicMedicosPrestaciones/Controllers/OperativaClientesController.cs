@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ParamedicMedicosPrestaciones.ViewModels;
+using ParamedicMedicosPrestaciones.Models;
 
 namespace ParamedicMedicosPrestaciones.Controllers
 {
@@ -21,14 +21,17 @@ namespace ParamedicMedicosPrestaciones.Controllers
             return View();
         }
 
+        // --> Obtengo los servicios en curso del servidor
         public JsonResult GetServiciosEnCurso()
         {
-
+            // --> Ejecuto web service y traigo datos
             DataTable dtOpEnCurso = getServiciosEnCursoFromWebService();
             List<OperativaEnCurso> lstOpEnCurso = new List<OperativaEnCurso>();
+
+            // --> Si no falla el webservice ..
             if (dtOpEnCurso != null)
             {
-
+                // --> Formateo la datatable a una lista de objetos OperativaEnCurso
                 lstOpEnCurso = getOpEnCursoFormatted(dtOpEnCurso);
 
                 return Json(lstOpEnCurso, JsonRequestBehavior.AllowGet);
@@ -40,12 +43,14 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
         }
 
+        // --> Ejecuto el webservice y traigo los servicios en curso
         private DataTable getServiciosEnCursoFromWebService()
         {
-
+            
             WSOperativaClientes.ClientesOperativosSoapClient wsClient = new WSOperativaClientes.ClientesOperativosSoapClient();
             try
             {
+
                 wsClient.Open();
                 //DataSet dsEnCurso = wsClient.GetOperativaEnCurso(getUserID());
                 DataSet dsEnCurso = wsClient.GetOperativaEnCurso(29);
@@ -61,6 +66,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
         }
 
+        // --> Formateo los servicios en curso a una lista de OperativaEnCurso
         private List<OperativaEnCurso> getOpEnCursoFormatted(DataTable dt)
         {
 
@@ -69,23 +75,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
             foreach (DataRow r in dt.Rows)
             {
                 OperativaEnCurso opEnCurso = new OperativaEnCurso();
-                opEnCurso.Arribo = r["Arribo"].ToString();
-                opEnCurso.ClienteID = r["ClienteID"].ToString();
-                opEnCurso.Domicilio = r["dm_virDomicilio"].ToString();
-                opEnCurso.Ecg = r["ECG"].ToString();
-                opEnCurso.Grado = r["virFACConceptoId"].ToString();
-                opEnCurso.ID = Convert.ToInt32(r["ID"]);
-                opEnCurso.Llamada = r["Llamada"].ToString();
-                opEnCurso.Localidad = r["Loc"].ToString();
-                opEnCurso.Nombre = r["Nombre"].ToString();
-                opEnCurso.NroInc = r["NroIncidente"].ToString();
-                opEnCurso.NroInterno = r["NroInterno"].ToString();
-                opEnCurso.Reclamo = r["Rcl"].ToString();
-                opEnCurso.Respuesta = r["Rta"].ToString();
-                opEnCurso.ViajeID = r["ViajeId"].ToString();
-                opEnCurso.WebEstado = r["virWebEstado"].ToString();
-                opEnCurso.WebMovil = r["virWebMovil"].ToString();
-
+                opEnCurso.dataRowToOperativaEnCurso(r);
                 lstOpEnCurso.Add(opEnCurso);
 
             }
@@ -93,6 +83,8 @@ namespace ParamedicMedicosPrestaciones.Controllers
             return lstOpEnCurso;
         }
 
+
+        // --> Obtengo el user_id del cliente
         private int getUserID()
         {
 

@@ -140,6 +140,7 @@
     </Compile>
     <Compile Include="Models\EstadoReclamoServicio.cs" />
     <Compile Include="Models\EstadoReclamoGuardia.cs" />
+    <Compile Include="Models\OperativaEnCurso.cs" />
     <Compile Include="Models\Servicio.cs" />
     <Compile Include="Models\Guardia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -162,9 +163,10 @@
     <Compile Include="ViewModels\FiltroPeriodos.cs" />
     <Compile Include="ViewModels\FiltroReclamo.cs" />
     <Compile Include="ViewModels\Horario.cs" />
-    <Compile Include="ViewModels\OperativaEnCurso.cs" />
     <Compile Include="ViewModels\Medico.cs" />
     <Compile Include="ViewModels\ResumenLiquidacion.cs" />
+    <Compile Include="ViewModels\ServErroneos.cs" />
+    <Compile Include="ViewModels\ServFinalizados.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
@@ -896,6 +898,9 @@
     <None Include="Service References\WSProduccionContratadosLiquidaciones\WebServices11.wsdl" />
     <Content Include="Views\OperativaClientes\Index.cshtml" />
     <Content Include="Views\OperativaClientes\_EnCurso.cshtml" />
+    <Content Include="Views\OperativaClientes\_Finalizados.cshtml" />
+    <Content Include="Views\OperativaClientes\_Erroneos.cshtml" />
+    <Content Include="Views\OperativaClientes\_PopupValidErroneos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
