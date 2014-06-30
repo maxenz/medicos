@@ -23,14 +23,12 @@ namespace ParamedicMedicosPrestaciones.Models
         public string WebEstado { get; set; }
         public string Respuesta { get; set; }
         public string Reclamo { get; set; }
-        public string Ecg { get; set; }
 
         public void dataRowToOperativaEnCurso(DataRow r)
         {
             Arribo = r["Arribo"].ToString();
             ClienteID = r["ClienteID"].ToString();
             Domicilio = r["dm_virDomicilio"].ToString();
-            Ecg = r["ECG"].ToString();
             Grado = r["virFACConceptoId"].ToString();
             ID = Convert.ToInt32(r["ID"]);
             Llamada = r["Llamada"].ToString();

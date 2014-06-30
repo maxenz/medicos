@@ -84,6 +84,68 @@ namespace ParamedicMedicosPrestaciones.Controllers
         }
 
 
+        // --> Obtengo los servicios finalizados del servidor
+        public JsonResult GetServiciosFinalizados()
+        {
+            var query = Request.QueryString;
+            long fecDesde = Convert.ToInt32(query.GetValues("fecDesde")[0]);
+            long fecHasta = Convert.ToInt32(query.GetValues("fecHasta")[0]);
+            // --> Ejecuto web service y traigo datos
+            DataTable dtFinalizados = getFinalizadosFromWebService(fecDesde,fecHasta);
+            List<ServFinalizados> lstFinalizados = new List<ServFinalizados>();
+            // --> Si no falla el webservice ..
+            if (dtFinalizados != null) {
+                lstFinalizados = getServFinalizadosFormatted(dtFinalizados);
+                return Json(lstFinalizados, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(null, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        // --> Ejecuto el webservice y traigo los servicios en curso
+        private DataTable getFinalizadosFromWebService(long fecDesde, long fecHasta)
+        {
+
+            WSOperativaClientes.ClientesOperativosSoapClient wsClient = new WSOperativaClientes.ClientesOperativosSoapClient();
+            try
+            {
+
+                wsClient.Open();
+                //DataSet dsEnCurso = wsClient.GetOperativaEnCurso(getUserID());
+                DataSet dsFinalizados = wsClient.GetFinalizados(29, fecDesde, fecHasta);
+                wsClient.Abort();
+                return dsFinalizados.Tables[0];
+            }
+            catch (Exception ex)
+            {
+                wsClient.Abort();
+                var msg = ex.Message;
+                return null;
+            }
+
+        }
+
+        // --> Formateo los servicios en curso a una lista de Servicios Finalizados
+        private List<ServFinalizados> getServFinalizadosFormatted(DataTable dt)
+        {
+
+            List<ServFinalizados> lstFinalizados = new List<ServFinalizados>();
+
+            foreach (DataRow r in dt.Rows)
+            {
+                ServFinalizados servFinalizado = new ServFinalizados();
+                servFinalizado.dataRowToServFinalizados(r);
+                lstFinalizados.Add(servFinalizado);
+
+            }
+
+            return lstFinalizados;
+        }
+
+
         // --> Obtengo el user_id del cliente
         private int getUserID()
         {

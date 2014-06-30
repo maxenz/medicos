@@ -60,6 +60,8 @@ namespace ParamedicMedicosPrestaciones
                         "~/Content/jqwidgets/jqxcalendar.js",
                         "~/Content/jqwidgets/jqxgrid.aggregates.js",
                         "~/Content/jqwidgets/jqxtooltip.js",
+                        "~/Content/jqwidgets/jqxdata.export.js",
+                        "~/Content/jqwidgets/jqxgrid.export.js",
                         "~/Content/jqwidgets/jqxvalidator.js",
                         "~/Content/jqwidgets/globalization/globalize.js",
                         "~/Content/jqwidgets/globalization/globalize.culture.es-AR.js",

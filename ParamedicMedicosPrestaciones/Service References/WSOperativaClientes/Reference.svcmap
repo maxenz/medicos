@@ -18,10 +18,10 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://paramedicapps.com.ar:57772/csp/shaman/WebServices.ClientesOperativos.cls?WSDL" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://192.168.0.248:57773/csp/shaman/WebServices.ClientesOperativos.cls?WSDL" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="WebServices.wsdl" MetadataType="Wsdl" ID="bae6d34d-7532-4e2f-b239-3e6c38007be8" SourceId="1" SourceUrl="http://paramedicapps.com.ar:57772/csp/shaman/WebServices.ClientesOperativos.cls?WSDL" />
+    <MetadataFile FileName="WebServices.wsdl" MetadataType="Wsdl" ID="5af9a4c7-164d-411f-a446-89fdee15cda6" SourceId="1" SourceUrl="http://192.168.0.248:57773/csp/shaman/WebServices.ClientesOperativos.cls?WSDL" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

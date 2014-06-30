@@ -141,6 +141,8 @@
     <Compile Include="Models\EstadoReclamoServicio.cs" />
     <Compile Include="Models\EstadoReclamoGuardia.cs" />
     <Compile Include="Models\OperativaEnCurso.cs" />
+    <Compile Include="Models\ServErroneos.cs" />
+    <Compile Include="Models\ServFinalizados.cs" />
     <Compile Include="Models\Servicio.cs" />
     <Compile Include="Models\Guardia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -165,8 +167,6 @@
     <Compile Include="ViewModels\Horario.cs" />
     <Compile Include="ViewModels\Medico.cs" />
     <Compile Include="ViewModels\ResumenLiquidacion.cs" />
-    <Compile Include="ViewModels\ServErroneos.cs" />
-    <Compile Include="ViewModels\ServFinalizados.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />

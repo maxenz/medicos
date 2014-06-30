@@ -2,6 +2,28 @@
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:s0="http://tempuri.org" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://tempuri.org" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org">
+      <s:element name="GetFinalizados">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" name="pUsr" type="s:long" />
+            <s:element minOccurs="0" name="pDes" type="s:long" />
+            <s:element minOccurs="0" name="pHas" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFinalizadosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element name="GetFinalizadosResult" type="s0:DataSet" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="DataSet">
+        <s:sequence>
+          <s:element ref="s:schema" />
+          <s:any />
+        </s:sequence>
+      </s:complexType>
       <s:element name="GetOperativaEnCurso">
         <s:complexType>
           <s:sequence>
@@ -16,14 +38,14 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="DataSet">
-        <s:sequence>
-          <s:element ref="s:schema" />
-          <s:any />
-        </s:sequence>
-      </s:complexType>
     </s:schema>
   </wsdl:types>
+  <wsdl:message name="GetFinalizadosSoapIn">
+    <wsdl:part name="parameters" element="s0:GetFinalizados" />
+  </wsdl:message>
+  <wsdl:message name="GetFinalizadosSoapOut">
+    <wsdl:part name="parameters" element="s0:GetFinalizadosResponse" />
+  </wsdl:message>
   <wsdl:message name="GetOperativaEnCursoSoapIn">
     <wsdl:part name="parameters" element="s0:GetOperativaEnCurso" />
   </wsdl:message>
@@ -31,6 +53,10 @@
     <wsdl:part name="parameters" element="s0:GetOperativaEnCursoResponse" />
   </wsdl:message>
   <wsdl:portType name="ClientesOperativosSoap">
+    <wsdl:operation name="GetFinalizados">
+      <wsdl:input message="s0:GetFinalizadosSoapIn" />
+      <wsdl:output message="s0:GetFinalizadosSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetOperativaEnCurso">
       <wsdl:input message="s0:GetOperativaEnCursoSoapIn" />
       <wsdl:output message="s0:GetOperativaEnCursoSoapOut" />
@@ -38,6 +64,15 @@
   </wsdl:portType>
   <wsdl:binding name="ClientesOperativosSoap" type="s0:ClientesOperativosSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetFinalizados">
+      <soap:operation soapAction="http://tempuri.org/WebServices.ClientesOperativos.GetFinalizados" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetOperativaEnCurso">
       <soap:operation soapAction="http://tempuri.org/WebServices.ClientesOperativos.GetOperativaEnCurso" style="document" />
       <wsdl:input>
@@ -50,7 +85,7 @@
   </wsdl:binding>
   <wsdl:service name="ClientesOperativos">
     <wsdl:port name="ClientesOperativosSoap" binding="s0:ClientesOperativosSoap">
-      <soap:address location="http://paramedicapps.com.ar:57772/csp/shaman/WebServices.ClientesOperativos.cls" />
+      <soap:address location="http://192.168.0.248:57773/csp/shaman/WebServices.ClientesOperativos.cls" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
