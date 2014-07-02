@@ -138,6 +138,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Helpers.cs" />
     <Compile Include="Models\EstadoReclamoServicio.cs" />
     <Compile Include="Models\EstadoReclamoGuardia.cs" />
     <Compile Include="Models\OperativaEnCurso.cs" />
@@ -849,6 +850,9 @@
     <Content Include="Scripts\site\main.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\site\OperativaClientes\opClientes.js" />
+    <Content Include="Scripts\site\OperativaClientes\svEnCurso.js" />
+    <Content Include="Scripts\site\OperativaClientes\svErroneos.js" />
+    <Content Include="Scripts\site\OperativaClientes\svFinalizados.js" />
     <Content Include="Scripts\site\resumen.js" />
     <Content Include="Scripts\site\servicios.js" />
     <Content Include="Scripts\vendor\bootstrap.js" />
@@ -863,7 +867,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Service References\WSContratadosLiquidaciones\WebServices11.wsdl" />
-    <None Include="Service References\WSOperativaClientes\WebServices.wsdl" />
+    <None Include="Service References\WSOperativaClientes\WebServices1.wsdl" />
     <None Include="Service References\WSProduccionContratadosLiquidaciones\configuration91.svcinfo" />
     <None Include="Service References\WSProduccionContratadosLiquidaciones\configuration.svcinfo" />
     <None Include="Service References\WSProduccionContratadosLiquidaciones\Reference.svcmap">

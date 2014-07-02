@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
+using ParamedicMedicosPrestaciones.Helpers;
 
 namespace ParamedicMedicosPrestaciones.Models
 {
@@ -26,8 +27,10 @@ namespace ParamedicMedicosPrestaciones.Models
 
         public void dataRowToServFinalizados(DataRow r)
         {
+            Helpers.Helpers hlp = new Helpers.Helpers();
+            
             ID = Convert.ToInt32(r["ID"]);
-            FecIncidente = formatDate(r["FecIncidente"].ToString());
+            FecIncidente = hlp.formatDate(r["FecIncidente"].ToString());
             NroIncidente = r["NroIncidente"].ToString();
             ClienteID = r["ClienteId"].ToString();
             Llamada = r["Llamada"].ToString();
@@ -44,16 +47,7 @@ namespace ParamedicMedicosPrestaciones.Models
    
         }
 
-        private string formatDate(string date)
-        {
 
-            string año = date.Substring(0, 4);
-            string mes = date.Substring(4, 2);
-            string dia = date.Substring(6, 2);
-
-            return dia + "/" + mes + "/" + año;
-
-        }
     }
 
 

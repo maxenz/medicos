@@ -21,20 +21,42 @@ namespace ParamedicMedicosPrestaciones.Controllers
             return View();
         }
 
-        // --> Obtengo los servicios en curso del servidor
-        public JsonResult GetServiciosEnCurso()
+        // --> Obtengo los servicios finalizados del servidor
+        public JsonResult GetServiciosClientes()
         {
-            // --> Ejecuto web service y traigo datos
-            DataTable dtOpEnCurso = getServiciosEnCursoFromWebService();
-            List<OperativaEnCurso> lstOpEnCurso = new List<OperativaEnCurso>();
+            var query = Request.QueryString;
+            long fecDesde = 0, fecHasta = 0, pWS;
+            string[] vDesde = query.GetValues("fecDesde");
+            string[] vHasta = query.GetValues("fecHasta");
+            if (vDesde != null)
+            {
+                fecDesde = Convert.ToInt32(vDesde[0]);
+                fecHasta = Convert.ToInt32(vHasta[0]);
+            }
+
+            pWS = Convert.ToInt32(query.GetValues("pWS")[0]);
+            DataTable dt = new DataTable();
+            dt = getDataFromWebService(pWS,fecDesde,fecHasta);
 
             // --> Si no falla el webservice ..
-            if (dtOpEnCurso != null)
+            if (dt != null)
             {
-                // --> Formateo la datatable a una lista de objetos OperativaEnCurso
-                lstOpEnCurso = getOpEnCursoFormatted(dtOpEnCurso);
+                JsonResult result = new JsonResult();
+                switch (pWS)
+                {
+                    case 1:
+                        result = Json(getOpEnCursoFormatted(dt), JsonRequestBehavior.AllowGet);
+                        break;
+                    case 2:
+                        result = Json(getServFinalizadosFormatted(dt), JsonRequestBehavior.AllowGet);
+                        break;
+                    case 3:
+                        result =  Json(getErroneosFormatted(dt), JsonRequestBehavior.AllowGet);
+                        break;
+                }
 
-                return Json(lstOpEnCurso, JsonRequestBehavior.AllowGet);
+                return result;
+                
             }
             else
             {
@@ -43,19 +65,30 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
         }
 
-        // --> Ejecuto el webservice y traigo los servicios en curso
-        private DataTable getServiciosEnCursoFromWebService()
-        {
-            
+        private DataTable getDataFromWebService(long pWS, long fDesde, long fHasta) {
+
             WSOperativaClientes.ClientesOperativosSoapClient wsClient = new WSOperativaClientes.ClientesOperativosSoapClient();
+            DataSet ds = new DataSet();
+
             try
             {
-
                 wsClient.Open();
-                //DataSet dsEnCurso = wsClient.GetOperativaEnCurso(getUserID());
-                DataSet dsEnCurso = wsClient.GetOperativaEnCurso(29);
+
+                switch (pWS)
+                {
+                    case 1:
+                        ds = wsClient.GetOperativaEnCurso(29);
+                        break;
+                    case 2:
+                        ds = wsClient.GetFinalizados(29, fDesde, fHasta);
+                        break;
+                    case 3:
+                        ds = wsClient.GetErroresAutorizacion(29, fDesde, fHasta);
+                        break;
+                }
+
                 wsClient.Abort();
-                return dsEnCurso.Tables[0];
+                return ds.Tables[0];
             }
             catch (Exception ex)
             {
@@ -63,7 +96,26 @@ namespace ParamedicMedicosPrestaciones.Controllers
                 var msg = ex.Message;
                 return null;
             }
+  
+        }
 
+       
+
+        // --> Formateo los servicios en curso a una lista de Servicios Finalizados
+        private List<ServFinalizados> getServFinalizadosFormatted(DataTable dt)
+        {
+
+            List<ServFinalizados> lstFinalizados = new List<ServFinalizados>();
+
+            foreach (DataRow r in dt.Rows)
+            {
+                ServFinalizados servFinalizado = new ServFinalizados();
+                servFinalizado.dataRowToServFinalizados(r);
+                lstFinalizados.Add(servFinalizado);
+
+            }
+
+            return lstFinalizados;
         }
 
         // --> Formateo los servicios en curso a una lista de OperativaEnCurso
@@ -83,69 +135,24 @@ namespace ParamedicMedicosPrestaciones.Controllers
             return lstOpEnCurso;
         }
 
-
-        // --> Obtengo los servicios finalizados del servidor
-        public JsonResult GetServiciosFinalizados()
-        {
-            var query = Request.QueryString;
-            long fecDesde = Convert.ToInt32(query.GetValues("fecDesde")[0]);
-            long fecHasta = Convert.ToInt32(query.GetValues("fecHasta")[0]);
-            // --> Ejecuto web service y traigo datos
-            DataTable dtFinalizados = getFinalizadosFromWebService(fecDesde,fecHasta);
-            List<ServFinalizados> lstFinalizados = new List<ServFinalizados>();
-            // --> Si no falla el webservice ..
-            if (dtFinalizados != null) {
-                lstFinalizados = getServFinalizadosFormatted(dtFinalizados);
-                return Json(lstFinalizados, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json(null, JsonRequestBehavior.AllowGet);
-            }
-
-        }
-
-        // --> Ejecuto el webservice y traigo los servicios en curso
-        private DataTable getFinalizadosFromWebService(long fecDesde, long fecHasta)
+        // --> Formateo los servicios en curso a una lista de OperativaEnCurso
+        private List<ServErroneos> getErroneosFormatted(DataTable dt)
         {
 
-            WSOperativaClientes.ClientesOperativosSoapClient wsClient = new WSOperativaClientes.ClientesOperativosSoapClient();
-            try
-            {
-
-                wsClient.Open();
-                //DataSet dsEnCurso = wsClient.GetOperativaEnCurso(getUserID());
-                DataSet dsFinalizados = wsClient.GetFinalizados(29, fecDesde, fecHasta);
-                wsClient.Abort();
-                return dsFinalizados.Tables[0];
-            }
-            catch (Exception ex)
-            {
-                wsClient.Abort();
-                var msg = ex.Message;
-                return null;
-            }
-
-        }
-
-        // --> Formateo los servicios en curso a una lista de Servicios Finalizados
-        private List<ServFinalizados> getServFinalizadosFormatted(DataTable dt)
-        {
-
-            List<ServFinalizados> lstFinalizados = new List<ServFinalizados>();
+            List<ServErroneos> lst = new List<ServErroneos>();
 
             foreach (DataRow r in dt.Rows)
             {
-                ServFinalizados servFinalizado = new ServFinalizados();
-                servFinalizado.dataRowToServFinalizados(r);
-                lstFinalizados.Add(servFinalizado);
+                ServErroneos servErroneo = new ServErroneos();
+                servErroneo.dataRowToServErroneos(r);
+                lst.Add(servErroneo);
 
             }
 
-            return lstFinalizados;
+            return lst;
         }
 
-
+    
         // --> Obtengo el user_id del cliente
         private int getUserID()
         {

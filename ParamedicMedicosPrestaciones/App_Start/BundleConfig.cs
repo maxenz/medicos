@@ -38,7 +38,10 @@ namespace ParamedicMedicosPrestaciones
 
             bundles.Add(new ScriptBundle("~/bundles/opClientes").Include(
                         "~/Scripts/site/main.js",
-                        "~/Scripts/site/OperativaClientes/opClientes.js"));
+                        "~/Scripts/site/OperativaClientes/opClientes.js",
+                        "~/Scripts/site/OperativaClientes/svEnCurso.js",
+                        "~/Scripts/site/OperativaClientes/svFinalizados.js",
+                        "~/Scripts/site/OperativaClientes/svErroneos.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqwidgets").Include(
                         "~/Content/jqwidgets/jqxcore.js",
