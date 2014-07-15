@@ -63,7 +63,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
                     Session["acceso_curso"] = Convert.ToInt32(dtUsuario.Rows[0]["tabEnCurso"]);
                     Session["acceso_finalizados"] = Convert.ToInt32(dtUsuario.Rows[0]["tabFinalizados"]);
                     Session["acceso_erroneos"] = Convert.ToInt32(dtUsuario.Rows[0]["tabErroneos"]);
-                    Session["prm_modo_publicacion"] = Convert.ToInt32(dtUsuario.Rows[0]["prmModoPublicacion"]);
+                    //Session["prm_modo_publicacion"] = Convert.ToInt32(dtUsuario.Rows[0]["prmModoPublicacion"]);
                     return true;
                 }
             }

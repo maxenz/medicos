@@ -134,6 +134,12 @@ $('#dtServFinalizados').on('valuechanged', function (event) {
     //refrescar source de grilla de servicios finalizados  
 });
 
+$('#ftrClientesFinalizados').on('select', function (event) {
+
+    $('#grdServFinalizados').jqxGrid({ source: getSourceGrdFinalizados() });
+
+});
+
 // --> EJECUTO CUANDO INICIO
 
 // --> Seteo la grilla de servicios en curso con el source, columnas y datafields
