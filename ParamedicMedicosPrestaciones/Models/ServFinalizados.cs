@@ -24,6 +24,7 @@ namespace ParamedicMedicosPrestaciones.Models
         public string Diagnostico { get; set; }
         public string Deriva { get; set; }
         public string Final { get; set; }
+        public string NroInterno { get; set; }
 
         public void dataRowToServFinalizados(DataRow r)
         {
@@ -32,7 +33,6 @@ namespace ParamedicMedicosPrestaciones.Models
             ID = Convert.ToInt32(r["ID"]);
             FecIncidente = hlp.formatDate(r["FecIncidente"].ToString());
             NroIncidente = r["NroIncidente"].ToString();
-            ClienteID = r["ClienteId"].ToString();
             Llamada = r["Llamada"].ToString();
             IntegranteID = r["IntegranteId"].ToString();
             Nombre = r["Nombre"].ToString();
@@ -44,6 +44,7 @@ namespace ParamedicMedicosPrestaciones.Models
             Diagnostico = r["Diagnostico"].ToString();
             Deriva = r["Deriva"].ToString();
             Final = r["Final"].ToString();
+            NroInterno = r["NroInterno"].ToString();
    
         }
 
