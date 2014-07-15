@@ -139,10 +139,12 @@ $('#btnCorregirErroneo').on('click', function () {
 
 // --> Seteo la grilla de servicios en curso con el source, columnas y datafields
 
+$("#dtServErroneos").jqxDateTimeInput('setRange', moment().subtract('days', 31).format('L'), moment().format('L'));
+
 setValuesGrid($('#grdServErroneos'),
               getSourceGrdErroneos(),
               colGridErroneos);
 
-$("#dtServErroneos").jqxDateTimeInput('setRange', moment().subtract('days',31).format('L'), moment().format('L') );
+
 
 
