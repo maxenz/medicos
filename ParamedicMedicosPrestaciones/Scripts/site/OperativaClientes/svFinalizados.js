@@ -5,6 +5,13 @@
 // --> Filtro de fecha de servicios finalizados
 $("#dtServFinalizados").jqxDateTimeInput({ width: '100%', height: '25px', theme: 'bootstrap', culture: 'es-AR', selectionMode: 'range' });
 
+$("#toggleFilterRow").click(function () {
+   
+    var bRow = $('#grdServFinalizados').jqxGrid('showfilterrow') == true ? false : true;
+    $('#grdServFinalizados').jqxGrid({ showfilterrow: bRow });
+
+});
+
 $("#ftrClientesFinalizados").jqxDropDownList({
     source: getSrcClientesFinalizados(), displayMember: "Codigo", selectedIndex: 0,
     valueMember: "ID", width: '100%', dropDownHeight: 150, dropDownWidth: 320, height: 25, theme: 'bootstrap'
@@ -115,6 +122,7 @@ function setValuesGrid(objGrid, src, columnas) {
             pagesize: 15,
             altrows: true,
             theme: 'arctic',
+            filterable: true,
             columns: columnas,
             pagesizeoptions: ['15']
         });
