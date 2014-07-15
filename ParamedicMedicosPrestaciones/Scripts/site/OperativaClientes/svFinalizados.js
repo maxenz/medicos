@@ -5,28 +5,36 @@
 // --> Filtro de fecha de servicios finalizados
 $("#dtServFinalizados").jqxDateTimeInput({ width: '100%', height: '25px', theme: 'bootstrap', culture: 'es-AR', selectionMode: 'range' });
 
+$("#ftrClientesFinalizados").jqxDropDownList({
+    source: getSrcClientesFinalizados(), displayMember: "Codigo", selectedIndex: 0,
+    valueMember: "ID", width: '100%', dropDownHeight: 150, dropDownWidth: 320, height: 25, theme: 'bootstrap'
+});
+
+//$('#rowHeaderFinalizados').show();
+
 // --> Seteo las columnas para la grilla de servicios finalizados
 var colGridFinalizados = [
                         { text: 'ID', datafield: 'ID', hidden: true },
                         { text: 'Fecha', datafield: 'FecIncidente', width: '8%', cellsalign: 'center' },
                         { text: 'Inc', datafield: 'NroIncidente', width: '3%', cellsalign: 'center' },
-                        { text: 'Cliente', datafield: 'ClienteID', width: '5%', cellsalign: 'center' },
+                        //{ text: 'Cliente', datafield: 'ClienteID', width: '5%', cellsalign: 'center' },
                         //{ text: 'Llamada', datafield: 'Llamada', width: '3%', cellsalign: 'center' },
                         { text: 'Nro. Afiliado', datafield: 'IntegranteID', width: '8%', cellsalign: 'center' },
                         { text: 'Paciente', datafield: 'Nombre', width: '16%' },
                         { text: 'Domicilio', datafield: 'Domicilio', width: '13%' },
                         { text: 'Loc', datafield: 'Localidad', width: '9%' },
-                        { text: 'Síntoma', datafield: 'Sintoma', width: '11%' },
+                        { text: 'Síntoma', datafield: 'Sintoma', width: '14%' },
                         { text: 'Grado', datafield: 'Grado', width: '5%', cellsalign: 'center' },
                         //{ text: 'Arribo', datafield: 'Arribo', width: '3%', cellsalign: 'center' },
-                        { text: 'Diagnóstico', datafield: 'Diagnostico', width: '12%' },
+                        { text: 'Diagnóstico', datafield: 'Diagnostico', width: '14%' },
                         { text: 'Deriva', datafield: 'Deriva', width: '6%', cellsalign: 'center' },
                         { text: 'Final', datafield: 'Final', width: '4%', cellsalign: 'center' }
 ];
 
 // --> Seteo los datafields para la grilla de servicios finalizados
 var dtFieldsFinalizados = [{ name: 'ID', type: 'number' }, { name: 'FecIncidente', type: 'string' },
-                        { name: 'NroIncidente', type: 'string' }, { name: 'ClienteID', type: 'string' },
+                        { name: 'NroIncidente', type: 'string' },
+                        //{ name: 'ClienteID', type: 'string' },
                         //{ name: 'Llamada', type: 'string' },
                         { name: 'IntegranteID', type: 'string' },
                         { name: 'Nombre', type: 'string' }, { name: 'Domicilio', type: 'string' },
@@ -37,6 +45,29 @@ var dtFieldsFinalizados = [{ name: 'ID', type: 'number' }, { name: 'FecIncidente
                         { name: 'Final', type: 'string' }];
 
 // --> FUNCIONES PARA SERVICIOS FINALIZADOS
+
+function getSelectedCliente() {
+    return $("#ftrClientesFinalizados").jqxDropDownList('getSelectedItem').value;
+}
+
+function getSrcClientesFinalizados() {
+
+    var src = {
+        datatype: "json",
+        datafields: [
+            { name: 'ID' },
+            { name: 'Codigo' }
+        ],
+        url: 'OperativaClientes/getServiciosClientes',
+        data: { pWS : 4},
+        async: false
+    };
+
+    var dt = new $.jqx.dataAdapter(src);
+
+    return dt;
+
+}
 
 // --> Obtengo via ajax los datos de la grilla de servicios finalizados
 function getSourceGrdFinalizados() {
@@ -52,7 +83,8 @@ function getSourceGrdFinalizados() {
             {
                 fecDesde: fd,
                 fecHasta: fh,
-                pWS: 2
+                pWS: 2,
+                pCli: getSelectedCliente()
             }
     };
 

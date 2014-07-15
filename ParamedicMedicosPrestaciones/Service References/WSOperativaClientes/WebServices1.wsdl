@@ -2,6 +2,26 @@
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:s0="http://tempuri.org" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://tempuri.org" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org">
+      <s:element name="GetClientesUsuario">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" name="pUsr" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetClientesUsuarioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element name="GetClientesUsuarioResult" type="s0:DataSet" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="DataSet">
+        <s:sequence>
+          <s:element ref="s:schema" />
+          <s:any />
+        </s:sequence>
+      </s:complexType>
       <s:element name="GetErroresAutorizacion">
         <s:complexType>
           <s:sequence>
@@ -18,19 +38,13 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="DataSet">
-        <s:sequence>
-          <s:element ref="s:schema" />
-          <s:any />
-        </s:sequence>
-      </s:complexType>
       <s:element name="GetFinalizados">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" name="pUsr" type="s:long" />
             <s:element minOccurs="0" name="pDes" type="s:long" />
             <s:element minOccurs="0" name="pHas" type="s:long" />
-            <s:element minOccurs="0" name="pPub" type="s:long" />
+            <s:element minOccurs="0" name="pCli" type="s:long" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -118,6 +132,12 @@
       </s:element>
     </s:schema>
   </wsdl:types>
+  <wsdl:message name="GetClientesUsuarioSoapIn">
+    <wsdl:part name="parameters" element="s0:GetClientesUsuario" />
+  </wsdl:message>
+  <wsdl:message name="GetClientesUsuarioSoapOut">
+    <wsdl:part name="parameters" element="s0:GetClientesUsuarioResponse" />
+  </wsdl:message>
   <wsdl:message name="GetErroresAutorizacionSoapIn">
     <wsdl:part name="parameters" element="s0:GetErroresAutorizacion" />
   </wsdl:message>
@@ -161,6 +181,10 @@
     <wsdl:part name="parameters" element="s0:SetReclamoResponse" />
   </wsdl:message>
   <wsdl:portType name="ClientesOperativosSoap">
+    <wsdl:operation name="GetClientesUsuario">
+      <wsdl:input message="s0:GetClientesUsuarioSoapIn" />
+      <wsdl:output message="s0:GetClientesUsuarioSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetErroresAutorizacion">
       <wsdl:input message="s0:GetErroresAutorizacionSoapIn" />
       <wsdl:output message="s0:GetErroresAutorizacionSoapOut" />
@@ -192,6 +216,15 @@
   </wsdl:portType>
   <wsdl:binding name="ClientesOperativosSoap" type="s0:ClientesOperativosSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetClientesUsuario">
+      <soap:operation soapAction="http://tempuri.org/WebServices.ClientesOperativos.GetClientesUsuario" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetErroresAutorizacion">
       <soap:operation soapAction="http://tempuri.org/WebServices.ClientesOperativos.GetErroresAutorizacion" style="document" />
       <wsdl:input>

@@ -141,6 +141,7 @@
     <Compile Include="Helpers\Helpers.cs" />
     <Compile Include="Models\EstadoReclamoServicio.cs" />
     <Compile Include="Models\EstadoReclamoGuardia.cs" />
+    <Compile Include="Models\FtrCliente.cs" />
     <Compile Include="Models\OperativaEnCurso.cs" />
     <Compile Include="Models\ServErroneos.cs" />
     <Compile Include="Models\ServFinalizados.cs" />

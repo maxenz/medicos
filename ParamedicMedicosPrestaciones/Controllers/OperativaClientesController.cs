@@ -174,18 +174,24 @@ namespace ParamedicMedicosPrestaciones.Controllers
         public JsonResult GetServiciosClientes()
         {
             var query = Request.QueryString;
-            long fecDesde = 0, fecHasta = 0, pWS;
+            long fecDesde = 0, fecHasta = 0, pCli = 0, pWS;
             string[] vDesde = query.GetValues("fecDesde");
             string[] vHasta = query.GetValues("fecHasta");
+            string[] vPCli = query.GetValues("pCli");
             if (vDesde != null)
             {
                 fecDesde = Convert.ToInt32(vDesde[0]);
                 fecHasta = Convert.ToInt32(vHasta[0]);
             }
 
+            if (vPCli != null)
+            {
+                pCli = Convert.ToInt32(vPCli[0]);
+            }
+
             pWS = Convert.ToInt32(query.GetValues("pWS")[0]);
             DataTable dt = new DataTable();
-            dt = getDataFromWebService(pWS, fecDesde, fecHasta);
+            dt = getDataFromWebService(pWS, fecDesde, fecHasta,pCli);
 
             // --> Si no falla el webservice ..
             if (dt != null)
@@ -202,6 +208,9 @@ namespace ParamedicMedicosPrestaciones.Controllers
                     case 3:
                         result = Json(getErroneosFormatted(dt), JsonRequestBehavior.AllowGet);
                         break;
+                    case 4:
+                        result = Json(getFiltroClientesFormatted(dt), JsonRequestBehavior.AllowGet);
+                        break;
                 }
 
                 return result;
@@ -214,7 +223,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
         }
 
-        private DataTable getDataFromWebService(long pWS, long fDesde, long fHasta)
+        private DataTable getDataFromWebService(long pWS, long fDesde, long fHasta, long pCli)
         {
 
             WSOperativaClientes.ClientesOperativosSoapClient wsClient = new WSOperativaClientes.ClientesOperativosSoapClient();
@@ -230,10 +239,13 @@ namespace ParamedicMedicosPrestaciones.Controllers
                         ds = wsClient.GetOperativaEnCurso(getUserID());
                         break;
                     case 2:
-                        ds = wsClient.GetFinalizados(getUserID(), fDesde, fHasta,getPrmPublicacion());
+                        ds = wsClient.GetFinalizados(getUserID(), fDesde, fHasta,pCli);
                         break;
                     case 3:
                         ds = wsClient.GetErroresAutorizacion(getUserID(), fDesde, fHasta);
+                        break;
+                    case 4:
+                        ds = wsClient.GetClientesUsuario(getUserID());
                         break;
                 }
 
@@ -294,6 +306,23 @@ namespace ParamedicMedicosPrestaciones.Controllers
                 ServErroneos servErroneo = new ServErroneos();
                 servErroneo.dataRowToServErroneos(r);
                 lst.Add(servErroneo);
+
+            }
+
+            return lst;
+        }
+
+        // --> Formateo los servicios en curso a una lista de OperativaEnCurso
+        private List<FtrCliente> getFiltroClientesFormatted(DataTable dt)
+        {
+
+            List<FtrCliente> lst = new List<FtrCliente>();
+
+            foreach (DataRow r in dt.Rows)
+            {
+                FtrCliente cli = new FtrCliente();
+                cli.dataRowToFtrcliente(r);
+                lst.Add(cli);
 
             }
 
