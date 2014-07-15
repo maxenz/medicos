@@ -59,7 +59,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/14/2014 10:29:16</publishTime>
     </File>
     <File Include="bin/ParamedicMedicosPrestaciones.dll">
-      <publishTime>06/16/2014 12:08:18</publishTime>
+      <publishTime>07/07/2014 11:48:53</publishTime>
     </File>
     <File Include="bin/System.Net.Http.dll">
       <publishTime>07/10/2012 21:52:12</publishTime>
@@ -99,6 +99,27 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>05/14/2014 10:29:16</publishTime>
+    </File>
+    <File Include="Content/bootstrap.min.css">
+      <publishTime>07/07/2014 11:42:20</publishTime>
+    </File>
+    <File Include="Content/font-awesome.min.css">
+      <publishTime>07/07/2014 11:46:15</publishTime>
+    </File>
+    <File Include="Content/fonts/fontawesome-webfont.eot">
+      <publishTime>07/07/2014 11:47:53</publishTime>
+    </File>
+    <File Include="Content/fonts/fontawesome-webfont.svg">
+      <publishTime>07/07/2014 11:47:53</publishTime>
+    </File>
+    <File Include="Content/fonts/fontawesome-webfont.ttf">
+      <publishTime>07/07/2014 11:47:53</publishTime>
+    </File>
+    <File Include="Content/fonts/fontawesome-webfont.woff">
+      <publishTime>07/07/2014 11:47:53</publishTime>
+    </File>
+    <File Include="Content/fonts/FontAwesome.otf">
+      <publishTime>07/07/2014 11:47:53</publishTime>
     </File>
     <File Include="Content/fonts/glyphicons-halflings-regular.eot">
       <publishTime>05/14/2014 10:29:15</publishTime>
@@ -2047,6 +2068,33 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/styles/shapes.css">
       <publishTime>05/14/2014 10:29:15</publishTime>
     </File>
+    <File Include="fonts/fontawesome-webfont.eot">
+      <publishTime>07/07/2014 11:47:56</publishTime>
+    </File>
+    <File Include="fonts/fontawesome-webfont.svg">
+      <publishTime>07/07/2014 11:47:56</publishTime>
+    </File>
+    <File Include="fonts/fontawesome-webfont.ttf">
+      <publishTime>07/07/2014 11:47:56</publishTime>
+    </File>
+    <File Include="fonts/fontawesome-webfont.woff">
+      <publishTime>07/07/2014 11:47:56</publishTime>
+    </File>
+    <File Include="fonts/FontAwesome.otf">
+      <publishTime>07/07/2014 11:47:56</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.eot">
+      <publishTime>07/07/2014 11:44:09</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.svg">
+      <publishTime>07/07/2014 11:44:09</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.ttf">
+      <publishTime>07/07/2014 11:44:09</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.woff">
+      <publishTime>07/07/2014 11:44:09</publishTime>
+    </File>
     <File Include="Global.asax">
       <publishTime>05/14/2014 10:29:15</publishTime>
     </File>
@@ -2064,6 +2112,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Scripts/bootstrapValidator.js">
       <publishTime>05/28/2014 12:07:40</publishTime>
+    </File>
+    <File Include="Scripts/html5shiv.js">
+      <publishTime>07/07/2014 11:30:04</publishTime>
     </File>
     <File Include="Scripts/jquery-1.8.2.js">
       <publishTime>05/14/2014 10:29:15</publishTime>
@@ -2122,11 +2173,29 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/modernizr-2.6.2.js">
       <publishTime>05/14/2014 10:29:15</publishTime>
     </File>
+    <File Include="Scripts/moment.js">
+      <publishTime>06/24/2014 15:07:47</publishTime>
+    </File>
+    <File Include="Scripts/respond.js">
+      <publishTime>07/07/2014 11:30:04</publishTime>
+    </File>
     <File Include="Scripts/site/guardias.js">
       <publishTime>06/18/2014 15:56:31</publishTime>
     </File>
     <File Include="Scripts/site/main.js">
       <publishTime>06/11/2014 10:46:30</publishTime>
+    </File>
+    <File Include="Scripts/site/OperativaClientes/opClientes.js">
+      <publishTime>07/04/2014 16:38:56</publishTime>
+    </File>
+    <File Include="Scripts/site/OperativaClientes/svEnCurso.js">
+      <publishTime>07/07/2014 16:03:05</publishTime>
+    </File>
+    <File Include="Scripts/site/OperativaClientes/svErroneos.js">
+      <publishTime>07/02/2014 16:30:02</publishTime>
+    </File>
+    <File Include="Scripts/site/OperativaClientes/svFinalizados.js">
+      <publishTime>07/02/2014 10:08:40</publishTime>
     </File>
     <File Include="Scripts/site/resumen.js">
       <publishTime>06/11/2014 10:28:42</publishTime>
@@ -2155,11 +2224,23 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Service References/WSProduccionContratadosLiquidaciones/WebServices.wsdl">
       <publishTime>06/04/2014 12:36:34</publishTime>
     </File>
+    <File Include="Service References/WSProduccionOperativaClientes/configuration.svcinfo">
+      <publishTime>07/02/2014 11:46:42</publishTime>
+    </File>
+    <File Include="Service References/WSProduccionOperativaClientes/configuration91.svcinfo">
+      <publishTime>07/02/2014 11:46:42</publishTime>
+    </File>
+    <File Include="Service References/WSProduccionOperativaClientes/Reference.svcmap">
+      <publishTime>07/02/2014 11:46:42</publishTime>
+    </File>
+    <File Include="Service References/WSProduccionOperativaClientes/WebServices.wsdl">
+      <publishTime>07/02/2014 11:46:42</publishTime>
+    </File>
     <File Include="Views/Error/Error.cshtml">
       <publishTime>05/21/2014 10:13:18</publishTime>
     </File>
     <File Include="Views/Medicos/Index.cshtml">
-      <publishTime>06/04/2014 14:57:20</publishTime>
+      <publishTime>06/24/2014 15:07:47</publishTime>
     </File>
     <File Include="Views/Medicos/_Guardias.cshtml">
       <publishTime>06/02/2014 17:17:42</publishTime>
@@ -2177,22 +2258,40 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/02/2014 16:54:33</publishTime>
     </File>
     <File Include="Views/Medicos/_Totalizador.cshtml">
-      <publishTime>06/04/2014 17:03:53</publishTime>
+      <publishTime>06/24/2014 15:07:47</publishTime>
+    </File>
+    <File Include="Views/OperativaClientes/Index.cshtml">
+      <publishTime>07/04/2014 16:33:33</publishTime>
+    </File>
+    <File Include="Views/OperativaClientes/_EnCurso.cshtml">
+      <publishTime>06/27/2014 10:20:04</publishTime>
+    </File>
+    <File Include="Views/OperativaClientes/_Erroneos.cshtml">
+      <publishTime>07/02/2014 10:08:40</publishTime>
+    </File>
+    <File Include="Views/OperativaClientes/_Finalizados.cshtml">
+      <publishTime>06/30/2014 16:48:59</publishTime>
+    </File>
+    <File Include="Views/OperativaClientes/_PopupReclamarEnCurso.cshtml">
+      <publishTime>07/02/2014 12:11:39</publishTime>
+    </File>
+    <File Include="Views/OperativaClientes/_PopupValidErroneos.cshtml">
+      <publishTime>07/02/2014 16:08:32</publishTime>
     </File>
     <File Include="Views/Shared/_Header.cshtml">
-      <publishTime>06/16/2014 12:07:58</publishTime>
+      <publishTime>06/24/2014 15:07:47</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>06/04/2014 16:52:03</publishTime>
+      <publishTime>07/07/2014 12:59:19</publishTime>
     </File>
     <File Include="Views/Web.config">
-      <publishTime>05/14/2014 10:29:15</publishTime>
+      <publishTime>07/07/2014 11:37:53</publishTime>
     </File>
     <File Include="Views/_ViewStart.cshtml">
       <publishTime>06/04/2014 17:17:23</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/18/2014 16:02:18</publishTime>
+      <publishTime>07/07/2014 16:03:24</publishTime>
     </File>
   </ItemGroup>
 </Project>

@@ -162,6 +162,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Service References\WSProduccionOperativaClientes\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\FiltroCoordinaciones.cs" />
     <Compile Include="ViewModels\FiltroPeriodos.cs" />
     <Compile Include="ViewModels\FiltroReclamo.cs" />
@@ -170,6 +175,9 @@
     <Compile Include="ViewModels\ResumenLiquidacion.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\images\backgroundTop.png" />
     <Content Include="Content\images\backImage.png" />
@@ -814,6 +822,8 @@
     <Content Include="Content\styles\messenger-theme-future.css" />
     <Content Include="Content\styles\messenger.css" />
     <Content Include="Content\styles\shapes.css" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\styles\bootstrap-theme.css.map" />
     <Content Include="Content\styles\bootstrap.css.map" />
@@ -821,17 +831,30 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\Maxo.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\bootstrapValidator.js" />
+    <Content Include="Scripts\html5shiv.js" />
     <Content Include="Scripts\jquery.maskMoney.js" />
     <Content Include="Scripts\jquery.serialize-object.js" />
     <Content Include="Scripts\messenger-theme-future.js" />
     <Content Include="Scripts\messenger.js" />
     <Content Include="Scripts\messenger.min.js" />
     <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\site\guardias.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -880,6 +903,12 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Service References\WSProduccionOperativaClientes\configuration91.svcinfo" />
+    <Content Include="Service References\WSProduccionOperativaClientes\configuration.svcinfo" />
+    <Content Include="Service References\WSProduccionOperativaClientes\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -905,6 +934,8 @@
     <Content Include="Views\OperativaClientes\_Finalizados.cshtml" />
     <Content Include="Views\OperativaClientes\_Erroneos.cshtml" />
     <Content Include="Views\OperativaClientes\_PopupValidErroneos.cshtml" />
+    <Content Include="Views\OperativaClientes\_PopupReclamarEnCurso.cshtml" />
+    <Content Include="Service References\WSProduccionOperativaClientes\WebServices.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -919,6 +950,7 @@
     <WCFMetadataStorage Include="Service References\WSContratadosLiquidaciones\" />
     <WCFMetadataStorage Include="Service References\WSOperativaClientes\" />
     <WCFMetadataStorage Include="Service References\WSProduccionContratadosLiquidaciones\" />
+    <WCFMetadataStorage Include="Service References\WSProduccionOperativaClientes\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

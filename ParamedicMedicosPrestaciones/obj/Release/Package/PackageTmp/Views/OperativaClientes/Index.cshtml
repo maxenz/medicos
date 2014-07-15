@@ -1,48 +1,39 @@
-﻿
-<div id="busy-holder">
-    <div id="busy">
-        <div id="floatingCirclesG">
-            <div class="f_circleG" id="frotateG_01">
-            </div>
-            <div class="f_circleG" id="frotateG_02">
-            </div>
-            <div class="f_circleG" id="frotateG_03">
-            </div>
-            <div class="f_circleG" id="frotateG_04">
-            </div>
-            <div class="f_circleG" id="frotateG_05">
-            </div>
-            <div class="f_circleG" id="frotateG_06">
-            </div>
-            <div class="f_circleG" id="frotateG_07">
-            </div>
-            <div class="f_circleG" id="frotateG_08">
-            </div>
-        </div>
-    </div>
-</div>
+﻿<script>
 
-<div class="row" style="margin-top:20px">
+    var habCurso = '@Session["acceso_curso"]';
+    var habFinaliz = '@Session["acceso_finalizados"]';
+    var habErroneos = '@Session["acceso_erroneos"]';
+
+</script>  
+
+ 
+@Html.Partial("_PopupValidErroneos")
+@Html.Partial("_PopupReclamarEnCurso")
+   
+<div class="row" style="margin-top:20px;display:none" id="displayTabs">
     <div class="col-md-12" style="margin-top:-10px">
         <ul class="nav nav-tabs" id="tabsOperativaClientes">
-            <li class="active"><a href="#enCurso" data-toggle="tab">En curso</a></li>
-            <li class=""><a href="#finalizados" data-toggle="tab">Finalizados</a></li>
-            <li class=""><a href="#validErroneas" data-toggle="tab">Validaciones Erróneas</a></li>
+            <li id="liEnCurso"><a href="#enCurso" data-toggle="tab">En curso</a></li>
+            <li id="liFinalizados"><a href="#finalizados" data-toggle="tab">Finalizados</a></li>
+            <li id="liErroneos"><a href="#validErroneas" data-toggle="tab">Validaciones Erróneas</a></li>
         </ul>
 
+
         <div class="tab-content">
-            <div class="tab-pane fade active in" id="enCurso">
-                @Html.Partial("_EnCurso")
-            </div>
-            <div class="tab-pane fade" id="finalizados">
-            </div>
-            <div class="tab-pane fade" id="validErroneas">
-            </div>
+                <div class="tab-pane fade" id="enCurso">
+                    @Html.Partial("_EnCurso")
+                </div>
+
+                <div class="tab-pane fade" id="finalizados">
+                    @Html.Partial("_Finalizados")
+                </div>
+
+                <div class="tab-pane fade" id="validErroneas">
+                    @Html.Partial("_Erroneos")
+                </div>
+
         </div>
-
     </div>
-
-
 </div>
 
 

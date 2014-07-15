@@ -5,20 +5,169 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ParamedicMedicosPrestaciones.Models;
+using System.Text.RegularExpressions;
 
 namespace ParamedicMedicosPrestaciones.Controllers
 {
     public class OperativaClientesController : Controller
     {
+
+       private Helpers.Helpers hlp = new Helpers.Helpers();
+
         //
         // GET: /OperativaClientes/
 
-        public ActionResult Index()
+        public ActionResult Index(long usr = 0)
         {
-            Session["UserName"] = "OSDE";
+
             ViewBag.Title = "Consulta de Servicios";
 
-            return View();
+            if (Convert.ToInt32(Session["usr_id_cli_ope"]) != 0 && usr == 0)
+            {
+                return View();
+            }
+
+            if (usr == 0)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+            else if (!validarUsuario(usr))
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            return RedirectToAction("Index");
+
+        }
+
+        //
+        // Acá valido el usuario contra el web service. En ViewBags pongo algunas variables que me van a servir
+        // del lado del cliente por el tema del select de medicos en modo administrador, etc.
+
+        public bool validarUsuario(long usr)
+        {
+            try
+            {
+                WSOperativaClientes.ClientesOperativosSoapClient wsClient = new WSOperativaClientes.ClientesOperativosSoapClient();
+                wsClient.Open();
+                DataTable dtUsuario = wsClient.GetUsuarioValidacion(usr).Tables[0];
+                wsClient.Abort();
+                if ((dtUsuario.Rows[0]["NombreUsuario"]).ToString() == "")
+                {
+                    return false;
+                }
+                else
+                {
+                    Session["usr_id_cli_ope"] = usr;
+                    Session["UserName"] = dtUsuario.Rows[0]["NombreUsuario"].ToString();
+                    Session["acceso_curso"] = Convert.ToInt32(dtUsuario.Rows[0]["tabEnCurso"]);
+                    Session["acceso_finalizados"] = Convert.ToInt32(dtUsuario.Rows[0]["tabFinalizados"]);
+                    Session["acceso_erroneos"] = Convert.ToInt32(dtUsuario.Rows[0]["tabErroneos"]);
+                    Session["prm_modo_publicacion"] = Convert.ToInt32(dtUsuario.Rows[0]["prmModoPublicacion"]);
+                    return true;
+                }
+            }
+            catch
+            {
+
+                return false;
+
+            }
+
+        }
+
+
+        [HttpGet]
+        public long IsReclamado(long idInc)
+        {
+            // --> Si la llamada es via ajax..
+            if (Request.IsAjaxRequest())
+            {
+                // --> Declaro web service
+                WSOperativaClientes.ClientesOperativosSoapClient wsClient = new WSOperativaClientes.ClientesOperativosSoapClient();
+
+                try
+                {
+                    // --> Abro web service, mando id de incidente, obtengo si está reclamado o no..
+                    wsClient.Open();
+                    long isRec = Convert.ToInt32(wsClient.IsReclamado(idInc).Tables[0].Rows[0]["Reclamado"]);
+                    wsClient.Abort();
+                    return isRec;
+                }
+                catch
+                {
+                    return -1;
+                }
+
+            }
+
+            return -1;
+        }
+
+        [HttpPost]
+        public string SetReclamoEnCurso(long idInc, string observ)
+        {
+            // --> Si la llamada es via ajax..
+            if (Request.IsAjaxRequest())
+            {
+                observ = hlp.StringEscape(observ);
+                observ = observ.ToUpper();
+                // --> Declaro web service
+                WSProduccionOperativaClientes.ClientesOperativosSoapClient wsClient = new WSProduccionOperativaClientes.ClientesOperativosSoapClient();
+
+                try
+                {
+                    //--> Abro web service, mando id de incidente, observaciones y idUsr y seteo el reclamo..
+                    wsClient.Open();
+                    string result = wsClient.SetReclamo(idInc, observ, getUserID()).Tables[0].Rows[0]["Resultado"].ToString();
+                    wsClient.Abort();
+                    return result;
+                }
+                catch 
+                {
+                    return "Error con la conexión del web service";
+                }
+
+            }
+
+            return "Error con la conexión del web service";
+
+        }
+
+        [HttpPost]
+        public string CorregirErroneo(long incID, string nOrden, string nAfiliado)
+        {
+            // --> Si la llamada es via ajax..
+            if (Request.IsAjaxRequest())
+            {
+                nOrden = hlp.StringEscape(nOrden);
+                nAfiliado = hlp.StringEscape(nAfiliado);
+
+                if (nOrden == "" || nAfiliado == "") return "Debe completar Nro. de Orden y Nro. de Afiliado para corregir el servicio";
+                Regex regex = new Regex("^[0-9]+$");
+                if (!regex.IsMatch(nOrden) || !regex.IsMatch(nAfiliado)) return "Sólo puede ingresar números";
+
+
+                // --> Declaro web service
+                WSProduccionOperativaClientes.ClientesOperativosSoapClient wsClient = new WSProduccionOperativaClientes.ClientesOperativosSoapClient();
+
+                try
+                {
+                    //--> Abro web service, mando id de incidente, observaciones y idUsr y seteo el reclamo..
+                    wsClient.Open();
+                    string result = wsClient.SetCorreccion(incID, nOrden, nAfiliado, getUserID()).Tables[0].Rows[0]["Resultado"].ToString();
+                    wsClient.Abort();
+                    return result;
+                }
+                catch
+                {
+                    return "Error con la conexión del web service";
+                }
+
+            }
+
+            return "Error con la conexión del web service";
+
         }
 
         // --> Obtengo los servicios finalizados del servidor
@@ -36,7 +185,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
             pWS = Convert.ToInt32(query.GetValues("pWS")[0]);
             DataTable dt = new DataTable();
-            dt = getDataFromWebService(pWS,fecDesde,fecHasta);
+            dt = getDataFromWebService(pWS, fecDesde, fecHasta);
 
             // --> Si no falla el webservice ..
             if (dt != null)
@@ -51,12 +200,12 @@ namespace ParamedicMedicosPrestaciones.Controllers
                         result = Json(getServFinalizadosFormatted(dt), JsonRequestBehavior.AllowGet);
                         break;
                     case 3:
-                        result =  Json(getErroneosFormatted(dt), JsonRequestBehavior.AllowGet);
+                        result = Json(getErroneosFormatted(dt), JsonRequestBehavior.AllowGet);
                         break;
                 }
 
                 return result;
-                
+
             }
             else
             {
@@ -65,7 +214,8 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
         }
 
-        private DataTable getDataFromWebService(long pWS, long fDesde, long fHasta) {
+        private DataTable getDataFromWebService(long pWS, long fDesde, long fHasta)
+        {
 
             WSOperativaClientes.ClientesOperativosSoapClient wsClient = new WSOperativaClientes.ClientesOperativosSoapClient();
             DataSet ds = new DataSet();
@@ -77,13 +227,13 @@ namespace ParamedicMedicosPrestaciones.Controllers
                 switch (pWS)
                 {
                     case 1:
-                        ds = wsClient.GetOperativaEnCurso(29);
+                        ds = wsClient.GetOperativaEnCurso(getUserID());
                         break;
                     case 2:
-                        ds = wsClient.GetFinalizados(29, fDesde, fHasta);
+                        ds = wsClient.GetFinalizados(getUserID(), fDesde, fHasta,getPrmPublicacion());
                         break;
                     case 3:
-                        ds = wsClient.GetErroresAutorizacion(29, fDesde, fHasta);
+                        ds = wsClient.GetErroresAutorizacion(getUserID(), fDesde, fHasta);
                         break;
                 }
 
@@ -96,10 +246,8 @@ namespace ParamedicMedicosPrestaciones.Controllers
                 var msg = ex.Message;
                 return null;
             }
-  
-        }
 
-       
+        }
 
         // --> Formateo los servicios en curso a una lista de Servicios Finalizados
         private List<ServFinalizados> getServFinalizadosFormatted(DataTable dt)
@@ -152,13 +300,16 @@ namespace ParamedicMedicosPrestaciones.Controllers
             return lst;
         }
 
-    
+
         // --> Obtengo el user_id del cliente
         private int getUserID()
         {
+            return Convert.ToInt32(Session["usr_id_cli_ope"]);
+        }
 
-            return Convert.ToInt32(Session["usr_id"]);
-
+        private long getPrmPublicacion()
+        {
+            return Convert.ToInt32(Session["prm_modo_publicacion"]);
         }
 
     }

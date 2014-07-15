@@ -30,6 +30,7 @@
             <s:element minOccurs="0" name="pUsr" type="s:long" />
             <s:element minOccurs="0" name="pDes" type="s:long" />
             <s:element minOccurs="0" name="pHas" type="s:long" />
+            <s:element minOccurs="0" name="pPub" type="s:long" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -51,6 +52,20 @@
         <s:complexType>
           <s:sequence>
             <s:element name="GetOperativaEnCursoResult" type="s0:DataSet" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUsuarioValidacion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" name="pUsr" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUsuarioValidacionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element name="GetUsuarioValidacionResult" type="s0:DataSet" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -121,6 +136,12 @@
   <wsdl:message name="GetOperativaEnCursoSoapOut">
     <wsdl:part name="parameters" element="s0:GetOperativaEnCursoResponse" />
   </wsdl:message>
+  <wsdl:message name="GetUsuarioValidacionSoapIn">
+    <wsdl:part name="parameters" element="s0:GetUsuarioValidacion" />
+  </wsdl:message>
+  <wsdl:message name="GetUsuarioValidacionSoapOut">
+    <wsdl:part name="parameters" element="s0:GetUsuarioValidacionResponse" />
+  </wsdl:message>
   <wsdl:message name="IsReclamadoSoapIn">
     <wsdl:part name="parameters" element="s0:IsReclamado" />
   </wsdl:message>
@@ -151,6 +172,10 @@
     <wsdl:operation name="GetOperativaEnCurso">
       <wsdl:input message="s0:GetOperativaEnCursoSoapIn" />
       <wsdl:output message="s0:GetOperativaEnCursoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUsuarioValidacion">
+      <wsdl:input message="s0:GetUsuarioValidacionSoapIn" />
+      <wsdl:output message="s0:GetUsuarioValidacionSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="IsReclamado">
       <wsdl:input message="s0:IsReclamadoSoapIn" />
@@ -187,6 +212,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetOperativaEnCurso">
       <soap:operation soapAction="http://tempuri.org/WebServices.ClientesOperativos.GetOperativaEnCurso" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUsuarioValidacion">
+      <soap:operation soapAction="http://tempuri.org/WebServices.ClientesOperativos.GetUsuarioValidacion" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

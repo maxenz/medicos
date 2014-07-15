@@ -50,7 +50,9 @@ namespace ParamedicMedicosPrestaciones.Controllers
             try
             {
                 WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
+                wsClient.Open();
                 DataTable dtUsuario = wsClient.GetUsuarioValidacion(usr).Tables[0];
+                wsClient.Abort();
                 if (Convert.ToInt32(dtUsuario.Rows[0]["Acceso"]) == 0)
                 {
                     return false;
@@ -118,8 +120,9 @@ namespace ParamedicMedicosPrestaciones.Controllers
         public JsonResult getFiltroMotivoReclamo(int flgTipoReclamo)
         {
             WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
+            wsClient.Open();
             DataSet dsReclamos = wsClient.GetMotivosReclamo(flgTipoReclamo);
-
+            wsClient.Abort();
             List<FiltroReclamo> lstFtrReclamo = new List<FiltroReclamo>();
 
             DataTable dtReclamos = dsReclamos.Tables[0];
@@ -144,8 +147,9 @@ namespace ParamedicMedicosPrestaciones.Controllers
         public JsonResult getFiltroMedicos(long usr_id, long selPeriodo, int selEstado, int esMedico = 0)
         {
             WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
+            wsClient.Open();
             DataSet dsMedicos = wsClient.GetMedicos(usr_id, selPeriodo, selEstado);
-
+            wsClient.Abort();
             List<Medico> lstMedicos = new List<Medico>();
 
             DataTable dtMedicos = dsMedicos.Tables[0];
@@ -312,7 +316,9 @@ namespace ParamedicMedicosPrestaciones.Controllers
             WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
             try
             {
+                wsClient.Open();
                 DataSet dsEstReclamo = wsClient.GetEstadoReclamo(id, pMode);
+                wsClient.Abort();
                 return dsEstReclamo.Tables[0];
             }
             catch (Exception ex)
@@ -328,7 +334,10 @@ namespace ParamedicMedicosPrestaciones.Controllers
             try
             {
                 WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
-                return wsClient.GetGuardiasDetalle(usr_id, periodo, coord, estado);
+                wsClient.Open();
+                DataSet ds = wsClient.GetGuardiasDetalle(usr_id, periodo, coord, estado);
+                wsClient.Abort();
+                return ds;
             }
             catch (Exception ex)
             {
@@ -345,7 +354,10 @@ namespace ParamedicMedicosPrestaciones.Controllers
             try
             {
                 WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
-                return wsClient.GetIncidentes(medico, periodo, coord, estado);
+                wsClient.Open();
+                DataSet ds = wsClient.GetIncidentes(medico, periodo, coord, estado);
+                wsClient.Abort();
+                return ds;
             }
             catch (Exception ex)
             {
@@ -361,7 +373,8 @@ namespace ParamedicMedicosPrestaciones.Controllers
             try
             {
                 WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
-                return wsClient.GetResumen(medico, periodo, coord);
+                DataSet ds = wsClient.GetResumen(medico, periodo, coord);
+                return ds;
 
             }
             catch (Exception ex)
@@ -378,7 +391,9 @@ namespace ParamedicMedicosPrestaciones.Controllers
             WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
             try
             {
+                wsClient.Open();
                 DataSet ds = wsClient.GetHorarios(medico, periodo);
+                wsClient.Abort();
                 return ds;
             }
             catch
@@ -644,8 +659,10 @@ namespace ParamedicMedicosPrestaciones.Controllers
             try
             {
                 WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsCliente = new WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
+                wsCliente.Open();
 
                 DataTable dtResultadoReclamo = wsCliente.SetRespuesta(pItm, 0, pSta, pRta, pUsr).Tables[0];
+                wsCliente.Abort();
                 if (Convert.ToInt32(dtResultadoReclamo.Rows[0]["Resultado"]) == 1)
                 {
                     return 1;
@@ -675,8 +692,9 @@ namespace ParamedicMedicosPrestaciones.Controllers
             try
             {
                 WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsCliente = new WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
-
+                wsCliente.Open();
                 DataTable dtResultadoReclamo = wsCliente.SetRespuesta(pItm, 1, pSta, pRta, pUsr).Tables[0];
+                wsCliente.Abort();
                 if (Convert.ToInt32(dtResultadoReclamo.Rows[0]["Resultado"]) == 1)
                 {
                     return 1;
@@ -732,7 +750,9 @@ namespace ParamedicMedicosPrestaciones.Controllers
                 pCnf = estadoReclamoGuardia.Conforme;
 
                 WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
+                wsClient.Open();
                 DataTable dtResultadoReclamo = wsClient.SetReclamo(pItm, 0, pCnf, pMot, pHEnt, pMEnt, pHSal, pMSal, pObs, pUsr).Tables[0];
+                wsClient.Abort();
                 if (Convert.ToInt32(dtResultadoReclamo.Rows[0]["Resultado"]) == 1)
                 {
                     return 1;
@@ -777,7 +797,9 @@ namespace ParamedicMedicosPrestaciones.Controllers
                 pCnf = estadoReclamoServicio.Conforme;
 
                 WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoapClient wsClient = new WSProduccionContratadosLiquidaciones.ContratadosLiquidacionesSoapClient();
+                wsClient.Open();
                 DataTable dtResultadoReclamo = wsClient.SetReclamo(pItm, 1, pCnf, 0, "", "", "", "", pObs, pUsr).Tables[0];
+                wsClient.Abort();
                 if (Convert.ToInt32(dtResultadoReclamo.Rows[0]["Resultado"]) == 1)
                 {
                     return 1;
@@ -799,11 +821,8 @@ namespace ParamedicMedicosPrestaciones.Controllers
 
         private int getMotivoDiferencia(string pMot, int idx)
         {
-
             return Convert.ToInt32(pMot.Split('/')[idx]);
-
         }
-
 
     }
 }
