@@ -23,7 +23,6 @@ if (habCurso == 0) {
 if (habFinaliz == 0) {
     $('#liFinalizados').remove();
     $('#finalizados').css("display", "none");
-
 }
 
 if (habErroneos == 0) {
@@ -31,26 +30,41 @@ if (habErroneos == 0) {
     $('#validErroneos').css("display", "none");
 }
 
-// --> Me fijo por prioridad, si está en curso, esa está en active.. sino la siguiente.. y así
-
-if ($('#liEnCurso').length > 0) {
-
-    setActiveIn($('#enCurso'));
-    setActiveIn($('#liEnCurso'));
-
-} else if ($('#liFinalizados').length > 0) {
-
-    setActiveIn($('#finalizados'));
-    setActiveIn($('#liFinalizados'));
-
-} else {
-
-    setActiveIn($('#validErroneas'));
-    setActiveIn($('#liErroneos'));
-
+if (habDenuncias == 0) {
+    $('#liDenuncias').remove();
+    $('#denuncias').css("display", "none");
 }
 
-// --> le paso la tab y la seteo active - in
+// --> Me fijo por prioridad, si está en curso, esa está en active.. sino la siguiente.. y así
+
+if ((habCurso > 0) || (habFinaliz > 0) || (habErroneos > 0)) {
+
+    if ($('#liEnCurso').length > 0) {
+
+        setActiveIn($('#enCurso'));
+        setActiveIn($('#liEnCurso'));
+
+    } else if ($('#liFinalizados').length > 0) {
+
+        setActiveIn($('#finalizados'));
+        setActiveIn($('#liFinalizados'));
+
+    } else if ($('#liErroneos').length > 0) {
+
+        setActiveIn($('#validErroneas'));
+        setActiveIn($('#liErroneos'));
+
+    } else {
+
+        setActiveIn($('#denuncias'));
+        setActiveIn($('#liDenuncias'));
+
+    }
+
+    // --> le paso la tab y la seteo active - in
+}
+
+
 
 function setActiveIn(obj) {
 

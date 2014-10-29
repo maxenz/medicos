@@ -28,13 +28,13 @@ var colGridFinalizados = [
                         //{ text: 'Llamada', datafield: 'Llamada', width: '3%', cellsalign: 'center' },
                         { text: 'Nro. Int.', datafield: 'NroInterno', width: '5%'},
                         { text: 'Nro. Afiliado', datafield: 'IntegranteID', width: '8%', cellsalign: 'center' },
-                        { text: 'Paciente', datafield: 'Nombre', width: '14%' },
-                        { text: 'Domicilio', datafield: 'Domicilio', width: '12%' },
+                        { text: 'Paciente', datafield: 'Nombre', width: '13%' },
+                        { text: 'Domicilio', datafield: 'Domicilio', width: '11%' },
                         { text: 'Loc', datafield: 'Localidad', width: '9%' },
-                        { text: 'Síntoma', datafield: 'Sintoma', width: '13%' },
+                        { text: 'Síntoma', datafield: 'Sintoma', width: '12%' },
                         { text: 'Grado', datafield: 'Grado', width: '5%', cellsalign: 'center' },
-                        //{ text: 'Arribo', datafield: 'Arribo', width: '3%', cellsalign: 'center' },
-                        { text: 'Diagnóstico', datafield: 'Diagnostico', width: '14%' },
+                        { text: 'Arribo', datafield: 'Arribo', width: '4%', cellsalign: 'center' },
+                        { text: 'Diagnóstico', datafield: 'Diagnostico', width: '13%' },
                         { text: 'Deriva', datafield: 'Deriva', width: '6%', cellsalign: 'center' },
                         { text: 'Final', datafield: 'Final', width: '4%', cellsalign: 'center' }
 ];
@@ -49,7 +49,7 @@ var dtFieldsFinalizados = [{ name: 'ID', type: 'number' }, { name: 'FecIncidente
                         { name: 'Nombre', type: 'string' }, { name: 'Domicilio', type: 'string' },
                         { name: 'Localidad', type: 'string' }, { name: 'Sintoma', type: 'string' },
                         { name: 'Grado', type: 'string' },
-                        //{ name: 'Arribo', type: 'string' },
+                        { name: 'Arribo', type: 'string' },
                         { name: 'Diagnostico', type: 'string' }, { name: 'Deriva', type: 'string' },
                         { name: 'Final', type: 'string' }];
 

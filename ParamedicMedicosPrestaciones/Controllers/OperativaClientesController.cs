@@ -63,6 +63,7 @@ namespace ParamedicMedicosPrestaciones.Controllers
                     Session["acceso_curso"] = Convert.ToInt32(dtUsuario.Rows[0]["tabEnCurso"]);
                     Session["acceso_finalizados"] = Convert.ToInt32(dtUsuario.Rows[0]["tabFinalizados"]);
                     Session["acceso_erroneos"] = Convert.ToInt32(dtUsuario.Rows[0]["tabErroneos"]);
+                    Session["acceso_denuncias"] = Convert.ToInt32(dtUsuario.Rows[0]["tabDenuncias"]);
                     //Session["prm_modo_publicacion"] = Convert.ToInt32(dtUsuario.Rows[0]["prmModoPublicacion"]);
                     return true;
                 }
@@ -211,6 +212,9 @@ namespace ParamedicMedicosPrestaciones.Controllers
                     case 4:
                         result = Json(getFiltroClientesFormatted(dt), JsonRequestBehavior.AllowGet);
                         break;
+                    case 5:
+                        result = Json(getDenunciasFormatted(dt), JsonRequestBehavior.AllowGet);
+                        break;
                 }
 
                 return result;
@@ -246,6 +250,13 @@ namespace ParamedicMedicosPrestaciones.Controllers
                         break;
                     case 4:
                         ds = wsClient.GetClientesUsuario(getUserID());
+                        break;
+                    case 5:
+                        string strDesde = fDesde.ToString();
+                        string strHasta = fHasta.ToString();
+                        strDesde = strDesde.Substring(0, 4) + "-" + strDesde.Substring(4, 2) + "-" + strDesde.Substring(6, 2);
+                        strHasta = strHasta.Substring(0, 4) + "-" + strHasta.Substring(4, 2) + "-" + strHasta.Substring(6, 2);
+                        ds = wsClient.GetDenuncias(getUserID(),strDesde,strHasta);
                         break;
                 }
 
@@ -327,6 +338,23 @@ namespace ParamedicMedicosPrestaciones.Controllers
             }
 
             return lst;
+        }
+
+        // --> Formateo las denuncias
+        private List<Denuncia> getDenunciasFormatted(DataTable dt)
+        {
+
+            List<Denuncia> lstDenuncias = new List<Denuncia>();
+
+            foreach (DataRow r in dt.Rows)
+            {
+                Denuncia denuncia = new Denuncia();
+                denuncia.dataRowToDenuncia(r);
+                lstDenuncias.Add(denuncia);
+
+            }
+
+            return lstDenuncias;
         }
 
 

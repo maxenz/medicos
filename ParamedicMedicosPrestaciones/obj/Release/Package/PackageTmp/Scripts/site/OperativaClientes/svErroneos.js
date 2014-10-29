@@ -4,6 +4,7 @@
 
 // --> Filtro de fecha de servicios finalizados
 $("#dtServErroneos").jqxDateTimeInput({ width: '100%', height: '25px', theme: 'bootstrap', culture: 'es-AR', selectionMode: 'range' });
+$("#dtServErroneos").jqxDateTimeInput('setRange', moment().subtract('days', 31).format('L'), moment().format('L'));
 
 var crCorregir = function (row, columnfield, value, defaulthtml, columnproperties) {
     var glyph = '<div style="text-align:center;margin-top:2px"><a href="#" class="goCorregirErr"><span class="glyphicon glyphicon-pencil big-icon naranja"></span></a></div>';
@@ -139,10 +140,11 @@ $('#btnCorregirErroneo').on('click', function () {
 
 // --> Seteo la grilla de servicios en curso con el source, columnas y datafields
 
+
 setValuesGrid($('#grdServErroneos'),
               getSourceGrdErroneos(),
               colGridErroneos);
 
-$("#dtServErroneos").jqxDateTimeInput('setRange', moment().subtract('days',31).format('L'), moment().format('L') );
+
 
 

@@ -22,6 +22,22 @@
           <s:any />
         </s:sequence>
       </s:complexType>
+      <s:element name="GetDenuncias">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" name="pUsr" type="s:long" />
+            <s:element minOccurs="0" name="pDes" type="s:string" />
+            <s:element minOccurs="0" name="pHas" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDenunciasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element name="GetDenunciasResult" type="s0:DataSet" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetErroresAutorizacion">
         <s:complexType>
           <s:sequence>
@@ -138,6 +154,12 @@
   <wsdl:message name="GetClientesUsuarioSoapOut">
     <wsdl:part name="parameters" element="s0:GetClientesUsuarioResponse" />
   </wsdl:message>
+  <wsdl:message name="GetDenunciasSoapIn">
+    <wsdl:part name="parameters" element="s0:GetDenuncias" />
+  </wsdl:message>
+  <wsdl:message name="GetDenunciasSoapOut">
+    <wsdl:part name="parameters" element="s0:GetDenunciasResponse" />
+  </wsdl:message>
   <wsdl:message name="GetErroresAutorizacionSoapIn">
     <wsdl:part name="parameters" element="s0:GetErroresAutorizacion" />
   </wsdl:message>
@@ -185,6 +207,10 @@
       <wsdl:input message="s0:GetClientesUsuarioSoapIn" />
       <wsdl:output message="s0:GetClientesUsuarioSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetDenuncias">
+      <wsdl:input message="s0:GetDenunciasSoapIn" />
+      <wsdl:output message="s0:GetDenunciasSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetErroresAutorizacion">
       <wsdl:input message="s0:GetErroresAutorizacionSoapIn" />
       <wsdl:output message="s0:GetErroresAutorizacionSoapOut" />
@@ -218,6 +244,15 @@
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetClientesUsuario">
       <soap:operation soapAction="http://tempuri.org/WebServices.ClientesOperativos.GetClientesUsuario" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDenuncias">
+      <soap:operation soapAction="http://tempuri.org/WebServices.ClientesOperativos.GetDenuncias" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
